@@ -1,0 +1,64 @@
+﻿@model DrivingSclApp.Models.LoginViewModel
+@{
+    ViewBag.Title = "تسجيل الدخول";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewBag.Title</title>
+
+    <link href="~/Content/login/reset.css" rel="stylesheet" />
+    <link href="~/Content/login/style.css" rel="stylesheet" media="screen" />
+
+    <style>
+        .text-danger {
+            color: #fbcdac;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap" style="text-align:center">
+        <h3 style="font-size:28px; color:#ff6a00; font-weight:bolder;"> تسجيل الدخول </h3>
+        <div class="avatar">
+            <img src="~/Images/logo.png" />
+        </div>
+        <br />
+        @using (Html.BeginForm("Login", "Account", new { Area = "" }, FormMethod.Post, null))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "لم تنجح عملية الدخول. أعد المحاولة من جديد من فضلك.")
+            <div id="wrap1">
+                <div id="regbar">
+                    <div id="navthing">
+                        <div class="login">
+                            <div class="arrow-up"></div>
+                            <div class="formholder">
+                                <div class="randompad">
+                                    <fieldset>
+                                        <br />
+                                        <h3 style="font-size:14px; color:white; font-weight:bolder;">اسم المستخدم</h3>
+                                        <br />
+                                        @Html.TextBoxFor(m => m.UserName, new { placeholder = "اسم المستخدم" })
+                                        <text class="text-danger">@Html.ValidationMessageFor(m => m.UserName)</text>
+                                        <br />
+                                        <h3 style="font-size:14px; color:white; font-weight:bolder;">كلمة المرور</h3>
+                                        <br />
+                                        @Html.PasswordFor(m => m.Password, new { placeholder = "كلمة المرور" })
+                                        <text class="text-danger">@Html.ValidationMessageFor(m => m.Password)</text>
+                                        <button type="submit">تسجيل الدخول</button>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+</body>
+</html>
+

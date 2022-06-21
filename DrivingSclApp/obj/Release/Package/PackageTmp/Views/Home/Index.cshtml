@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "الرئيسية";
+}
+
+<div class="content">
+    @if (ViewData["MsgData"] != null)
+    {
+
+        <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
+            <a class="close" data-dissmiss="alert" href="#"></a>
+            <span class="bf-messages">
+                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                <span style="color:green" class="bf-messages">
+                    <label>@ViewData["MsgData"]</label>
+                </span>
+            </span>
+        </div>
+
+
+    }
+</div>

@@ -1,0 +1,1031 @@
+﻿@model IEnumerable<DrivingSclApp.Areas.Indexes.Data.PersonVM>
+
+@{
+    ViewBag.Title = "الأشخاص";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #grid {
+        width: 2250px;
+    }
+</style>
+
+<!-- Header -->
+<div class="panel panel-default panel-search" style="width:2250px">
+    <div class="panel-heading">
+        <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">الأشخاص</a>
+    </div>
+    <div id="filter_body" class="collapse">
+        <div class="panel-body">
+
+        </div>
+    </div>
+</div>
+
+<!-- Messages -->
+@if (ViewBag.Alert == "Deleted")
+{
+    <div id="success_msg" class="bf-messages" role="alert" style="display:none">
+        <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
+            <a class="close" data-dissmiss="alert" href="#"></a>
+            <span class="bf-messages">
+                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                <span style="color:green" class="bf-messages">
+                    <span class="bf-messages">تم حذف السجل بنجاح </span>
+                </span>
+            </span>
+        </div>
+    </div>
+}
+
+<div id="success_msg" class="bf-messages" role="alert" style="display:none">
+    <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
+        <a class="close" data-dissmiss="alert" href="#"></a>
+        <span class="bf-messages">
+            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+            <span style="color:green" class="bf-messages">
+                <label id="labelIdd"></label>
+            </span>
+        </span>
+    </div>
+</div>
+
+<div id="error_msg" class="bf-messages" role="alert" style="display:none">
+    <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
+        <a class="close" data-dissmiss="alert" href="#">*</a>
+        <span class="bf-messages">
+            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+            <span style="color:red" class="bf-messages">
+                <label id="errlabelIdd"></label>
+            </span>
+        </span>
+    </div>
+</div>
+
+<!-- Kendo -->
+<div id="IdivForm">
+    <div class="k-rtl">
+        @(Html.Kendo().Grid<DrivingSclApp.Areas.Indexes.Data.PersonVM>()
+            .Name("grid")
+            .Columns(columns =>
+            {
+                columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
+                columns.Bound(c => c.NB).Visible(false);
+                columns.Bound(c => c.NATNO).Width(100);
+                columns.Bound(c => c.FNAME);
+                columns.Bound(c => c.LNAME);
+                columns.Bound(c => c.FATHER);
+                columns.Bound(c => c.MOTHER);
+                columns.Bound(c => c.CIVILLOC);
+                columns.Bound(c => c.ACTADDRESS);
+                columns.Bound(c => c.ADDRESS);
+                columns.Bound(c => c.PHONE);
+                columns.Bound(c => c.MOBILE);
+                columns.Bound(c => c.BDATED);
+                columns.Bound(c => c.BDATEM);
+                columns.Bound(c => c.BDATEY);
+                columns.Bound(c => c.BDATE);
+                columns.Bound(c => c.IDCARDNO);
+                columns.Bound(c => c.IDCARDDAT);
+                columns.Bound(c => c.BPLACE);
+                columns.Bound(c => c.ALAMANA);
+                columns.Bound(c => c.SEX);
+                columns.Bound(c => c.TYP).Visible(false);
+                columns.Bound(c => c.NAT).Visible(false);
+                columns.Bound(c => c.NationName);
+                columns.Bound(c => c.PerType);
+
+            })
+            .HtmlAttributes(new { style = "height: 1000px;" })
+            .Sortable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
+            .PageSize(15)
+            .Model(model => model.Id(p => p.NB))
+            .Create(update => update.Action("Create", "zPerson"))
+            .Read(read => read.Action("Read", "zPerson"))
+            .Update(update => update.Action("Update", "zPerson"))
+            .Destroy(update => update.Action("Destroy", "zPerson")))
+            .Resizable(resize => resize
+            .Columns(true)
+            )
+            .ToolBar(toolbar =>
+            {
+                toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
+            })
+                .Pageable(pageable =>
+                {
+                    pageable.Refresh(true);
+                    pageable.PageSizes(true);
+                })
+)
+    </div>
+</div>
+
+<!-- Add -->
+<div id="IdivForm">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("AddDetails")
+        .Title("إضافة شخص")
+        .Visible(false)
+        .Modal(true)
+        .Content(@<text>
+            <div style="width:95%;" id="fieldlist">
+                <form id="Addform">
+                    <div id="save-container" @*class="k-edit-form-container"*@>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الاسم", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtFname")
+                                            .HtmlAttributes(new { placeholder = "أدخل الاسم", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الكنية", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtLname")
+                                            .HtmlAttributes(new { placeholder = "أدخل الكنية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtNatno")
+                                            .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("اسم الاب", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtFather")
+                                            .HtmlAttributes(new { placeholder = "أدخل اسم الاب", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الام", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtMother")
+                                            .HtmlAttributes(new { placeholder = "أدخل اسم الام", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("القيد المدني", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtCivilloc")
+                                            .HtmlAttributes(new { placeholder = "أدخل القيد المدني", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("العنوان الحالي", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtActaddress")
+                                            .HtmlAttributes(new { placeholder = "أدخل العنوان الحالي", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("العنوان", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtAddress")
+                                            .HtmlAttributes(new { placeholder = "أدخل العنوان", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الهاتف", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtPhone")
+                                            .HtmlAttributes(new { placeholder = "أدخل الهاتف", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("المحمول", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtMobile")
+                                            .HtmlAttributes(new { placeholder = "أدخل المحمول", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("رقم الهوية", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtIdcardno")
+                                            .HtmlAttributes(new { placeholder = "أدخل رقم الهوية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("تاريخ الهوية", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DatePicker()
+                                            .Name("dpIdcarddat")
+                                            .Value(DateTime.Today)
+                                            .HtmlAttributes(new { placeholder = "أدخل تاريخ الهوية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("تاريخ الهوية", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DatePicker()
+                                            .Name("dpIdcarddat")
+                                            .Value(DateTime.Today)
+                                            .HtmlAttributes(new { placeholder = "أدخل تاريخ الهوية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("شهر الميلاد", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtBdatem")
+                                            .HtmlAttributes(new { placeholder = "أدخل شهر الميلاد", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("سنة الميلاد", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtBdatey")
+                                            .HtmlAttributes(new { placeholder = "أدخل سنة الميلاد", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الميلاد", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DatePicker()
+                                            .Name("dpBdate")
+                                            .Value(DateTime.Today)
+                                            .HtmlAttributes(new { placeholder = "أدخل الميلاد", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("مكان الميلاد", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtBplace")
+                                            .HtmlAttributes(new { placeholder = "أدخل مكان الميلاد", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الأمانة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtAlamana")
+                                            .HtmlAttributes(new { placeholder = "أدخل لأمانة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الجنس", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر الجنس")
+                                        .Name("ddlSex")
+                                        .DataTextField("Text")
+                                        .DataValueField("Value").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetSex", "Codes");
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الجنسية :", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر الجنسية")
+                                        .Name("ddlNation")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetNation", "Codes");
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("نوع الشخص :", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر نوع الشخص")
+                                        .Name("ddlPertype")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetPertype", "Codes");
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px"></div>
+                        <div class="k-edit-buttons k-state-default">
+                        @(Html.Kendo().Button()
+                            .Name("btnSave")
+                            .Content("حفظ")
+                            .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;" })
+                            .Events(e => e.Click("btnSave_Click"))
+                        )
+                        @(Html.Kendo().Button()
+                            .Name("btnReset")
+                            .Content("تراجع")
+                            .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
+                            .Events(e => e.Click("btnReset_Click"))
+                        )
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </text>)
+        .Draggable(true) //Enable dragging of the window
+        .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
+            .Width(1000)     //Set width of the window
+            .Height(600)
+        )
+    </div>
+</div>
+
+<!-- Edit -->
+<div id="IdivForm">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("EditDetails")
+        .Title("تعديل بيانات شخص")
+        .Visible(false)
+        .Modal(true)
+        .Content(@<text>
+            <div style="width:95%;" id="fieldlist">
+                <form id="Editform">
+                    <div id="Update-container" @*class="k-edit-form-container"*@>
+                        <div id="Update-container" class="col-md-12">
+                            @Html.Hidden("txtId")
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("الاسم", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtFname1")
+                                                .HtmlAttributes(new { placeholder = "أدخل الاسم", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("الكنية", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtLname1")
+                                                .HtmlAttributes(new { placeholder = "أدخل الكنية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtNatno1")
+                                                .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("اسم الاب", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtFather1")
+                                                .HtmlAttributes(new { placeholder = "أدخل اسم الاب", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("الام", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtMother1")
+                                                .HtmlAttributes(new { placeholder = "أدخل اسم الام", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("القيد المدني", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtCivilloc1")
+                                                .HtmlAttributes(new { placeholder = "أدخل القيد المدني", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("العنوان الحالي", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtActaddress1")
+                                                .HtmlAttributes(new { placeholder = "أدخل العنوان الحالي", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("العنوان", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtAddress1")
+                                                .HtmlAttributes(new { placeholder = "أدخل العنوان", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("الهاتف", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtPhone1")
+                                                .HtmlAttributes(new { placeholder = "أدخل الهاتف", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("المحمول", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtMobile1")
+                                                .HtmlAttributes(new { placeholder = "أدخل المحمول", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("رقم الهوية", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtIdcardno1")
+                                                .HtmlAttributes(new { placeholder = "أدخل رقم الهوية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("تاريخ الهوية", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DatePicker()
+                                                .Name("dpIdcarddat1")
+                                                .Value(DateTime.Today)
+                                                .HtmlAttributes(new { placeholder = "أدخل تاريخ الهوية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("تاريخ الهوية", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DatePicker()
+                                                .Name("dpIdcarddat1")
+                                                .Value(DateTime.Today)
+                                                .HtmlAttributes(new { placeholder = "أدخل تاريخ الهوية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("شهر الميلاد", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtBdatem1")
+                                                .HtmlAttributes(new { placeholder = "أدخل شهر الميلاد", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("سنة الميلاد", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtBdatey1")
+                                                .HtmlAttributes(new { placeholder = "أدخل سنة الميلاد", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("الميلاد", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DatePicker()
+                                                .Name("dpBdate1")
+                                                .Value(DateTime.Today)
+                                                .HtmlAttributes(new { placeholder = "أدخل الميلاد", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("مكان الميلاد", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtBplace1")
+                                                .HtmlAttributes(new { placeholder = "أدخل مكان الميلاد", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("الأمانة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtAlamana1")
+                                                .HtmlAttributes(new { placeholder = "أدخل لأمانة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("الجنس", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر الجنس")
+                                            .Name("ddlSex1")
+                                            .DataTextField("Text")
+                                            .DataValueField("Value").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetSex", "Codes");
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("الجنسية :", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر الجنسية")
+                                            .Name("ddlNation1")
+                                            .DataTextField("Name")
+                                            .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetNation", "Codes");
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("نوع الشخص :", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر نوع الشخص")
+                                            .Name("ddlPertype1")
+                                            .DataTextField("Name")
+                                            .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetPertype", "Codes");
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:20px"></div>
+                            <div class="k-edit-buttons k-state-default">
+                                @(Html.Kendo().Button()
+                                    .Name("btnUpdate")
+                                    .Content("حفظ")
+                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .Events(e => e.Click("btnUpdate_Click"))
+                                )
+                                @(Html.Kendo().Button()
+                                    .Name("btnUpdateReset")
+                                    .Content("تراجع")
+                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .Events(e => e.Click("btnUpdateReset_Click"))
+                                )
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </text>)
+    .Draggable(true) //Enable dragging of the window
+    .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
+    .Width(1000)     //Set width of the window
+    .Height(600)
+    )
+    </div>
+</div>
+
+
+<script>
+    // messages
+    function OnRequestEnd(e) {
+        if (e.type == "update" && e.response != null && e.response.success && !e.response.Errors) {
+            $('#success_msg').show();
+            $('#error_msg').hide();
+            $('#labelIdd').text(e.response.responseText);
+        }
+        if (e.type == "destroy" && e.response != null && e.response.success && !e.response.Errors) {
+            $('#success_msg').show();
+            $('#error_msg').hide();
+            $('#labelIdd').text(e.response.responseText);
+        }
+        if (e.response != null && !e.response.success && e.response.responseText != null) {
+            $('#success_msg').hide();
+            $('#error_msg').show();
+            $('#errlabelIdd').text(e.response.responseText);
+        }
+    }
+
+    function sync_handler(e) {
+        this.read();
+    }
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            $(".errorMessage").text(message);
+            alert(message);
+        }
+    }
+
+    // when i press "add" from the grid
+    $("#newAdd").click(function (e) {
+        debugger
+        e.preventDefault();
+        $("#AddDetails").data("kendoWindow").center().open();
+        $("#newAdd").show();
+        $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
+    });
+
+    // when i press "edit" on a row and to fill the fields of the edit window
+    function editDetails(e) {
+        //alert("editDetails");
+        debugger
+        e.preventDefault();
+        var wnd = $("#EditDetails").data("kendoWindow");
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        $("#txtId").val(dataItem.NB);
+        $("#txtFname1").val(dataItem.FNAME);
+        $("#txtLname1").val(dataItem.LNAME);
+        $("#txtFather1").val(dataItem.FATHER);
+        $("#txtMother1").val(dataItem.MOTHER);
+        $("#txtNatno1").val(dataItem.NATNO);
+        $("#txtCivilloc1").val(dataItem.CIVILLOC);
+        $("#txtActaddress1").val(dataItem.ACTADDRESS);
+        $("#txtAddress1").val(dataItem.ADDRESS);
+        $("#txtPhone1").val(dataItem.PHONE);
+        $("#txtMobile1").val(dataItem.MOBILE);
+        $("#txtBdated1").val(dataItem.BDATED);
+        $("#txtBdatem1").val(dataItem.BDATEM);
+        $("#txtBdatey1").val(dataItem.BDATEY);
+        $("#dpBdate1").val(dataItem.BDATE);
+        $("#txtIdcardno1").val(dataItem.IDCARDNO);
+        $("#dpIdcarddat1").val(dataItem.IDCARDDAT);
+        $("#txtBplace1").val(dataItem.BPLACE);
+        $("#txtAlamana1").val(dataItem.ALAMANA);
+        $("#ddlSex1").data('kendoDropDownList').text(dataItem.SEX);
+        $("#ddlNation1").data('kendoDropDownList').text(dataItem.NAT);
+        $("#ddlPertype1").data('kendoDropDownList').text(dataItem.TYP);
+
+        $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
+        //alert("editDetails");
+        wnd.center().open();
+    }
+
+    // when i click save in add window
+    function btnSave_Click() {
+        debugger
+        var validator = $("#save-container").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+            //alert('add validator')
+            var personModel = {
+                FNAME: $("#txtFname").val(),
+                LNAME: $("#txtLname").val(),
+                FATHER: $("#txtFather").val(),
+                MOTHER: $("#txtMother").val(),
+                NATNO: $("#txtNatno").val(),
+                CIVILLOC: $("#txtCivilloc").val(),
+                ACTADDRESS: $("#txtActaddress").val(),
+                ADDRESS: $("#txtAddress").val(),
+                PHONE: $("#txtPhone").val(),
+                MOBILE: $("#txtMobile").val(),
+                BDATED: $("#txtBdated").val(),
+                BDATEM: $("#txtBdatem").val(),
+                BDATEY: $("#txtBdatey").val(),
+                BDATE: $("#dpBdate").val(),
+                IDCARDNO: $("#txtIdcardno").val(),
+                IDCARDDAT: $("#dpIdcarddat").val(),
+                BPLACE: $("#txtBplace").val(),
+                ALAMANA: $("#txtAlamana").val(),
+                SEX: $("#ddlSex").val(),
+                NAT: $("#ddlNation").val(),
+                TYP: $("#ddlPertype").val()
+            }
+            var model = {
+                "model": personModel
+            }
+            $.ajax({
+                type: "POST",
+                url: '/zPerson/Create', data: model,
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                },
+            });
+            btnReset_Click();
+            var wnd = $("#AddDetails").data("kendoWindow");
+            wnd.center().close();
+            var grid = $('#grid').data('kendoGrid');
+            grid.dataSource.read();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    // when i click reset in add window
+    function btnReset_Click() {
+        debugger
+        $("#txtFname").val("");
+        $("#txtLname").val("");
+        $("#txtFather").val("");
+        $("#txtMother").val("");
+        $("#txtNatno").val("");
+        $("#txtCivilloc").val("");
+        $("#txtActaddress").val("");
+        $("#txtAddress").val("");
+        $("#txtPhone").val("");
+        $("#txtMobile").val("");
+        $("#txtBdated").val("");
+        $("#txtBdatem").val("");
+        $("#txtBdatey").val("");
+        $("#dpBdate").val("");
+        $("#txtIdcardno").val("");
+        $("#dpIdcarddat").val("");
+        $("#txtBplace").val("");
+        $("#txtAlamana").val("");
+        $("#ddlSex").data('kendoDropDownList').value(-1);
+        $("#ddlNation").data('kendoDropDownList').value(-1);
+        $("#ddlPertype").data('kendoDropDownList').value(-1);
+
+
+        $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
+        var wnd = $("#AddDetails").data("kendoWindow");
+        wnd.element.find("span.k-tooltip-validation").hide();
+        return;
+    }
+
+    // when i press "reset" in edit window
+    function btnUpdateReset_Click() {
+        debugger
+
+        var Id = $("#txtId1").val();
+        var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
+        $("#txtFname1").val(dataItem.FNAME);
+        $("#txtLname1").val(dataItem.LNAME);
+        $("#txtFather1").val(dataItem.FATHER);
+        $("#txtMother1").val(dataItem.MOTHER);
+        $("#txtNatno1").val(dataItem.NATNO);
+        $("#txtCivilloc1").val(dataItem.CIVILLOC);
+        $("#txtActaddress1").val(dataItem.ACTADDRESS);
+        $("#txtAddress1").val(dataItem.ADDRESS);
+        $("#txtPhone1").val(dataItem.PHONE);
+        $("#txtMobile1").val(dataItem.MOBILE);
+        $("#txtBdated1").val(dataItem.BDATED);
+        $("#txtBdatem1").val(dataItem.BDATEM);
+        $("#txtBdatey1").val(dataItem.BDATEY);
+        $("#dpBdate1").val(dataItem.BDATE);
+        $("#txtIdcardno1").val(dataItem.IDCARDNO);
+        $("#dpIdcarddat1").val(dataItem.IDCARDDAT);
+        $("#txtBplace1").val(dataItem.BPLACE);
+        $("#txtAlamana1").val(dataItem.ALAMANA);
+        $("#ddlSex1").data('kendoDropDownList').value(dataItem.SEX);
+        $("#ddlNation1").data('kendoDropDownList').value(dataItem.NAT);
+        $("#ddlPertype1").data('kendoDropDownList').value(dataItem.PERTYPE);
+
+        $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
+        return;
+    }
+
+    // when i press "update" in edit window
+    function btnUpdate_Click() {
+        debugger
+        var validator = $("#Update-container").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+            //alert('edit validator')
+            var personModel = {
+                NB: $("#txtId").val(),
+                FNAME: $("#txtFname1").val(),
+                LNAME: $("#txtLname1").val(),
+                FATHER: $("#txtFather1").val(),
+                MOTHER: $("#txtMother1").val(),
+                NATNO: $("#txtNatno1").val(),
+                CIVILLOC: $("#txtCivilloc1").val(),
+                ACTADDRESS: $("#txtActaddress1").val(),
+                ADDRESS: $("#txtAddress1").val(),
+                PHONE: $("#txtPhone1").val(),
+                MOBILE: $("#txtMobile1").val(),
+                BDATED: $("#txtBdated1").val(),
+                BDATEM: $("#txtBdatem1").val(),
+                BDATEY: $("#txtBdatey1").val(),
+                BDATE: $("#dpBdate1").val(),
+                IDCARDNO: $("#txtIdcardno1").val(),
+                IDCARDDAT: $("#dpIdcarddat1").val(),
+                BPLACE: $("#txtBplace1").val(),
+                ALAMANA: $("#txtAlamana1").val(),
+                SEX: $("#ddlSex1").val(),
+                NAT: $("#ddlNation1").val(),
+                TYP: $("#ddlPertype1").val()
+            }
+            var model = {
+                "model": personModel
+            }
+            $.ajax({
+                type: "POST",
+                url: '/zPerson/Update', data: model,
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                },
+
+            });
+            btnReset_Click();
+            var wnd = $("#EditDetails").data("kendoWindow");
+            wnd.center().close();
+            var grid = $('#grid').data('kendoGrid');
+            grid.dataSource.read();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function Gender(dataItem) {
+        return dataItem.SEX = true ? "Male" : "Female";
+    }
+</script>

@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "حول";
+}
+
+<section id="AboutForm">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <h2 style="color:navy;">@Html.Encode(DrivingSclApp.Resource.ProgName)</h2>
+        <br />
+        <h3 style="color:teal; font-weight: bolder;">إعداد وتصميم وتنفيذ</h3>
+        <h3 style="color:teal; font-weight: bolder;">مكتب ممارسة المهنة</h3>
+        <h3 style="color:teal; font-weight: bolder;"> كلية الهندسة الميكانيكية والكهربائية-جامعة دمشق</h3>
+
+        <br />
+        <p style="color:teal; font-weight: bolder;">الإصدار: @Html.Encode(DrivingSclApp.Resource.Version) لعام @Html.Encode(DrivingSclApp.Resource.ProductYear)</p>
+        <br />
+
+        <h4>الجهة صاحبة العلاقة </h4>
+        <h3>
+            @for (int i = 2; i < int.Parse(DrivingSclApp.Resource.Headings); i++)
+            {
+                @Html.Encode(DrivingSclApp.MyResource.GetHeading(i))
+                if (i < int.Parse(DrivingSclApp.Resource.Headings) - 1)
+                {
+                    @Html.Encode(" - ")
+                }
+            }
+        </h3>
+    }
+</section>

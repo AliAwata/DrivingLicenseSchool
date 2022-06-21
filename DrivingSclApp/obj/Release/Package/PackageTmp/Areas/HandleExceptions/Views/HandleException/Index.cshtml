@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Handle Exception</h2>
+<table dir="ltr">
+    <tr>
+        <td> Exception Type </td>
+        <td> <b>@Html.Encode(TempData["exception_type"])</b> </td>
+    </tr>
+    <tr>
+        <td> Controller Name </td>
+        <td> <b>@Html.Encode(TempData["Controller"])</b> </td>
+    </tr>
+    <tr>
+        <td> Action Name </td>
+        <td> <b>@Html.Encode(TempData["Action"])</b> </td>
+    </tr>
+    <tr>
+        <td bgcolor="#FFA0A0"> <span style="color: #0000FF">Exception Mesage</span> </td>
+        <td bgcolor="#FFA0A0"> <span style="color: #0000FF"><b>@Html.Encode(TempData["Error"])</b></span> </td>
+    </tr>
+    <tr>
+        <td> Stack Trace </td>
+        <td> @Html.Encode(TempData["StackTrace"]) </td>
+    </tr>
+</table>

@@ -1,0 +1,1063 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DrivingSclEntity1.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="11.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SCHOOL">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="SCL_CODE" Type="varchar2" MaxLength="7" Nullable="false" />
+          <Property Name="SCLNAME" Type="varchar2" MaxLength="200" Nullable="false" />
+          <Property Name="ST_NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="GOV_NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="COMREG_NO" Type="varchar2" MaxLength="20" />
+          <Property Name="COMREG_DATE" Type="date" />
+          <Property Name="COMREG_TYP" Type="varchar2" MaxLength="20" />
+          <Property Name="COMREG_GOV" Type="number" Precision="12" Scale="0" />
+          <Property Name="CTY_NB" Type="number" Precision="12" Scale="0" />
+          <Property Name="REG_NB" Type="number" Precision="12" Scale="0" />
+          <Property Name="ADDRESS" Type="varchar2" MaxLength="200" />
+          <Property Name="STS_NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SCHOOLOWNER">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="OT_NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ONR_NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NOTE" Type="varchar2" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="SCLPHONE">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="SCL_NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="PHONE_NO" Type="varchar2" MaxLength="20" Nullable="false" />
+          <Property Name="PHONE_TYP" Type="number" Precision="2" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZCATEGORY">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="20" Nullable="false" />
+          <Property Name="PREV_CATG" Type="number" Precision="12" Scale="0" />
+          <Property Name="STUDENT_PER_CAR" Type="number" Precision="8" Scale="0" Nullable="false" />
+          <Property Name="STUDENT_PER_MOTO" Type="number" Precision="8" Scale="0" />
+          <Property Name="METERS_FOR_STUDENT" Type="number" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="MAX_STUDENTS_PER_HALL" Type="number" Precision="8" Scale="0" />
+          <Property Name="NOTE" Type="varchar2" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ZCITY">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="40" Nullable="false" />
+          <Property Name="GOV_NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZCOMPANY">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="COMPNAME" Type="varchar2" MaxLength="200" />
+          <Property Name="COMREG_NO" Type="varchar2" MaxLength="20" />
+          <Property Name="COMREG_DATE" Type="date" />
+          <Property Name="COMREG_TYP" Type="varchar2" MaxLength="20" />
+          <Property Name="COMREG_GOV" Type="number" Precision="12" Scale="0" />
+          <Property Name="CTY_NB" Type="number" Precision="12" Scale="0" />
+          <Property Name="REG_NB" Type="number" Precision="12" Scale="0" />
+          <Property Name="ADDRESS" Type="varchar2" MaxLength="200" />
+          <Property Name="PHONE1" Type="varchar2" MaxLength="20" />
+          <Property Name="PHONE2" Type="varchar2" MaxLength="20" />
+          <Property Name="MOBILE" Type="varchar2" MaxLength="20" />
+          <Property Name="FAX" Type="varchar2" MaxLength="20" />
+          <Property Name="NOTE" Type="varchar2" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ZGOVERN">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZNATION">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NATION" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="CNTRYNAME" Type="varchar2" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZOWNERTYP">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="OTNAME" Type="varchar2" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZPERSON">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NATNO" Type="varchar2" MaxLength="20" />
+          <Property Name="FNAME" Type="varchar2" MaxLength="50" />
+          <Property Name="LNAME" Type="varchar2" MaxLength="50" />
+          <Property Name="FATHER" Type="varchar2" MaxLength="25" />
+          <Property Name="MOTHER" Type="varchar2" MaxLength="25" />
+          <Property Name="CIVILLOC" Type="varchar2" MaxLength="100" />
+          <Property Name="ACTADDRESS" Type="varchar2" MaxLength="100" />
+          <Property Name="ADDRESS" Type="varchar2" MaxLength="100" />
+          <Property Name="PHONE" Type="varchar2" MaxLength="20" />
+          <Property Name="MOBILE" Type="varchar2" MaxLength="20" />
+          <Property Name="BDATED" Type="number" Precision="12" Scale="0" />
+          <Property Name="BDATEM" Type="number" Precision="12" Scale="0" />
+          <Property Name="BDATEY" Type="number" Precision="12" Scale="0" />
+          <Property Name="BDATE" Type="date" />
+          <Property Name="IDCARDNO" Type="varchar2" MaxLength="20" />
+          <Property Name="IDCARDDAT" Type="date" />
+          <Property Name="BPLACE" Type="varchar2" MaxLength="100" />
+          <Property Name="ALAMANA" Type="varchar2" MaxLength="100" />
+          <Property Name="SEX" Type="number" Precision="1" Scale="0" />
+          <Property Name="TYP" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAT" Type="number" Precision="12" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZPRSTYPE">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="TYPNAME" Type="varchar2" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZREGION">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="CTY_NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZSCLSTATUS">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="STSNAME" Type="varchar2" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZSCLTYPE">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="TYPNAME" Type="varchar2" MaxLength="20" Nullable="false" />
+          <Property Name="NOTE" Type="varchar2" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK_CATG_PREVCATG">
+          <End Role="ZCATEGORY" Type="Self.ZCATEGORY" Multiplicity="0..1" />
+          <End Role="ZCATEGORY1" Type="Self.ZCATEGORY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZCATEGORY">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZCATEGORY1">
+              <PropertyRef Name="PREV_CATG" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMP_CTY">
+          <End Role="ZCITY" Type="Self.ZCITY" Multiplicity="0..1" />
+          <End Role="ZCOMPANY" Type="Self.ZCOMPANY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZCITY">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZCOMPANY">
+              <PropertyRef Name="CTY_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMP_REG">
+          <End Role="ZREGION" Type="Self.ZREGION" Multiplicity="0..1" />
+          <End Role="ZCOMPANY" Type="Self.ZCOMPANY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZREGION">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZCOMPANY">
+              <PropertyRef Name="REG_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMPCOMREG_GOV">
+          <End Role="ZGOVERN" Type="Self.ZGOVERN" Multiplicity="0..1" />
+          <End Role="ZCOMPANY" Type="Self.ZCOMPANY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZGOVERN">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZCOMPANY">
+              <PropertyRef Name="COMREG_GOV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHONE_SCL">
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="1" />
+          <End Role="SCLPHONE" Type="Self.SCLPHONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SCHOOL">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCLPHONE">
+              <PropertyRef Name="SCL_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRS_NAT">
+          <End Role="ZNATION" Type="Self.ZNATION" Multiplicity="1" />
+          <End Role="ZPERSON" Type="Self.ZPERSON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZNATION">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZPERSON">
+              <PropertyRef Name="NAT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRS_PRSTYPE">
+          <End Role="ZPRSTYPE" Type="Self.ZPRSTYPE" Multiplicity="1" />
+          <End Role="ZPERSON" Type="Self.ZPERSON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZPRSTYPE">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZPERSON">
+              <PropertyRef Name="TYP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHOOLOWNER_TYPE">
+          <End Role="ZOWNERTYP" Type="Self.ZOWNERTYP" Multiplicity="1" />
+          <End Role="SCHOOLOWNER" Type="Self.SCHOOLOWNER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZOWNERTYP">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOLOWNER">
+              <PropertyRef Name="OT_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCL_CTY">
+          <End Role="ZCITY" Type="Self.ZCITY" Multiplicity="0..1" />
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZCITY">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOL">
+              <PropertyRef Name="CTY_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCL_GOV">
+          <End Role="ZGOVERN" Type="Self.ZGOVERN" Multiplicity="1" />
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZGOVERN">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOL">
+              <PropertyRef Name="GOV_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCL_REG">
+          <End Role="ZREGION" Type="Self.ZREGION" Multiplicity="0..1" />
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZREGION">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOL">
+              <PropertyRef Name="REG_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCL_SCLTYPE">
+          <End Role="ZSCLTYPE" Type="Self.ZSCLTYPE" Multiplicity="1" />
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZSCLTYPE">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOL">
+              <PropertyRef Name="ST_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCL_STS">
+          <End Role="ZSCLSTATUS" Type="Self.ZSCLSTATUS" Multiplicity="1" />
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZSCLSTATUS">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOL">
+              <PropertyRef Name="STS_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZCITY_ZGOVERN">
+          <End Role="ZGOVERN" Type="Self.ZGOVERN" Multiplicity="1" />
+          <End Role="ZCITY" Type="Self.ZCITY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZGOVERN">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZCITY">
+              <PropertyRef Name="GOV_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZREGION_ZCITY">
+          <End Role="ZCITY" Type="Self.ZCITY" Multiplicity="1" />
+          <End Role="ZREGION" Type="Self.ZREGION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZCITY">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZREGION">
+              <PropertyRef Name="CTY_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DrivingSclEntity1StoreContainer">
+          <EntitySet Name="SCHOOL" EntityType="Self.SCHOOL" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="SCHOOLOWNER" EntityType="Self.SCHOOLOWNER" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="SCLPHONE" EntityType="Self.SCLPHONE" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="ZCATEGORY" EntityType="Self.ZCATEGORY" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="ZCITY" EntityType="Self.ZCITY" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="ZCOMPANY" EntityType="Self.ZCOMPANY" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="ZGOVERN" EntityType="Self.ZGOVERN" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="ZNATION" EntityType="Self.ZNATION" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="ZOWNERTYP" EntityType="Self.ZOWNERTYP" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="ZPERSON" EntityType="Self.ZPERSON" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="ZPRSTYPE" EntityType="Self.ZPRSTYPE" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="ZREGION" EntityType="Self.ZREGION" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="ZSCLSTATUS" EntityType="Self.ZSCLSTATUS" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <EntitySet Name="ZSCLTYPE" EntityType="Self.ZSCLTYPE" Schema="DRIVINGSCHOOLS" store:Type="Tables" />
+          <AssociationSet Name="FK_CATG_PREVCATG" Association="Self.FK_CATG_PREVCATG">
+            <End Role="ZCATEGORY" EntitySet="ZCATEGORY" />
+            <End Role="ZCATEGORY1" EntitySet="ZCATEGORY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMP_CTY" Association="Self.FK_COMP_CTY">
+            <End Role="ZCITY" EntitySet="ZCITY" />
+            <End Role="ZCOMPANY" EntitySet="ZCOMPANY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMP_REG" Association="Self.FK_COMP_REG">
+            <End Role="ZREGION" EntitySet="ZREGION" />
+            <End Role="ZCOMPANY" EntitySet="ZCOMPANY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMPCOMREG_GOV" Association="Self.FK_COMPCOMREG_GOV">
+            <End Role="ZGOVERN" EntitySet="ZGOVERN" />
+            <End Role="ZCOMPANY" EntitySet="ZCOMPANY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHONE_SCL" Association="Self.FK_PHONE_SCL">
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+            <End Role="SCLPHONE" EntitySet="SCLPHONE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRS_NAT" Association="Self.FK_PRS_NAT">
+            <End Role="ZNATION" EntitySet="ZNATION" />
+            <End Role="ZPERSON" EntitySet="ZPERSON" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRS_PRSTYPE" Association="Self.FK_PRS_PRSTYPE">
+            <End Role="ZPRSTYPE" EntitySet="ZPRSTYPE" />
+            <End Role="ZPERSON" EntitySet="ZPERSON" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHOOLOWNER_TYPE" Association="Self.FK_SCHOOLOWNER_TYPE">
+            <End Role="ZOWNERTYP" EntitySet="ZOWNERTYP" />
+            <End Role="SCHOOLOWNER" EntitySet="SCHOOLOWNER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCL_CTY" Association="Self.FK_SCL_CTY">
+            <End Role="ZCITY" EntitySet="ZCITY" />
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCL_GOV" Association="Self.FK_SCL_GOV">
+            <End Role="ZGOVERN" EntitySet="ZGOVERN" />
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCL_REG" Association="Self.FK_SCL_REG">
+            <End Role="ZREGION" EntitySet="ZREGION" />
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCL_SCLTYPE" Association="Self.FK_SCL_SCLTYPE">
+            <End Role="ZSCLTYPE" EntitySet="ZSCLTYPE" />
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCL_STS" Association="Self.FK_SCL_STS">
+            <End Role="ZSCLSTATUS" EntitySet="ZSCLSTATUS" />
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZCITY_ZGOVERN" Association="Self.FK_ZCITY_ZGOVERN">
+            <End Role="ZGOVERN" EntitySet="ZGOVERN" />
+            <End Role="ZCITY" EntitySet="ZCITY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZREGION_ZCITY" Association="Self.FK_ZREGION_ZCITY">
+            <End Role="ZCITY" EntitySet="ZCITY" />
+            <End Role="ZREGION" EntitySet="ZREGION" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DrivingSclEntity1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SCHOOL">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="SCL_CODE" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SCLNAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ST_NB" Type="Int64" Nullable="false" />
+          <Property Name="GOV_NB" Type="Int64" Nullable="false" />
+          <Property Name="COMREG_NO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="COMREG_DATE" Type="DateTime" />
+          <Property Name="COMREG_TYP" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="COMREG_GOV" Type="Int64" />
+          <Property Name="CTY_NB" Type="Int64" />
+          <Property Name="REG_NB" Type="Int64" />
+          <Property Name="ADDRESS" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="STS_NB" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="SCLPHONE" Relationship="Self.FK_PHONE_SCL" FromRole="SCHOOL" ToRole="SCLPHONE" />
+          <NavigationProperty Name="ZCITY" Relationship="Self.FK_SCL_CTY" FromRole="SCHOOL" ToRole="ZCITY" />
+          <NavigationProperty Name="ZGOVERN" Relationship="Self.FK_SCL_GOV" FromRole="SCHOOL" ToRole="ZGOVERN" />
+          <NavigationProperty Name="ZREGION" Relationship="Self.FK_SCL_REG" FromRole="SCHOOL" ToRole="ZREGION" />
+          <NavigationProperty Name="ZSCLTYPE" Relationship="Self.FK_SCL_SCLTYPE" FromRole="SCHOOL" ToRole="ZSCLTYPE" />
+          <NavigationProperty Name="ZSCLSTATUS" Relationship="Self.FK_SCL_STS" FromRole="SCHOOL" ToRole="ZSCLSTATUS" />
+        </EntityType>
+        <EntityType Name="SCHOOLOWNER">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="OT_NB" Type="Int64" Nullable="false" />
+          <Property Name="ONR_NB" Type="Int64" Nullable="false" />
+          <Property Name="NOTE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ZOWNERTYP" Relationship="Self.FK_SCHOOLOWNER_TYPE" FromRole="SCHOOLOWNER" ToRole="ZOWNERTYP" />
+        </EntityType>
+        <EntityType Name="SCLPHONE">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="SCL_NB" Type="Int64" Nullable="false" />
+          <Property Name="PHONE_NO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PHONE_TYP" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="SCHOOL" Relationship="Self.FK_PHONE_SCL" FromRole="SCLPHONE" ToRole="SCHOOL" />
+        </EntityType>
+        <EntityType Name="ZCATEGORY">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PREV_CATG" Type="Int64" />
+          <Property Name="STUDENT_PER_CAR" Type="Int32" Nullable="false" />
+          <Property Name="STUDENT_PER_MOTO" Type="Int32" />
+          <Property Name="METERS_FOR_STUDENT" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="MAX_STUDENTS_PER_HALL" Type="Int32" />
+          <Property Name="NOTE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ZCATEGORY1" Relationship="Self.FK_CATG_PREVCATG" FromRole="ZCATEGORY" ToRole="ZCATEGORY1" />
+          <NavigationProperty Name="ZCATEGORY2" Relationship="Self.FK_CATG_PREVCATG" FromRole="ZCATEGORY1" ToRole="ZCATEGORY" />
+        </EntityType>
+        <EntityType Name="ZCITY">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GOV_NB" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="SCHOOL" Relationship="Self.FK_SCL_CTY" FromRole="ZCITY" ToRole="SCHOOL" />
+          <NavigationProperty Name="ZCOMPANY" Relationship="Self.FK_COMP_CTY" FromRole="ZCITY" ToRole="ZCOMPANY" />
+          <NavigationProperty Name="ZGOVERN" Relationship="Self.FK_ZCITY_ZGOVERN" FromRole="ZCITY" ToRole="ZGOVERN" />
+          <NavigationProperty Name="ZREGION" Relationship="Self.FK_ZREGION_ZCITY" FromRole="ZCITY" ToRole="ZREGION" />
+        </EntityType>
+        <EntityType Name="ZCOMPANY">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="COMPNAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="COMREG_NO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="COMREG_DATE" Type="DateTime" />
+          <Property Name="COMREG_TYP" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="COMREG_GOV" Type="Int64" />
+          <Property Name="CTY_NB" Type="Int64" />
+          <Property Name="REG_NB" Type="Int64" />
+          <Property Name="ADDRESS" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="PHONE1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PHONE2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MOBILE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FAX" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NOTE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ZCITY" Relationship="Self.FK_COMP_CTY" FromRole="ZCOMPANY" ToRole="ZCITY" />
+          <NavigationProperty Name="ZREGION" Relationship="Self.FK_COMP_REG" FromRole="ZCOMPANY" ToRole="ZREGION" />
+          <NavigationProperty Name="ZGOVERN" Relationship="Self.FK_COMPCOMREG_GOV" FromRole="ZCOMPANY" ToRole="ZGOVERN" />
+        </EntityType>
+        <EntityType Name="ZGOVERN">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SCHOOL" Relationship="Self.FK_SCL_GOV" FromRole="ZGOVERN" ToRole="SCHOOL" />
+          <NavigationProperty Name="ZCITY" Relationship="Self.FK_ZCITY_ZGOVERN" FromRole="ZGOVERN" ToRole="ZCITY" />
+          <NavigationProperty Name="ZCOMPANY" Relationship="Self.FK_COMPCOMREG_GOV" FromRole="ZGOVERN" ToRole="ZCOMPANY" />
+        </EntityType>
+        <EntityType Name="ZNATION">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="NATION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CNTRYNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ZPERSON" Relationship="Self.FK_PRS_NAT" FromRole="ZNATION" ToRole="ZPERSON" />
+        </EntityType>
+        <EntityType Name="ZOWNERTYP">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="OTNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SCHOOLOWNER" Relationship="Self.FK_SCHOOLOWNER_TYPE" FromRole="ZOWNERTYP" ToRole="SCHOOLOWNER" />
+        </EntityType>
+        <EntityType Name="ZPERSON">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="NATNO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FATHER" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOTHER" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="CIVILLOC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ACTADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PHONE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MOBILE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="BDATED" Type="Int64" />
+          <Property Name="BDATEM" Type="Int64" />
+          <Property Name="BDATEY" Type="Int64" />
+          <Property Name="BDATE" Type="DateTime" />
+          <Property Name="IDCARDNO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IDCARDDAT" Type="DateTime" />
+          <Property Name="BPLACE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ALAMANA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SEX" Type="Int16" />
+          <Property Name="TYP" Type="Int64" Nullable="false" />
+          <Property Name="NAT" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ZNATION" Relationship="Self.FK_PRS_NAT" FromRole="ZPERSON" ToRole="ZNATION" />
+          <NavigationProperty Name="ZPRSTYPE" Relationship="Self.FK_PRS_PRSTYPE" FromRole="ZPERSON" ToRole="ZPRSTYPE" />
+        </EntityType>
+        <EntityType Name="ZPRSTYPE">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="TYPNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ZPERSON" Relationship="Self.FK_PRS_PRSTYPE" FromRole="ZPRSTYPE" ToRole="ZPERSON" />
+        </EntityType>
+        <EntityType Name="ZREGION">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CTY_NB" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="SCHOOL" Relationship="Self.FK_SCL_REG" FromRole="ZREGION" ToRole="SCHOOL" />
+          <NavigationProperty Name="ZCITY" Relationship="Self.FK_ZREGION_ZCITY" FromRole="ZREGION" ToRole="ZCITY" />
+          <NavigationProperty Name="ZCOMPANY" Relationship="Self.FK_COMP_REG" FromRole="ZREGION" ToRole="ZCOMPANY" />
+        </EntityType>
+        <EntityType Name="ZSCLSTATUS">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="STSNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SCHOOL" Relationship="Self.FK_SCL_STS" FromRole="ZSCLSTATUS" ToRole="SCHOOL" />
+        </EntityType>
+        <EntityType Name="ZSCLTYPE">
+          <Key>
+            <PropertyRef Name="NB" />
+          </Key>
+          <Property Name="NB" Type="Int64" Nullable="false" />
+          <Property Name="TYPNAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NOTE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SCHOOL" Relationship="Self.FK_SCL_SCLTYPE" FromRole="ZSCLTYPE" ToRole="SCHOOL" />
+        </EntityType>
+        <Association Name="FK_PHONE_SCL">
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="1" />
+          <End Role="SCLPHONE" Type="Self.SCLPHONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SCHOOL">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCLPHONE">
+              <PropertyRef Name="SCL_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCL_CTY">
+          <End Role="ZCITY" Type="Self.ZCITY" Multiplicity="0..1" />
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZCITY">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOL">
+              <PropertyRef Name="CTY_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCL_GOV">
+          <End Role="ZGOVERN" Type="Self.ZGOVERN" Multiplicity="1" />
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZGOVERN">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOL">
+              <PropertyRef Name="GOV_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCL_REG">
+          <End Role="ZREGION" Type="Self.ZREGION" Multiplicity="0..1" />
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZREGION">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOL">
+              <PropertyRef Name="REG_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCL_SCLTYPE">
+          <End Role="ZSCLTYPE" Type="Self.ZSCLTYPE" Multiplicity="1" />
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZSCLTYPE">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOL">
+              <PropertyRef Name="ST_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCL_STS">
+          <End Role="ZSCLSTATUS" Type="Self.ZSCLSTATUS" Multiplicity="1" />
+          <End Role="SCHOOL" Type="Self.SCHOOL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZSCLSTATUS">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOL">
+              <PropertyRef Name="STS_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHOOLOWNER_TYPE">
+          <End Role="ZOWNERTYP" Type="Self.ZOWNERTYP" Multiplicity="1" />
+          <End Role="SCHOOLOWNER" Type="Self.SCHOOLOWNER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZOWNERTYP">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="SCHOOLOWNER">
+              <PropertyRef Name="OT_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CATG_PREVCATG">
+          <End Role="ZCATEGORY" Type="Self.ZCATEGORY" Multiplicity="0..1" />
+          <End Role="ZCATEGORY1" Type="Self.ZCATEGORY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZCATEGORY">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZCATEGORY1">
+              <PropertyRef Name="PREV_CATG" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMP_CTY">
+          <End Role="ZCITY" Type="Self.ZCITY" Multiplicity="0..1" />
+          <End Role="ZCOMPANY" Type="Self.ZCOMPANY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZCITY">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZCOMPANY">
+              <PropertyRef Name="CTY_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZCITY_ZGOVERN">
+          <End Role="ZGOVERN" Type="Self.ZGOVERN" Multiplicity="1" />
+          <End Role="ZCITY" Type="Self.ZCITY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZGOVERN">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZCITY">
+              <PropertyRef Name="GOV_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZREGION_ZCITY">
+          <End Role="ZCITY" Type="Self.ZCITY" Multiplicity="1" />
+          <End Role="ZREGION" Type="Self.ZREGION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZCITY">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZREGION">
+              <PropertyRef Name="CTY_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMP_REG">
+          <End Role="ZREGION" Type="Self.ZREGION" Multiplicity="0..1" />
+          <End Role="ZCOMPANY" Type="Self.ZCOMPANY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZREGION">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZCOMPANY">
+              <PropertyRef Name="REG_NB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMPCOMREG_GOV">
+          <End Role="ZGOVERN" Type="Self.ZGOVERN" Multiplicity="0..1" />
+          <End Role="ZCOMPANY" Type="Self.ZCOMPANY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZGOVERN">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZCOMPANY">
+              <PropertyRef Name="COMREG_GOV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRS_NAT">
+          <End Role="ZNATION" Type="Self.ZNATION" Multiplicity="1" />
+          <End Role="ZPERSON" Type="Self.ZPERSON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZNATION">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZPERSON">
+              <PropertyRef Name="NAT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRS_PRSTYPE">
+          <End Role="ZPRSTYPE" Type="Self.ZPRSTYPE" Multiplicity="1" />
+          <End Role="ZPERSON" Type="Self.ZPERSON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZPRSTYPE">
+              <PropertyRef Name="NB" />
+            </Principal>
+            <Dependent Role="ZPERSON">
+              <PropertyRef Name="TYP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DrivingSclEntity" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SCHOOL" EntityType="Self.SCHOOL" />
+          <EntitySet Name="SCHOOLOWNER" EntityType="Self.SCHOOLOWNER" />
+          <EntitySet Name="SCLPHONE" EntityType="Self.SCLPHONE" />
+          <EntitySet Name="ZCATEGORY" EntityType="Self.ZCATEGORY" />
+          <EntitySet Name="ZCITY" EntityType="Self.ZCITY" />
+          <EntitySet Name="ZCOMPANY" EntityType="Self.ZCOMPANY" />
+          <EntitySet Name="ZGOVERN" EntityType="Self.ZGOVERN" />
+          <EntitySet Name="ZNATION" EntityType="Self.ZNATION" />
+          <EntitySet Name="ZOWNERTYP" EntityType="Self.ZOWNERTYP" />
+          <EntitySet Name="ZPERSON" EntityType="Self.ZPERSON" />
+          <EntitySet Name="ZPRSTYPE" EntityType="Self.ZPRSTYPE" />
+          <EntitySet Name="ZREGION" EntityType="Self.ZREGION" />
+          <EntitySet Name="ZSCLSTATUS" EntityType="Self.ZSCLSTATUS" />
+          <EntitySet Name="ZSCLTYPE" EntityType="Self.ZSCLTYPE" />
+          <AssociationSet Name="FK_PHONE_SCL" Association="Self.FK_PHONE_SCL">
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+            <End Role="SCLPHONE" EntitySet="SCLPHONE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCL_CTY" Association="Self.FK_SCL_CTY">
+            <End Role="ZCITY" EntitySet="ZCITY" />
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCL_GOV" Association="Self.FK_SCL_GOV">
+            <End Role="ZGOVERN" EntitySet="ZGOVERN" />
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCL_REG" Association="Self.FK_SCL_REG">
+            <End Role="ZREGION" EntitySet="ZREGION" />
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCL_SCLTYPE" Association="Self.FK_SCL_SCLTYPE">
+            <End Role="ZSCLTYPE" EntitySet="ZSCLTYPE" />
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCL_STS" Association="Self.FK_SCL_STS">
+            <End Role="ZSCLSTATUS" EntitySet="ZSCLSTATUS" />
+            <End Role="SCHOOL" EntitySet="SCHOOL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHOOLOWNER_TYPE" Association="Self.FK_SCHOOLOWNER_TYPE">
+            <End Role="ZOWNERTYP" EntitySet="ZOWNERTYP" />
+            <End Role="SCHOOLOWNER" EntitySet="SCHOOLOWNER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CATG_PREVCATG" Association="Self.FK_CATG_PREVCATG">
+            <End Role="ZCATEGORY" EntitySet="ZCATEGORY" />
+            <End Role="ZCATEGORY1" EntitySet="ZCATEGORY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMP_CTY" Association="Self.FK_COMP_CTY">
+            <End Role="ZCITY" EntitySet="ZCITY" />
+            <End Role="ZCOMPANY" EntitySet="ZCOMPANY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZCITY_ZGOVERN" Association="Self.FK_ZCITY_ZGOVERN">
+            <End Role="ZGOVERN" EntitySet="ZGOVERN" />
+            <End Role="ZCITY" EntitySet="ZCITY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZREGION_ZCITY" Association="Self.FK_ZREGION_ZCITY">
+            <End Role="ZCITY" EntitySet="ZCITY" />
+            <End Role="ZREGION" EntitySet="ZREGION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMP_REG" Association="Self.FK_COMP_REG">
+            <End Role="ZREGION" EntitySet="ZREGION" />
+            <End Role="ZCOMPANY" EntitySet="ZCOMPANY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMPCOMREG_GOV" Association="Self.FK_COMPCOMREG_GOV">
+            <End Role="ZGOVERN" EntitySet="ZGOVERN" />
+            <End Role="ZCOMPANY" EntitySet="ZCOMPANY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRS_NAT" Association="Self.FK_PRS_NAT">
+            <End Role="ZNATION" EntitySet="ZNATION" />
+            <End Role="ZPERSON" EntitySet="ZPERSON" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRS_PRSTYPE" Association="Self.FK_PRS_PRSTYPE">
+            <End Role="ZPRSTYPE" EntitySet="ZPRSTYPE" />
+            <End Role="ZPERSON" EntitySet="ZPERSON" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DrivingSclEntity1StoreContainer" CdmEntityContainer="DrivingSclEntity">
+          <EntitySetMapping Name="SCHOOL">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.SCHOOL">
+              <MappingFragment StoreEntitySet="SCHOOL">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="SCL_CODE" ColumnName="SCL_CODE" />
+                <ScalarProperty Name="SCLNAME" ColumnName="SCLNAME" />
+                <ScalarProperty Name="ST_NB" ColumnName="ST_NB" />
+                <ScalarProperty Name="GOV_NB" ColumnName="GOV_NB" />
+                <ScalarProperty Name="COMREG_NO" ColumnName="COMREG_NO" />
+                <ScalarProperty Name="COMREG_DATE" ColumnName="COMREG_DATE" />
+                <ScalarProperty Name="COMREG_TYP" ColumnName="COMREG_TYP" />
+                <ScalarProperty Name="COMREG_GOV" ColumnName="COMREG_GOV" />
+                <ScalarProperty Name="CTY_NB" ColumnName="CTY_NB" />
+                <ScalarProperty Name="REG_NB" ColumnName="REG_NB" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="STS_NB" ColumnName="STS_NB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SCHOOLOWNER">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.SCHOOLOWNER">
+              <MappingFragment StoreEntitySet="SCHOOLOWNER">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="OT_NB" ColumnName="OT_NB" />
+                <ScalarProperty Name="ONR_NB" ColumnName="ONR_NB" />
+                <ScalarProperty Name="NOTE" ColumnName="NOTE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SCLPHONE">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.SCLPHONE">
+              <MappingFragment StoreEntitySet="SCLPHONE">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="SCL_NB" ColumnName="SCL_NB" />
+                <ScalarProperty Name="PHONE_NO" ColumnName="PHONE_NO" />
+                <ScalarProperty Name="PHONE_TYP" ColumnName="PHONE_TYP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZCATEGORY">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.ZCATEGORY">
+              <MappingFragment StoreEntitySet="ZCATEGORY">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="PREV_CATG" ColumnName="PREV_CATG" />
+                <ScalarProperty Name="STUDENT_PER_CAR" ColumnName="STUDENT_PER_CAR" />
+                <ScalarProperty Name="STUDENT_PER_MOTO" ColumnName="STUDENT_PER_MOTO" />
+                <ScalarProperty Name="METERS_FOR_STUDENT" ColumnName="METERS_FOR_STUDENT" />
+                <ScalarProperty Name="MAX_STUDENTS_PER_HALL" ColumnName="MAX_STUDENTS_PER_HALL" />
+                <ScalarProperty Name="NOTE" ColumnName="NOTE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZCITY">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.ZCITY">
+              <MappingFragment StoreEntitySet="ZCITY">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="GOV_NB" ColumnName="GOV_NB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZCOMPANY">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.ZCOMPANY">
+              <MappingFragment StoreEntitySet="ZCOMPANY">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="COMPNAME" ColumnName="COMPNAME" />
+                <ScalarProperty Name="COMREG_NO" ColumnName="COMREG_NO" />
+                <ScalarProperty Name="COMREG_DATE" ColumnName="COMREG_DATE" />
+                <ScalarProperty Name="COMREG_TYP" ColumnName="COMREG_TYP" />
+                <ScalarProperty Name="COMREG_GOV" ColumnName="COMREG_GOV" />
+                <ScalarProperty Name="CTY_NB" ColumnName="CTY_NB" />
+                <ScalarProperty Name="REG_NB" ColumnName="REG_NB" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="PHONE1" ColumnName="PHONE1" />
+                <ScalarProperty Name="PHONE2" ColumnName="PHONE2" />
+                <ScalarProperty Name="MOBILE" ColumnName="MOBILE" />
+                <ScalarProperty Name="FAX" ColumnName="FAX" />
+                <ScalarProperty Name="NOTE" ColumnName="NOTE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZGOVERN">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.ZGOVERN">
+              <MappingFragment StoreEntitySet="ZGOVERN">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZNATION">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.ZNATION">
+              <MappingFragment StoreEntitySet="ZNATION">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="NATION" ColumnName="NATION" />
+                <ScalarProperty Name="CNTRYNAME" ColumnName="CNTRYNAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZOWNERTYP">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.ZOWNERTYP">
+              <MappingFragment StoreEntitySet="ZOWNERTYP">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="OTNAME" ColumnName="OTNAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZPERSON">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.ZPERSON">
+              <MappingFragment StoreEntitySet="ZPERSON">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="NATNO" ColumnName="NATNO" />
+                <ScalarProperty Name="FNAME" ColumnName="FNAME" />
+                <ScalarProperty Name="LNAME" ColumnName="LNAME" />
+                <ScalarProperty Name="FATHER" ColumnName="FATHER" />
+                <ScalarProperty Name="MOTHER" ColumnName="MOTHER" />
+                <ScalarProperty Name="CIVILLOC" ColumnName="CIVILLOC" />
+                <ScalarProperty Name="ACTADDRESS" ColumnName="ACTADDRESS" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="MOBILE" ColumnName="MOBILE" />
+                <ScalarProperty Name="BDATED" ColumnName="BDATED" />
+                <ScalarProperty Name="BDATEM" ColumnName="BDATEM" />
+                <ScalarProperty Name="BDATEY" ColumnName="BDATEY" />
+                <ScalarProperty Name="BDATE" ColumnName="BDATE" />
+                <ScalarProperty Name="IDCARDNO" ColumnName="IDCARDNO" />
+                <ScalarProperty Name="IDCARDDAT" ColumnName="IDCARDDAT" />
+                <ScalarProperty Name="BPLACE" ColumnName="BPLACE" />
+                <ScalarProperty Name="ALAMANA" ColumnName="ALAMANA" />
+                <ScalarProperty Name="SEX" ColumnName="SEX" />
+                <ScalarProperty Name="TYP" ColumnName="TYP" />
+                <ScalarProperty Name="NAT" ColumnName="NAT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZPRSTYPE">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.ZPRSTYPE">
+              <MappingFragment StoreEntitySet="ZPRSTYPE">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="TYPNAME" ColumnName="TYPNAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZREGION">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.ZREGION">
+              <MappingFragment StoreEntitySet="ZREGION">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="CTY_NB" ColumnName="CTY_NB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZSCLSTATUS">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.ZSCLSTATUS">
+              <MappingFragment StoreEntitySet="ZSCLSTATUS">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="STSNAME" ColumnName="STSNAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZSCLTYPE">
+            <EntityTypeMapping TypeName="DrivingSclEntity1.ZSCLTYPE">
+              <MappingFragment StoreEntitySet="ZSCLTYPE">
+                <ScalarProperty Name="NB" ColumnName="NB" />
+                <ScalarProperty Name="TYPNAME" ColumnName="TYPNAME" />
+                <ScalarProperty Name="NOTE" ColumnName="NOTE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

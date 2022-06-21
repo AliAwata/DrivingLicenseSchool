@@ -1,0 +1,628 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FCD1A961-B48A-4AFC-B0BA-7F55D43DF692}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DrivingSclApp</RootNamespace>
+    <AssemblyName>DrivingSclApp</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Kendo.Mvc">
+      <HintPath>..\lib\KENDOUIMVC\2016.2.607.545\Kendo.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.1.021\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Oracle.ManagedDataAccess.EntityFramework.12.1.022\lib\net45\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppMgr\OraClass.cs" />
+    <Compile Include="AppMgr\Types.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Exams\AreaAreaRegistration.cs" />
+    <Compile Include="Areas\Courses\CoursesAreaRegistration.cs" />
+    <Compile Include="Areas\HandleExceptions\Controllers\HandleExceptionController.cs" />
+    <Compile Include="Areas\HandleExceptions\HandleExceptionsAreaRegistration.cs" />
+    <Compile Include="Areas\Indexes\Controllers\CodesController.cs" />
+    <Compile Include="Areas\Indexes\Controllers\zCityController.cs" />
+    <Compile Include="Areas\Indexes\Controllers\zCompanyController.cs" />
+    <Compile Include="Areas\Indexes\Controllers\zGovernController.cs" />
+    <Compile Include="Areas\Indexes\Controllers\zNationController.cs" />
+    <Compile Include="Areas\Indexes\Controllers\zPersonController.cs" />
+    <Compile Include="Areas\Indexes\Controllers\zRegionController.cs" />
+    <Compile Include="Areas\Indexes\Data\CityVM.cs" />
+    <Compile Include="Areas\Indexes\Data\CompanyVM.cs" />
+    <Compile Include="Areas\Indexes\Data\PersonVM.cs" />
+    <Compile Include="Areas\Indexes\Data\RegionVM.cs" />
+    <Compile Include="Areas\Indexes\IndexesAreaRegistration.cs" />
+    <Compile Include="Areas\Schools\Controllers\SchoolCodesController.cs" />
+    <Compile Include="Areas\Schools\Controllers\SchoolController.cs" />
+    <Compile Include="Areas\Schools\Controllers\SchoolDetailsController.cs" />
+    <Compile Include="Areas\Schools\Controllers\SchoolOwnerController.cs" />
+    <Compile Include="Areas\Schools\Data\SchoolOwnerVM.cs" />
+    <Compile Include="Areas\Schools\Data\SchoolVM.cs" />
+    <Compile Include="Areas\Schools\SchoolsAreaRegistration.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GridController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\OrderViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-rtl.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\datatables.bootstrap-rtl.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\FooterBottom.css" />
+    <Content Include="Content\Kendo\bootstrap-grid.css.map" />
+    <Content Include="Content\Kendo\bootstrap-grid.min.css.map" />
+    <Content Include="Content\Kendo\bootstrap-reboot.css.map" />
+    <Content Include="Content\Kendo\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\Kendo\bootstrap.css.map" />
+    <Content Include="Content\Kendo\bootstrap.min.css.map" />
+    <Content Include="Content\Kendo\bootstrap-grid.css" />
+    <Content Include="Content\Kendo\bootstrap-grid.min.css" />
+    <Content Include="Content\Kendo\bootstrap-reboot.css" />
+    <Content Include="Content\Kendo\bootstrap-reboot.min.css" />
+    <Content Include="Content\Kendo\bootstrap-rtl.css" />
+    <Content Include="Content\Kendo\bootstrap.css" />
+    <Content Include="Content\Kendo\bootstrap.min.css" />
+    <Content Include="Content\Kendo\bootstrap.rtl.min.css" />
+    <Content Include="Content\Kendo\datatables.bootstrap-rtl.css" />
+    <Content Include="Content\Kendo\font-awesome.css" />
+    <Content Include="Content\Kendo\font-awesome.min.css" />
+    <Content Include="Content\Kendo\FooterBottom.css" />
+    <Content Include="Content\Kendo\kendo.bootstrap-v4.min.css" />
+    <Content Include="Content\Kendo\kendo.bootstrap.min.css" />
+    <Content Include="Content\Kendo\kendo.common-bootstrap.min.css" />
+    <Content Include="Content\Kendo\kendo.rtl.min.css" />
+    <Content Include="Content\Login\reset.css" />
+    <Content Include="Content\Login\style.css" />
+    <Content Include="Content\main.css" />
+    <Content Include="Content\menu.css" />
+    <Content Include="Content\themes.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\200.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\Indexes\Views\web.config" />
+    <Content Include="Areas\Schools\Views\web.config" />
+    <Content Include="Areas\Courses\Views\web.config" />
+    <Content Include="Areas\Exams\Views\web.config" />
+    <Content Include="Areas\Indexes\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Indexes\Views\zNation\Index.cshtml" />
+    <Content Include="Scripts\bootstrap.rtl.min.js" />
+    <Content Include="Areas\Indexes\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Indexes\Views\zCity\Index.cshtml" />
+    <Content Include="Areas\Indexes\Views\zGovern\index.cshtml" />
+    <Content Include="Areas\Indexes\Views\zRegion\index.cshtml" />
+    <Content Include="Areas\Indexes\Views\zCompany\index.cshtml" />
+    <Content Include="Areas\Indexes\Views\zPerson\index.cshtml" />
+    <Content Include="Areas\Schools\Views\School\Index.cshtml" />
+    <Content Include="Areas\Schools\Views\SchoolDetails\Index.cshtml" />
+    <Content Include="Areas\Schools\Views\SchoolOwner\_SchoolOwner.cshtml" />
+    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\cultures\kendo.culture.ar-SY.min.js.map" />
+    <None Include="Scripts\Kendo\2017.1.118\kendo.all.min.intellisense.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\cultures\kendo.culture.ar-SY.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.all.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.aspnetmvc.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.autocomplete.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.binder.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.button.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.calendar.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.color.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.colorpicker.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.columnmenu.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.columnsorter.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.combobox.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.core.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.data.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.data.odata.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.data.signalr.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.data.xml.min.js" />
+    <None Include="Scripts\Kendo\2017.1.118\kendo.dataviz-vsdoc.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.barcode.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.chart.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.core.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.diagram.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.gauge.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.map.min.js" />
+    <None Include="Scripts\Kendo\2017.1.118\kendo.dataviz.min.intellisense.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.mobile.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.qrcode.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.sparkline.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.stock.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.themes.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.treemap.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.datepicker.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.datetimepicker.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dialog.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dom.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.draganddrop.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.drawing.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dropdownlist.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.editable.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.editor.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.excel.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.filebrowser.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.filtercell.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.filtermenu.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.fx.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.gantt.list.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.gantt.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.gantt.timeline.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.grid.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.groupable.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.imagebrowser.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.list.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.listview.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.maskedtextbox.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mediaplayer.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.menu.min.js" />
+    <None Include="Scripts\Kendo\2017.1.118\kendo.mobile-vsdoc.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.actionsheet.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.application.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.button.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.buttongroup.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.collapsible.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.drawer.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.listview.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.loader.min.js" />
+    <None Include="Scripts\Kendo\2017.1.118\kendo.mobile.min.intellisense.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.modalview.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.navbar.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.pane.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.popover.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.scroller.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.scrollview.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.shim.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.splitview.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.switch.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.tabstrip.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.view.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.multiselect.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.notification.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.numerictextbox.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.ooxml.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.pager.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.panelbar.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.pdf.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.pivot.configurator.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.pivot.fieldmenu.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.pivotgrid.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.popup.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.progressbar.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.reorderable.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.resizable.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.responsivepanel.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.router.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.agendaview.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.dayview.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.monthview.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.recurrence.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.timelineview.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.view.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.selectable.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.slider.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.sortable.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.splitter.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.spreadsheet.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.tabstrip.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.timepicker.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.timezones.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.toolbar.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.tooltip.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.touch.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.treelist.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.treeview.draganddrop.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.treeview.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.upload.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.userevents.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.validator.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.view.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.virtuallist.min.js" />
+    <None Include="Scripts\Kendo\2017.1.118\kendo.web-vsdoc.js" />
+    <None Include="Scripts\Kendo\2017.1.118\kendo.web.min.intellisense.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.web.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.window.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\messages\kendo.messages.en-US.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\messages\kendo.messages.es-AR.min.js" />
+    <Content Include="Scripts\Kendo\2017.1.118\pako_deflate.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\ContactUs.cshtml" />
+    <Content Include="Views\Home\ImageContent.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.all.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.angular.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.aspnetmvc.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.autocomplete.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.binder.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.button.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.calendar.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.color.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.colorpicker.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.columnmenu.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.columnsorter.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.combobox.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.core.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.data.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.data.odata.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.data.signalr.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.data.xml.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.barcode.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.chart.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.core.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.diagram.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.gauge.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.map.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.mobile.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.qrcode.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.sparkline.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.stock.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.themes.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dataviz.treemap.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.datepicker.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.datetimepicker.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dialog.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dom.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.draganddrop.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.drawing.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.dropdownlist.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.editable.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.editor.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.excel.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.filebrowser.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.filtercell.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.filtermenu.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.fx.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.gantt.list.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.gantt.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.gantt.timeline.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.grid.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.groupable.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.imagebrowser.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.list.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.listview.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.maskedtextbox.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mediaplayer.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.menu.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.actionsheet.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.application.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.button.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.buttongroup.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.collapsible.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.drawer.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.listview.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.loader.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.modalview.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.navbar.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.pane.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.popover.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.scroller.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.scrollview.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.shim.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.splitview.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.switch.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.tabstrip.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.mobile.view.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.multiselect.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.notification.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.numerictextbox.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.ooxml.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.pager.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.panelbar.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.pdf.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.pivot.configurator.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.pivot.fieldmenu.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.pivotgrid.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.popup.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.progressbar.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.reorderable.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.resizable.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.responsivepanel.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.router.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.agendaview.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.dayview.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.monthview.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.recurrence.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.timelineview.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.scheduler.view.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.selectable.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.slider.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.sortable.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.splitter.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.spreadsheet.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.tabstrip.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.timepicker.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.timezones.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.toolbar.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.tooltip.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.touch.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.treelist.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.treeview.draganddrop.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.treeview.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.upload.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.userevents.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.validator.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.view.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.virtuallist.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.web.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\kendo.window.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\messages\kendo.messages.en-US.min.js.map" />
+    <Content Include="Scripts\Kendo\2017.1.118\messages\kendo.messages.es-AR.min.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Site.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Images\accent.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\heroAccent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-reboot.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-grid.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\HandleExceptions\Views\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\Courses\Controllers\" />
+    <Folder Include="Areas\Courses\Data\" />
+    <Folder Include="Areas\Courses\Views\Shared\" />
+    <Folder Include="Areas\Exams\Controllers\" />
+    <Folder Include="Areas\Exams\Data\" />
+    <Folder Include="Areas\Exams\Views\Shared\" />
+    <Folder Include="Areas\HandleExceptions\Models\" />
+    <Folder Include="Areas\Indexes\Views\Codes\" />
+    <Folder Include="Areas\Schools\Views\SchoolCodes\" />
+    <Folder Include="Areas\Schools\Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\HandleExceptions\Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\HandleExceptions\Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\HandleExceptions\Views\HandleException\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccessLayer\DrivingSclData.csproj">
+      <Project>{bbe65c1b-b6b8-4b6f-9540-38da399f789f}</Project>
+      <Name>DrivingSclData</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-1.12.4.min.map" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>32204</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:32204/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

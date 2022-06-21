@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "إعدادات المستخدم";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="logonForm">
+    <div class="row">
+        @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+        {
+            <div class="col-sm-12">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="panel panel-primary" style="margin-bottom:0px;">
+                    <div class="panel-heading">
+                        <h3>إعدادات المستخدم</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table style="font-weight: bold; font-size: medium;" align="center">
+                            <tr><td colspan="2"><center><h4 style="font-weight:bold">تغيير خيارات المستخدم</h4></center></td></tr>
+                            <tr><th style="font-weight: bold" colspan="2">استخدم الحقول التالية لتحديد صيغة التقارير </th></tr>
+                            <tr><th style="font-weight: bold" colspan="2">وعدد السجلات في صفحات الجداول</th></tr>
+                            <tr>
+                                <td width="50%" style="text-align: left; padding: 0px 0px 0px 5px">
+                                    كلمة المرور
+                                </td>
+                                <td style="text-align:right; padding: 0px 5px 0px 0px">
+                                    @Html.ActionLink("تغيير كلمة المرور", "ChangePassword")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left; padding:0px 0px 0px 5px">
+                                    الاسم المستعار
+                                </td>
+                                <td style="text-align:right; padding: 0px 5px 0px 0px">
+                                    @Html.Encode(MyOwnData.MyFullName())
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left; padding:0px 0px 0px 5px">خيارات الطباعة
+                                <td style="text-align:right; padding: 0px 5px 0px 0px">
+                                    @Html.DropDownList("PrintOption", null, new { style = "width: 200px;" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left; padding:0px 0px 0px 5px">
+                                    عدد السجلات في الصفحة
+                                </td>
+                                <td style="text-align:right; padding: 0px 5px 0px 0px">
+                                    @Html.TextBox("RowsPerPage", ViewData["RowsPerPage"], new { style = "width: 200px;" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="حفظ التعديلات" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
