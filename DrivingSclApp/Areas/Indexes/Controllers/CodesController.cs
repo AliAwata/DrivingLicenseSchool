@@ -88,8 +88,8 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
         {
             List<SelectListItem> sexes = new List<SelectListItem>()
             {
-                new SelectListItem() { Text = "ذكر", Value = "true"},
-                new SelectListItem() { Text = "أنثى", Value = "false"}
+                new SelectListItem() { Text = "ذكر", Value = "ذكر"},
+                new SelectListItem() { Text = "أنثى", Value = "انثى"}
             };
             
             return Json(sexes, JsonRequestBehavior.AllowGet);
@@ -104,6 +104,29 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             };
 
             return Json(types, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetComreg_Typ_list(string typ)
+        {
+            if (typ == "افراد")
+            {
+                var persons = db.ZPERSON.Select(x => new
+                {
+                    Id = x.NB,
+                    Name = x.FNAME + x.LNAME,
+                    NationNo = x.NATNO
+                });
+                return Json(persons, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var companies = db.ZCOMPANY.Select(x => new
+                {
+                    Id = x.NB,
+                    Name = x.COMPNAME,
+                });
+                return Json(companies, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult GetSclStatus()
@@ -123,6 +146,15 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                 Name = x.TYPNAME
             });
 
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetCategories()
+        {
+            var res = db.ZCATEGORY.Select(x => new {
+                Id = x.NB,
+                Name = x.NAME
+            });
             return Json(res, JsonRequestBehavior.AllowGet);
         }
     }

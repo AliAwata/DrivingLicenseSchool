@@ -109,11 +109,18 @@ namespace DrivingSclData
                .WithRequired(e => e.ZOWNERTYP)
                .HasForeignKey(e => e.OT_NB)
                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity <ZCATEGORY>()
+               .HasMany(e => e.ZCATEGORY1)
+               .WithRequired(e => e.ZCATEGORY2)
+               .HasForeignKey(e => e.PREV_CATG)
+               .WillCascadeOnDelete(true);
         }
 
         public virtual DbSet<SCHOOL> SCHOOL { get; set; }
         public virtual DbSet<SCHOOLOWNER> SCHOOLOWNER { get; set; }
         public virtual DbSet<SCLPHONE> SCLPHONE { get; set; }
+        public virtual DbSet<ZCATEGORY> ZCATEGORY { get; set; }
         public virtual DbSet<ZCITY> ZCITY { get; set; }
         public virtual DbSet<ZCOMPANY> ZCOMPANY { get; set; }
         public virtual DbSet<ZGOVERN> ZGOVERN { get; set; }

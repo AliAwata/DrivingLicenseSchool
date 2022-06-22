@@ -69,6 +69,7 @@
     <Compile Include="DrivingSclEntity\SCHOOL.cs" />
     <Compile Include="DrivingSclEntity\SCHOOLOWNER.cs" />
     <Compile Include="DrivingSclEntity\SCLPHONE.cs" />
+    <Compile Include="DrivingSclEntity\ZCATEGORY.cs" />
     <Compile Include="DrivingSclEntity\ZCITY.cs" />
     <Compile Include="DrivingSclEntity\ZCOMPANY.cs" />
     <Compile Include="DrivingSclEntity\ZGOVERN.cs" />

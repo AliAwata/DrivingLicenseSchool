@@ -168,7 +168,7 @@
                                         {
                                             source.Read(read =>
                                             {
-                                                read.Action("GetSclType", "SchoolCodes");
+                                                read.Action("GetSclType", "Codes", new { area = "Indexes" });
                                             });
                                         })
                                         .HtmlAttributes(new { style = "width: 100%" })
@@ -191,7 +191,7 @@
                                         {
                                             source.Read(read =>
                                             {
-                                                read.Action("GetGovern", "SchoolCodes");
+                                                read.Action("GetGovern", "Codes", new { area = "Indexes" });
                                             });
                                         })
                                         .HtmlAttributes(new { style = "width: 100%" })
@@ -216,7 +216,7 @@
                                         {
                                             source.Read(read =>
                                             {
-                                                read.Action("GetCity", "SchoolCodes");
+                                                read.Action("GetCity", "Codes", new { area = "Indexes" });
                                             });
                                         })
                                         .HtmlAttributes(new { style = "width: 100%" })
@@ -241,7 +241,7 @@
                                         {
                                             source.Read(read =>
                                             {
-                                                read.Action("GetRegion", "SchoolCodes");
+                                                read.Action("GetRegion", "Codes", new { area = "Indexes" });
                                             });
                                         })
                                         .HtmlAttributes(new { style = "width: 100%" })
@@ -299,7 +299,7 @@
                                         {
                                             source.Read(read =>
                                             {
-                                                read.Action("GetComreg_Typ", "SchoolCodes");
+                                                read.Action("GetComreg_Typ", "Codes", new { area = "Indexes" });
                                             });
                                         })
                                         .HtmlAttributes(new { style = "width: 100%" })
@@ -331,7 +331,7 @@
                                         {
                                             source.Read(read =>
                                             {
-                                                read.Action("GetSclStatus", "SchoolCodes");
+                                                read.Action("GetSclStatus", "Codes", new { area = "Indexes" });
                                             });
                                         })
                                         .HtmlAttributes(new { style = "width: 100%" })
@@ -418,7 +418,7 @@
                                             {
                                                 source.Read(read =>
                                                 {
-                                                    read.Action("GetSclType", "SchoolCodes");
+                                                    read.Action("GetSclType", "Codes", new { area = "Indexes" });
                                                 });
                                             })
                                             .HtmlAttributes(new { style = "width: 100%" })
@@ -441,7 +441,7 @@
                                             {
                                                 source.Read(read =>
                                                 {
-                                                    read.Action("GetGovern", "SchoolCodes");
+                                                    read.Action("GetGovern", "Codes", new { area = "Indexes" });
                                                 });
                                             })
                                             .HtmlAttributes(new { style = "width: 100%" })
@@ -466,7 +466,7 @@
                                             {
                                                 source.Read(read =>
                                                 {
-                                                    read.Action("GetCity", "SchoolCodes");
+                                                    read.Action("GetCity", "Codes", new { area = "Indexes" });
                                                 });
                                             })
                                             .HtmlAttributes(new { style = "width: 100%" })
@@ -491,7 +491,7 @@
                                             {
                                                 source.Read(read =>
                                                 {
-                                                    read.Action("GetRegion", "SchoolCodes");
+                                                    read.Action("GetRegion", "Codes", new { area = "Indexes" });
                                                 });
                                             })
                                             .HtmlAttributes(new { style = "width: 100%" })
@@ -549,7 +549,7 @@
                                             {
                                                 source.Read(read =>
                                                 {
-                                                    read.Action("GetComreg_Typ", "SchoolCodes");
+                                                    read.Action("GetComreg_Typ", "Codes", new { area = "Indexes" });
                                                 });
                                             })
                                             .HtmlAttributes(new { style = "width: 100%" })
@@ -581,7 +581,7 @@
                                             {
                                                 source.Read(read =>
                                                 {
-                                                    read.Action("GetSclStatus", "SchoolCodes");
+                                                    read.Action("GetSclStatus", "Codes", new { area = "Indexes" });
                                                 });
                                             })
                                             .HtmlAttributes(new { style = "width: 100%" })
@@ -852,7 +852,7 @@
         var govern = $("#ddlGov_name").val()
         $.ajax({
             type: "GET",
-            url: '@Url.Action("GetCityByGovern", "SchoolCodes")',
+            url: '@Url.Action("GetCityByGovern", "Codes", new { area = "Indexes" })',
             data: { govern: govern },
             dataType: "json",
             success: function (response) {
@@ -875,7 +875,7 @@
         var city = $("#ddlCty_name").val()
         $.ajax({
             type: "GET",
-            url: '@Url.Action("GetRegionByCity", "SchoolCodes")',
+            url: '@Url.Action("GetRegionByCity", "Codes", new { area = "Indexes" })',
             data: { city: city },
             dataType: "json",
             success: function (response) {
@@ -898,7 +898,7 @@
         var govern = $("#ddlGov_name1").val()
         $.ajax({
             type: "GET",
-            url: '@Url.Action("GetCityByGovern", "SchoolCodes")',
+            url: '@Url.Action("GetCityByGovern", "Codes", new { area = "Indexes" })',
             data: { govern: govern },
             dataType: "json",
             success: function (response) {
@@ -921,7 +921,7 @@
         var city = $("#ddlCty_name1").val()
         $.ajax({
             type: "GET",
-            url: '@Url.Action("GetRegionByCity", "SchoolCodes")',
+            url: '@Url.Action("GetRegionByCity", "Codes", new { area = "Indexes" })',
             data: { city: city },
             dataType: "json",
             success: function (response) {

@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+
+namespace DrivingSclApp.Areas.Indexes.Data
+{
+    public class CategoryVM
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [ScaffoldColumn(false)]
+        [DisplayName("الرمز الالكتروني")]
+        public long NB { get; set; }
+        [DisplayName("الفئة")]
+        public string NAME { get; set; }
+        public Nullable<long> PREV_CATG { get; set; }
+        [DisplayName("عدد الطلاب لكل مركبة")]
+        public int STUDENT_PER_CAR { get; set; }
+        [DisplayName("عدد الطلاب لكل دراجة")]
+        public Nullable<int> STUDENT_PER_MOTO { get; set; }
+        [DisplayName("المساحة المطلوبة لكل طالب")]
+        public decimal METERS_FOR_STUDENT { get; set; }
+        [DisplayName("عدد الطلاب الأعظمي لكل قاعة")]
+        public Nullable<int> MAX_STUDENTS_PER_HALL { get; set; }
+        [DisplayName("ملاحظات")]
+        public string NOTE { get; set; }
+        [DisplayName("الفئة الواجب توافرها مسبقا")]
+        public string CATG_NAME { get; set; }
+    }
+}

@@ -53,3 +53,17 @@ D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool 2.1.0\Dat
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool 2.1.0\DataAccessLayer\obj\Debug\DrivingSclData.csproj.CopyComplete
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool 2.1.0\DataAccessLayer\obj\Debug\DrivingSclData.dll
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool 2.1.0\DataAccessLayer\obj\Debug\DrivingSclData.pdb
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Debug\DrivingSclData.dll.config
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Debug\DrivingSclData.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Debug\DrivingSclData.pdb
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Debug\EntityFramework.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Debug\EntityFramework.SqlServer.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Debug\Oracle.ManagedDataAccess.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Debug\Oracle.ManagedDataAccess.EntityFramework.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Debug\EntityFramework.xml
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Debug\EntityFramework.SqlServer.xml
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\obj\Debug\DrivingSclData.csproj.AssemblyReference.cache
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\obj\Debug\DrivingSclData.csproj.CoreCompileInputs.cache
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\obj\Debug\DrivingSclData.csproj.CopyComplete
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\obj\Debug\DrivingSclData.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\obj\Debug\DrivingSclData.pdb

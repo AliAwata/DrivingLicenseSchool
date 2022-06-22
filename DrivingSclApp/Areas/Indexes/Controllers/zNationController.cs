@@ -19,6 +19,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
         {
             return View();
         }
+
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             List<ZNATION> Data = db.ZNATION.ToList();
@@ -38,28 +39,6 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         db.SaveChanges();
                         transaction.Commit();
                     }
-                    /*
-                    catch (DbUpdateConcurrencyException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbEntityValidationException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (SqlException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    */
                     catch (Exception ex)
                     {
                         transaction.Rollback();
