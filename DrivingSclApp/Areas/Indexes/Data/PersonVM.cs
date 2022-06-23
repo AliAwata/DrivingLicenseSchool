@@ -53,6 +53,8 @@ namespace DrivingSclApp.Areas.Indexes.Data
         public string ALAMANA { get; set; }
         [DisplayName("الجنس")]
         public bool? SEX { get; set; }
+        [DisplayName("الجنس")]
+        public string SEX_string { get; set; }
         public long TYP { get; set; }
         public long NAT { get; set; }
         [DisplayName("الجنسية")]

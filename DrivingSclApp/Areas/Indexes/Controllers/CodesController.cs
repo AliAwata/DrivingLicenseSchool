@@ -88,8 +88,8 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
         {
             List<SelectListItem> sexes = new List<SelectListItem>()
             {
-                new SelectListItem() { Text = "ذكر", Value = "ذكر"},
-                new SelectListItem() { Text = "أنثى", Value = "انثى"}
+                new SelectListItem() { Text = "ذكر", Value = "true"},
+                new SelectListItem() { Text = "أنثى", Value = "false"}
             };
             
             return Json(sexes, JsonRequestBehavior.AllowGet);
@@ -99,8 +99,8 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
         {
             List<SelectListItem> types = new List<SelectListItem>()
             {
-                new SelectListItem() { Text = "أفراد", Value = "person"},
-                new SelectListItem() { Text = "شركات", Value = "company"}
+                new SelectListItem() { Text = "أفراد", Value = "افراد"},
+                new SelectListItem() { Text = "شركات", Value = "شركات"}
             };
 
             return Json(types, JsonRequestBehavior.AllowGet);
@@ -156,6 +156,20 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                 Name = x.NAME
             });
             return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        public string GetPrev_Category(long id)
+        {
+            var Data = db.ZCATEGORY.Find(id);
+
+            if (Data.PREV_CATG == null)
+            {
+                return "";
+            }
+            else
+            {
+                return db.ZCATEGORY.Find(Data.PREV_CATG).NAME;
+            }
         }
     }
 }

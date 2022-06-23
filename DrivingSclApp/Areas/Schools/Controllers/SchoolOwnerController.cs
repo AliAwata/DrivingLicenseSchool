@@ -77,28 +77,6 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         db.SaveChanges();
                         transaction.Commit();
                     }
-                    /*
-                    catch (DbUpdateConcurrencyException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbEntityValidationException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (SqlException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    */
                     catch (Exception ex)
                     {
                         transaction.Rollback();
@@ -123,28 +101,6 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                     db.SaveChanges();
                     transaction.Commit();
                 }
-                /*
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (DbUpdateException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (SqlException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                */
                 catch (Exception ex)
                 {
                     transaction.Rollback();
@@ -188,15 +144,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         STS_NAME = st.STSNAME,
                         STY_NAME = sty.TYPNAME
                     }).Where(s => s.NB == id).ToList();
-            //foreach(var item in Data)
-            //{
-            //    if(item.NB == id)
-            //    {
-
-            //    }
-            //}
             ViewData["ID"] = id;
-            //ViewData["TYP"] = Data.Where(x => x.NB == id).Select(x => x.COMREG_TYP);
             return PartialView("_SchoolOwner", Data);
         }
         public ActionResult DeleteSchoolOwner([DataSourceRequest] DataSourceRequest request, int id)
@@ -289,7 +237,14 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         NationName = b.NATION,
                         PerType = c.TYPNAME
                     }).ToList();
-            if(fname != "")
+            foreach (var item in Data)
+            {
+                if (item.SEX == true)
+                    item.SEX_string = "ذكر";
+                else
+                    item.SEX_string = "انثى";
+            }
+            if (fname != "")
             {
                 Data = Data.Where(x => x.FNAME == fname).ToList();
             }

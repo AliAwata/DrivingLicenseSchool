@@ -229,8 +229,8 @@
         </text>)
         .Draggable(true) //Enable dragging of the window
         .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
-            .Width(1000)     //Set width of the window
-            .Height(400)
+            .Width(700)     //Set width of the window
+            .Height(300)
         )
     </div>
 </div>
@@ -363,8 +363,8 @@
         </text>)
     .Draggable(true) //Enable dragging of the window
     .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
-    .Width(1000)     //Set width of the window
-    .Height(400)
+    .Width(700)     //Set width of the window
+    .Height(300)
     )
     </div>
 </div>
@@ -423,7 +423,6 @@
         e.preventDefault();
         var wnd = $("#EditDetails").data("kendoWindow");
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-
         $("#txtId").val(dataItem.NB);
         $("#txtCategory1").val(dataItem.NAME);
         $("#txtNum_car1").val(dataItem.STUDENT_PER_CAR);
@@ -431,7 +430,7 @@
         $("#txtSpace_stu1").val(dataItem.METERS_FOR_STUDENT);
         $("#txtNum_room1").val(dataItem.MAX_STUDENTS_PER_HALL);
         $("#txtNote1").val(dataItem.NOTE);
-        $("#ddlPrev_cat1").data("kendoDropDownList").text(dataItem.PREV_CAT);
+        $("#ddlPrev_cat1").data("kendoDropDownList").value(dataItem.PREV_CATG);
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         wnd.center().open();
@@ -502,7 +501,7 @@
     function btnUpdateReset_Click() {
         debugger
 
-        var Id = $("#txtId1").val();
+        var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
 
         $("#txtCategory1").val(dataItem.NAME);
@@ -511,7 +510,7 @@
         $("#txtSpace_stu1").val(dataItem.METERS_FOR_STUDENT);
         $("#txtNum_room1").val(dataItem.MAX_STUDENTS_PER_HALL);
         $("#txtNote1").val(dataItem.NOTE);
-        $("#ddlPrev_cat1").data("kendoDropDownList").text(dataItem.PREV_CAT);
+        $("#ddlPrev_cat1").data("kendoDropDownList").value(dataItem.PREV_CATG);
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         return;

@@ -80,7 +80,7 @@
                 columns.Bound(c => c.CTY_NAME);
                 columns.Bound(c => c.REG_NAME);
                 columns.Bound(c => c.COMREG_NO);
-                columns.Bound(c => c.COMREG_DATE);
+                columns.Bound(c => c.COMREG_DATE).Format("{0:dd/MM/yyyy}");
                 columns.Bound(c => c.COMREG_GOV);
                 columns.Bound(c => c.COMREG_TYP);
                 columns.Bound(c => c.ADDRESS);
@@ -130,7 +130,7 @@
             <div style="width:95%;" id="fieldlist">
                 <form id="Addform">
                     <div id="save-container" @*class="k-edit-form-container"*@>
-                        <div class="container">
+                        <div class="container-fluid">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="editor-label">
@@ -361,7 +361,7 @@
         </text>)
         .Draggable(true) //Enable dragging of the window
         .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
-            .Width(1200)     //Set width of the window
+            .Width(900)     //Set width of the window
             .Height(400)
         )
     </div>
@@ -380,7 +380,7 @@
                     <div id="Update-container" @*class="k-edit-form-container"*@>
                         <div class="col-md-12">
                             @Html.Hidden("txtId")
-                            <div class="container">
+                            <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <div class="editor-label">
@@ -513,23 +513,23 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="editor-label">
-                                            @Html.Label("تاريخ السجل", htmlAttributes: new { @class = "control-label" })
-                                        </div>
-                                        <div class="editor-field">
-                                            @(Html.Kendo().DateTimePicker()
-                                                .Name("dpComreg_date1")
-                                                .HtmlAttributes(new { placeholder = "أدخل تاريخ السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
-                                            )
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="editor-label">
                                             @Html.Label("رمز مصدر السجل", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
                                             @(Html.Kendo().TextBox()
                                                 .Name("txtComreg_gov1")
                                                 .HtmlAttributes(new { placeholder = "رمز مصدر السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("تاريخ السجل", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DatePicker()
+                                                .Name("dpComreg_date1")
+                                                .HtmlAttributes(new { placeholder = "أدخل تاريخ السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -612,7 +612,7 @@
         </text>)
     .Draggable(true) //Enable dragging of the window
     .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
-    .Width(1200)     //Set width of the window
+    .Width(900)     //Set width of the window
     .Height(400)
     )
     </div>
@@ -679,19 +679,22 @@
         e.preventDefault();
         var wnd = $("#EditDetails").data("kendoWindow");
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        $("#txtId1").val(dataItem.NB);
+        $("#txtId").val(dataItem.NB);
         $("#txtScl_code1").val(dataItem.SCL_CODE);
         $('#txtSclname1').val(dataItem.SCLNAME);
         $('#ddlSty_name1').data("kendoDropDownList").value(dataItem.ST_NB);
         $('#ddlGov_name1').data("kendoDropDownList").value(dataItem.GOV_NB);
         $('#txtComreg_no1').val(dataItem.COMREG_NO);
-        $('#dpComreg_date1').data("kendoDateTimePicker").value(dataItem.COMREG_DATE);
         $('#ddlComreg_typ1').data("kendoDropDownList").value(dataItem.COMREG_TYP)
         $('#txtComreg_gov1').val(dataItem.COMREG_GOV);
         $('#ddlCty_name1').data("kendoDropDownList").value(dataItem.CTY_NB);
         $('#ddlReg_name1').data("kendoDropDownList").value(dataItem.REG_NB);
         $('#txtAddress1').val(dataItem.ADDRESS);
         $('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
+        $("#dpComreg_date1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.COMREG_DATE
+        });
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         wnd.center().open();
@@ -777,24 +780,27 @@
     function btnUpdateReset_Click() {
         debugger
 
-        var Id = $("#txtId1").val();
+        var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
+        alert(dataItem.GOV_NB);
+        alert(dataItem.CTY_NB);
+        alert(dataItem.REG_NB);
 
-        $('#txtScl_code1').val(dataItem.SCL_CODE);
+        $("#txtScl_code1").val(dataItem.SCL_CODE);
         $('#txtSclname1').val(dataItem.SCLNAME);
-        $('#ddlSty_name1').data("kendoDropDownList").text(dataItem.ST_NB);
-        $('#ddlGov_name1').data("kendoDropDownList").text(dataItem.GOV_NB);
+        $('#ddlSty_name1').data("kendoDropDownList").value(dataItem.ST_NB);
+        $('#ddlGov_name1').data("kendoDropDownList").value(dataItem.GOV_NB);
         $('#txtComreg_no1').val(dataItem.COMREG_NO);
-        $('#dpComreg_date1').data('kendoDateTimePicker').value(dataItem.COMREG_DATE);
-        $('#ddlComreg_typ1').data("kendoDropDownList").text(dataItem.COMREG_TYP)
+        $('#ddlComreg_typ1').data("kendoDropDownList").value(dataItem.COMREG_TYP)
         $('#txtComreg_gov1').val(dataItem.COMREG_GOV);
-        $('#ddlCty_name1').data("kendoDropDownList").text(dataItem.CTY_NB);
-        $('#ddlReg_name1').data("kendoDropDownList").text(dataItem.REG_NB);
+        $('#ddlCty_name1').data("kendoDropDownList").value(dataItem.CTY_NB);
+        $('#ddlReg_name1').data("kendoDropDownList").value(dataItem.REG_NB);
         $('#txtAddress1').val(dataItem.ADDRESS);
-        $('#ddlSts_name1').data('kendoDrobDownList').text(dataItem.STS_NB);
-
-        //$("#ddlGovern1").val(dataItem.GOVNAME).data("kendoDropDownList").value(dataItem.GOVNAME)
-        //$("#txtName1").val(dataItem.NAME)
+        $('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
+        $("#dpComreg_date1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.COMREG_DATE
+        });
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         return;

@@ -13,13 +13,11 @@ namespace DrivingSclApp.Areas.Schools.Controllers
     public class SchoolDetailsController : Controller
     {
         private DrivingSclEntity db = new DrivingSclEntity();
-        // GET: Schools/SchoolDetails
         public ActionResult Index(int id)
         {
             ViewData["ID"] = id;
             return View();
         }
-
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             List<SchoolVM> Data = new List<SchoolVM>();
@@ -57,7 +55,6 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                     }).ToList();
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult ReadById([DataSourceRequest] DataSourceRequest request, int id)
         {
             List<SchoolVM> Data = new List<SchoolVM>();

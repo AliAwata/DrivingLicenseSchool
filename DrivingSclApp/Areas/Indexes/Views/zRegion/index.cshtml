@@ -273,12 +273,11 @@
         </text>)
     .Draggable(true) //Enable dragging of the window
     .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
-    .Width(450)     //Set width of the window
-    .Height(200)
+    .Width(500)     //Set width of the window
+    .Height(300)
     )
     </div>
 </div>
-
 
 <script>
     // messages
@@ -336,7 +335,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         $("#txtId").val(dataItem.NB);
         $("#txtName1").val(dataItem.NAME);
-        $("#ddlCity1").data("kendoDropDownList").text(dataItem.CityName);
+        $("#ddlCity1").data("kendoDropDownList").value(dataItem.CTY_NB);
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         wnd.center().open();
     }
@@ -397,7 +396,7 @@
 
         var Id = $("#txtId1").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
-        $("#ddlCity1").val(dataItem.GOVNAME).data("kendoDropDownList").value(dataItem.GOVNAME)
+        $("#ddlCity1").data("kendoDropDownList").value(dataItem.GOVNAME)
         $("#txtName1").val(dataItem.NAME)
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);

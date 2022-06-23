@@ -14,8 +14,6 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
     public class zPersonController : Controller
     {
         private DrivingSclEntity db = new DrivingSclEntity();
-
-        // GET: Indexes/ZCITY
         public ActionResult Index()
         {
             return View();
@@ -55,6 +53,13 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         NationName = b.NATION,
                         PerType = c.TYPNAME
                     }).ToList();
+            foreach(var item in Data)
+            {
+                if (item.SEX == true)
+                    item.SEX_string = "ذكر";
+                else
+                    item.SEX_string = "انثى";
+            }
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         [AcceptVerbs(HttpVerbs.Post)]
@@ -66,33 +71,14 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                 {
                     try
                     {
+                        model.BDATED = model.BDATE.Value.Day;
+                        model.BDATEM = model.BDATE.Value.Month;
+                        model.BDATEY = model.BDATE.Value.Year;
                         model.NB = Convert.ToInt32(MyDataBase.GetSeqValue("GetIndexID"));
                         db.ZPERSON.Add(model);
                         db.SaveChanges();
                         transaction.Commit();
                     }
-                    /*
-                    catch (DbUpdateConcurrencyException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbEntityValidationException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (SqlException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    */
                     catch (Exception ex)
                     {
                         transaction.Rollback();
@@ -112,33 +98,14 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                 {
                     try
                     {
+                        model.BDATED = model.BDATE.Value.Day;
+                        model.BDATEM = model.BDATE.Value.Month;
+                        model.BDATEY = model.BDATE.Value.Year;
                         model.NB = Convert.ToInt32(MyDataBase.GetSeqValue("GetIndexID"));
                         db.ZPERSON.Add(model);
                         db.SaveChanges();
                         transaction.Commit();
                     }
-                    /*
-                    catch (DbUpdateConcurrencyException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbEntityValidationException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (SqlException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    */
                     catch (Exception ex)
                     {
                         transaction.Rollback();
@@ -159,33 +126,14 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                 {
                     try
                     {
+                        model.BDATED = model.BDATE.Value.Day;
+                        model.BDATEM = model.BDATE.Value.Month;
+                        model.BDATEY = model.BDATE.Value.Year;
                         db.ZPERSON.Attach(model);
                         db.Entry(model).State = EntityState.Modified;
                         db.SaveChanges();
                         transaction.Commit();
                     }
-                    /*
-                    catch (DbUpdateConcurrencyException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbEntityValidationException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (SqlException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    */
                     catch (Exception ex)
                     {
                         transaction.Rollback();
@@ -210,28 +158,6 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                     db.SaveChanges();
                     transaction.Commit();
                 }
-                /*
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (DbUpdateException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (SqlException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                */
                 catch (Exception ex)
                 {
                     transaction.Rollback();

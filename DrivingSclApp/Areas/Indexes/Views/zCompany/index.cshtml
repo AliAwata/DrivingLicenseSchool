@@ -75,11 +75,9 @@
                 columns.Bound(c => c.NB).Visible(false).Width(50);
                 columns.Bound(c => c.COMPNAME).Width(50);
                 columns.Bound(c => c.COMREG_NO).Width(100);
-                columns.Bound(c => c.COMREG_DATE).Width(100);
+                columns.Bound(c => c.COMREG_DATE).Width(100).Format("{0:dd/MM/yyyy}");
                 columns.Bound(c => c.COMREG_TYP).Width(100);
-                //columns.ForeignKey(p => p.COMREG_GOV).Filterable(true);
                 columns.Bound(c => c.COMREG_GOV).Visible(false).Width(100);
-                //columns.foreignkey(p => p.cty_nb, (system.collections.ienumerable)viewdata["cityname"], "nb", "name").filterable(true);
                 columns.Bound(c => c.CTY_NB).Visible(false).Width(100);
                 columns.Bound(c => c.REG_NB).Visible(false).Width(100);
                 columns.Bound(c => c.ADDRESS).Width(100);
@@ -176,7 +174,7 @@
                                         </div>
                                         <div class="editor-field">
                                             @(Html.Kendo().DropDownList()
-                                            .OptionLabel("اختر المحافظة")
+                                            .OptionLabel("اختر نوع السجل")
                                             .Name("ddlComreg_typ")
                                             .DataTextField("Text")
                                             .DataValueField("Value").HtmlAttributes(new { required = "required", validationmessage = "*" })
@@ -232,7 +230,7 @@
                                             {
                                                 source.Read(read =>
                                                 {
-                                                    read.Action("GetCityByGovern", "Codes");
+                                                    read.Action("GetCity", "Codes");
                                                 });
                                             })
                                             .HtmlAttributes(new { style = "width: 100%" })
@@ -376,7 +374,7 @@
                     <div id="Update-container" @*class="k-edit-form-container"*@>
                         <div class="col-md-12">
                             @Html.Hidden("txtId")
-                                 <div class="row">
+                                <div class="row">
                                     <div class="col-sm-10">
                                         <div class="editor-label">
                                             @Html.Label("الشركة", htmlAttributes: new { @class = "control-label" })
@@ -418,7 +416,7 @@
                                         </div>
                                         <div class="editor-field">
                                             @(Html.Kendo().DropDownList()
-                                            .OptionLabel("اختر المحافظة")
+                                            .OptionLabel("اختر نوع السجل")
                                             .Name("ddlComreg_typ1")
                                             .DataTextField("Text")
                                             .DataValueField("Value").HtmlAttributes(new { required = "required", validationmessage = "*" })
@@ -474,7 +472,7 @@
                                             {
                                                 source.Read(read =>
                                                 {
-                                                    read.Action("GetCityByGovern", "Codes");
+                                                    read.Action("GetCity", "Codes");
                                                 });
                                             })
                                             .HtmlAttributes(new { style = "width: 100%" })
@@ -664,17 +662,22 @@
         $("#txtId").val(dataItem.NB);
         $("#txtCompname1").val(dataItem.COMPNAME);
         $("#txtComreg_no1").val(dataItem.COMREG_NO);
-        $("#dpComreg_date1").val(dataItem.COMREG_DATE);
-        $("#ddlComreg_typ1").data("kendoDropDownList").text(dataItem.COMREG_TYP);
-        $("#ddlComreg_gov1").data("kendoDropDownList").text(dataItem.COMREG_GOV);
-        $("#ddlCty_nb1").data("kendoDropDownList").text(dataItem.CTY_NB);
-        $("#ddlReg_nb1").data("kendoDropDownList").text(dataItem.REG_NB);
+        $("#ddlComreg_typ1").data("kendoDropDownList").value(dataItem.COMREG_TYP);
+        $("#ddlComreg_gov1").data("kendoDropDownList").value(dataItem.COMREG_GOV);
+        $("#ddlCty_nb1").data("kendoDropDownList").value(dataItem.CTY_NB);
+        $("#ddlReg_nb1").data("kendoDropDownList").value(dataItem.REG_NB);
         $("#txtAddress1").val(dataItem.ADDRESS);
         $("#txtPhone1_1").val(dataItem.PHONE1);
         $("#txtPhone2_1").val(dataItem.PHONE2);
         $("#txtMobile1").val(dataItem.MOBILE);
         $("#txtFax1").val(dataItem.FAX);
         $("#txtNote1").val(dataItem.NOTE);
+
+        $("#dpComreg_date1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.COMREG_DATE
+        });
+
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         wnd.center().open();
     }
@@ -758,17 +761,21 @@
         $("#txtId").val(dataItem.NB);
         $("#txtCompname1").val(dataItem.COMPNAME);
         $("#txtComreg_no1").val(dataItem.COMREG_NO);
-        $("#dpComreg_date1").val(dataItem.COMREG_DATE);
-        $("#ddlComreg_typ1").data("kendoDrobDownList").text(dataItem.COMREG_TYP);
-        $("#ddlComreg_gov1").data("kendoDropDownList").text(dataItem.COMREG_GOV);
-        $("#ddlCty_nb1").data("kendoDropDownList").text(dataItem.CTY_NB);
-        $("#ddlReg_nb1").data("kendoDropDownList").text(dataItem.REG_NB);
+        $("#ddlComreg_typ1").data("kendoDropDownList").value(dataItem.COMREG_TYP);
+        $("#ddlComreg_gov1").data("kendoDropDownList").value(dataItem.COMREG_GOV);
+        $("#ddlCty_nb1").data("kendoDropDownList").value(dataItem.CTY_NB);
+        $("#ddlReg_nb1").data("kendoDropDownList").value(dataItem.REG_NB);
         $("#txtAddress1").val(dataItem.ADDRESS);
         $("#txtPhone1_1").val(dataItem.PHONE1);
         $("#txtPhone2_1").val(dataItem.PHONE2);
         $("#txtMobile1").val(dataItem.MOBILE);
         $("#txtFax1").val(dataItem.FAX);
         $("#txtNote1").val(dataItem.NOTE);
+
+        $("#dpComreg_date1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.COMREG_DATE
+        });
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         return;

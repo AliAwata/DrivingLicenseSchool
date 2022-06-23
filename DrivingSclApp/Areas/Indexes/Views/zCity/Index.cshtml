@@ -288,7 +288,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         $("#txtId").val(dataItem.NB);
         $("#txtName1").val(dataItem.NAME);
-        $("#ddlGovern1").data("kendoDropDownList").text(dataItem.GOVNAME);
+        $("#ddlGovern1").data("kendoDropDownList").value(dataItem.GOV_NB);
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         wnd.center().open();
     }
@@ -367,8 +367,6 @@
                 NB: $("#txtId").val(),
                 NAME: $('#txtName1').val(),
                 GOV_NB: $('#ddlGovern1').val(),
-
-
             }
             var model = {
                 "model": cityModel

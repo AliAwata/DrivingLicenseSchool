@@ -57,6 +57,7 @@
     </div>
 </div>
 
+<!-- School Grid And TapStrip -->
 <div id="IdivForm">
     <div calss="k_rtl">
         @(Html.Kendo().Grid<DrivingSclApp.Areas.Schools.Data.SchoolVM>()
@@ -71,7 +72,7 @@
                 columns.Bound(c => c.CTY_NAME);
                 columns.Bound(c => c.REG_NAME);
                 columns.Bound(c => c.COMREG_NO);
-                columns.Bound(c => c.COMREG_DATE);
+                columns.Bound(c => c.COMREG_DATE).Format("{0:dd/MM/yyyy}");
                 columns.Bound(c => c.COMREG_GOV);
                 columns.Bound(c => c.COMREG_TYP);
                 columns.Bound(c => c.ADDRESS);

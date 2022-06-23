@@ -1,4 +1,5 @@
 ﻿using DrivingSclApp.Areas.Indexes.Data;
+using DrivingSclApp.Areas.Indexes.Controllers;
 using DrivingSclData;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -14,6 +15,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
     public class zCategoryController : Controller
     {
         private DrivingSclEntity db = new DrivingSclEntity();
+        private CodesController codes = new CodesController();
 
         public ActionResult Index()
         {
@@ -21,7 +23,6 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
         }
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-
             List<CategoryVM> Data = new List<CategoryVM>();
             Data = (from c in db.ZCATEGORY
                     select new CategoryVM{
@@ -37,23 +38,9 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
 
             foreach(var item in Data)
             {
-                item.CATG_NAME = getCategory(item.NB);
+                item.CATG_NAME = codes.GetPrev_Category(item.NB);
             }
-
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        }
-        public string getCategory(long id)
-        {
-            string prev_category = "";
-            var Data = db.ZCATEGORY.Find(id);
-            var category = db.ZCATEGORY.Find(Data.PREV_CATG);
-            
-            if(category != null)
-            {
-                prev_category = category.NAME;
-            }
-
-            return prev_category;
         }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request, ZCATEGORY model)

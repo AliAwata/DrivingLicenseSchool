@@ -14,7 +14,6 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
     public class zCityController : Controller
     {
         private DrivingSclEntity db = new DrivingSclEntity();
-        // GET: Indexes/ZCITY
         public ActionResult Index()
         {            
             return View();
@@ -72,28 +71,6 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         db.SaveChanges();
                         transaction.Commit();
                     }
-                    /*
-                    catch (DbUpdateConcurrencyException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbEntityValidationException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (SqlException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    */
                     catch (Exception ex)
                     {
                         transaction.Rollback();
@@ -118,28 +95,6 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                     db.SaveChanges();
                     transaction.Commit();
                 }
-                /*
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (DbUpdateException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (SqlException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                */
                 catch (Exception ex)
                 {
                     transaction.Rollback();
@@ -157,110 +112,5 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             }
             return Json(new { success = true, responseText = "تمت عملية الحفظ بنجاح" }, JsonRequestBehavior.AllowGet);
         }
-        // GET: Indexes/ZCITY/Details/5
-        /*
-        public ActionResult Details(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ZCITY ZCITY = db.ZCITY.Find(id);
-            if (ZCITY == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ZCITY);
-        }
-
-        // GET: Indexes/ZCITY/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Indexes/ZCITY/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "NB,NATION,CNTRYNAME")] ZCITY ZCITY)
-        {
-            if (ModelState.IsValid)
-            {
-                db.ZCITY.Add(ZCITY);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(ZCITY);
-        }
-
-        // GET: Indexes/ZCITY/Edit/5
-        public ActionResult Edit(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ZCITY ZCITY = db.ZCITY.Find(id);
-            if (ZCITY == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ZCITY);
-        }
-
-        // POST: Indexes/ZCITY/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "NB,NATION,CNTRYNAME")] ZCITY ZCITY)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(ZCITY).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(ZCITY);
-        }
-
-        // GET: Indexes/ZCITY/Delete/5
-        public ActionResult Delete(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ZCITY ZCITY = db.ZCITY.Find(id);
-            if (ZCITY == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ZCITY);
-        }
-
-        // POST: Indexes/ZCITY/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
-        {
-            ZCITY ZCITY = db.ZCITY.Find(id);
-            db.ZCITY.Remove(ZCITY);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-        
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-        */
     }
 }

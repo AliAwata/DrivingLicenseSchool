@@ -13,13 +13,10 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
     public class zNationController : Controller
     {
         private DrivingSclEntity db = new DrivingSclEntity();
-
-        // GET: Indexes/zNation
         public ActionResult Index()
         {
             return View();
         }
-
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             List<ZNATION> Data = db.ZNATION.ToList();
@@ -64,28 +61,6 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         db.SaveChanges();
                         transaction.Commit();
                     }
-                    /*
-                    catch (DbUpdateConcurrencyException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (DbEntityValidationException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch (SqlException ex)
-                    {
-                        transaction.Rollback();
-                        return Json(new { success = false, responseText = ex.Message }, JsonRequestBehavior.AllowGet);
-                    }
-                    */
                     catch (Exception ex)
                     {
                         transaction.Rollback();
@@ -110,28 +85,6 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                     db.SaveChanges();
                     transaction.Commit();
                 }
-                /*
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (DbUpdateException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                catch (SqlException ex)
-                {
-                    transaction.Rollback();
-                    return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
-                }
-                */
                 catch (Exception ex)
                 {
                     transaction.Rollback();
@@ -149,110 +102,5 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             }
             return Json(new { success = true, responseText = "تمت عملية الحفظ بنجاح" }, JsonRequestBehavior.AllowGet);
         }
-        // GET: Indexes/zNation/Details/5
-        /*
-        public ActionResult Details(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ZNATION zNATION = db.ZNATION.Find(id);
-            if (zNATION == null)
-            {
-                return HttpNotFound();
-            }
-            return View(zNATION);
-        }
-
-        // GET: Indexes/zNation/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Indexes/zNation/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "NB,NATION,CNTRYNAME")] ZNATION zNATION)
-        {
-            if (ModelState.IsValid)
-            {
-                db.ZNATION.Add(zNATION);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(zNATION);
-        }
-
-        // GET: Indexes/zNation/Edit/5
-        public ActionResult Edit(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ZNATION zNATION = db.ZNATION.Find(id);
-            if (zNATION == null)
-            {
-                return HttpNotFound();
-            }
-            return View(zNATION);
-        }
-
-        // POST: Indexes/zNation/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "NB,NATION,CNTRYNAME")] ZNATION zNATION)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(zNATION).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(zNATION);
-        }
-
-        // GET: Indexes/zNation/Delete/5
-        public ActionResult Delete(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ZNATION zNATION = db.ZNATION.Find(id);
-            if (zNATION == null)
-            {
-                return HttpNotFound();
-            }
-            return View(zNATION);
-        }
-
-        // POST: Indexes/zNation/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
-        {
-            ZNATION zNATION = db.ZNATION.Find(id);
-            db.ZNATION.Remove(zNATION);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-        
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-        */
     }
 }
