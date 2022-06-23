@@ -205,6 +205,7 @@
     <Content Include="Content\Kendo\bootstrap.css" />
     <Content Include="Content\Kendo\bootstrap.min.css" />
     <Content Include="Content\Kendo\bootstrap.rtl.min.css" />
+    <Content Include="Content\Kendo\cultures\kendo.culture.ar-SY.min.js" />
     <Content Include="Content\Kendo\datatables.bootstrap-rtl.css" />
     <Content Include="Content\Kendo\font-awesome.css" />
     <Content Include="Content\Kendo\font-awesome.min.css" />
@@ -241,6 +242,7 @@
     <Content Include="Areas\Schools\Views\SchoolDetails\Index.cshtml" />
     <Content Include="Areas\Schools\Views\SchoolOwner\_SchoolOwner.cshtml" />
     <Content Include="Areas\Indexes\Views\zCategory\Index.cshtml" />
+    <Content Include="Content\Kendo\cultures\kendo.culture.ar-SY.min.js.map" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
