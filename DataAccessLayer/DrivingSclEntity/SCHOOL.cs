@@ -38,7 +38,8 @@ namespace DrivingSclData
         public long STS_NB { get; set; }
 
         public virtual ICollection<SCLPHONE> SCLPHONE { get; set; }
-        public virtual ICollection<SCHOOLOWNER> SCHOOLOWNER { get; set; }
+        public virtual ICollection<SCHOOLOWNER> SCHOOLOWNERs { get; set; }
+        public virtual ICollection<SCHOOLVEHICLE> SCHOOLVEHICLEs { get; set; }
         public virtual ZCITY ZCITY { get; set; }
         public virtual ZGOVERN ZGOVERN { get; set; }
         public virtual ZREGION ZREGION { get; set; }

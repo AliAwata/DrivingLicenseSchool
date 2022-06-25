@@ -348,9 +348,10 @@
     function btnUpdateReset_Click() {
         debugger
 
-        var Id = $("#txtId1").val();
+        var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
-        $("#ddlGovern1").val(dataItem.GOVNAME).data("kendoDropDownList").value(dataItem.GOVNAME)
+        //$("#ddlGovern1").val(dataItem.GOVNAME).data("kendoDropDownList").value(dataItem.GOVNAME)
+        $("#ddlGovern1").data("kendoDropDownList").value(dataItem.GOV_NB);
         $("#txtName1").val(dataItem.NAME)
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);

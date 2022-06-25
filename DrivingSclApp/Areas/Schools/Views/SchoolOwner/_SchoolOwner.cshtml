@@ -221,7 +221,7 @@
                             columns.Bound(c => c.BDATED).Visible(false);
                             columns.Bound(c => c.BDATEM).Visible(false);
                             columns.Bound(c => c.BDATEY).Visible(false);
-                            columns.Bound(c => c.BDATE).Format("{0:dd/MM/yyyy}");
+                            columns.Bound(c => c.BDATE).ClientTemplate("#= kendo.toString(kendo.parseDate(BDATE), 'yyyy/MM/dd') #"); ;
                             columns.Bound(c => c.IDCARDNO).Visible(false);
                             columns.Bound(c => c.IDCARDDAT).Visible(false);
                             columns.Bound(c => c.BPLACE).Visible(false);
@@ -429,7 +429,7 @@
                     .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
                     .PageSize(15)
                     .Model(model => model.Id(p => p.NB))
-                    .Read(read => read.Action("Read", "zCompany")))
+                    .Read(read => read.Action("CompanyFilter", "SchoolOwner")))
                     .Resizable(resize => resize
                     .Columns(true)
                     )
@@ -551,7 +551,7 @@
                                     </div>
                                     <div class="editor-field">
                                         @(Html.Kendo().TextBox()
-                                            .Name("txtAddress")
+                                            .Name("txtPrsAddress")
                                             .HtmlAttributes(new { placeholder = "أدخل العنوان", @class = "form-control", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
@@ -575,7 +575,7 @@
                                     </div>
                                     <div class="editor-field">
                                         @(Html.Kendo().TextBox()
-                                            .Name("txtMobile")
+                                            .Name("txtPrsMobile")
                                             .HtmlAttributes(new { placeholder = "أدخل المحمول", @class = "form-control", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
@@ -876,7 +876,7 @@
                                     </div>
                                     <div class="editor-field">
                                         @(Html.Kendo().TextBox()
-                                            .Name("txtAddress")
+                                            .Name("txtComAddress")
                                             .HtmlAttributes(new { placeholder = "أدخل العنوان", @class = "form-control", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
@@ -911,7 +911,7 @@
                                     </div>
                                     <div class="editor-field">
                                         @(Html.Kendo().TextBox()
-                                            .Name("txtMobile")
+                                            .Name("txtComMobile")
                                             .HtmlAttributes(new { placeholder = "أدخل المحمول", @class = "form-control", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
@@ -967,7 +967,6 @@
 </div>
 
 <script>
-
     $("#btnSearch").on('click', function () {
         debugger
         var owner = '@Model.Select(x => x.COMREG_TYP).FirstOrDefault()';
@@ -1005,9 +1004,9 @@
         $("#txtNatno").val("");
         $("#txtCivilloc").val("");
         $("#txtActaddress").val("");
-        $("#txtAddress").val("");
+        $("#txtPrsAddress").val("");
         $("#txtPhone").val("");
-        $("#txtMobile").val("");
+        $("#txtPrsMobile").val("");
         $("#txtBdated").val("");
         $("#txtBdatem").val("");
         $("#txtBdatey").val("");
@@ -1030,10 +1029,10 @@
         $("#txtCompname").val("");
         $("#txtComreg_no").val("");
         $("#dpComreg_date").val("");
-        $("#txtAddress").val("");
+        $("#txtComAddress").val("");
         $("#txtPhone1").val("");
         $("#txtPhone2").val("");
-        $("#txtMobile").val("");
+        $("#txtComMobile").val("");
         $("#txtFax").val("");
         $("#txtNote").val("");
         $("#ddlComreg_typ").data("kendoDropDownList").value(-1);

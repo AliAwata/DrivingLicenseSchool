@@ -16,6 +16,10 @@ namespace DrivingSclData
     [Table("DRIVINGSCHOOLS.ZPERSON")]
     public partial class ZPERSON
     {
+        public ZPERSON()
+        {
+            this.COMPANYOWNERs = new HashSet<COMPANYOWNER>();
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long NB { get; set; }
@@ -43,5 +47,6 @@ namespace DrivingSclData
     
         public virtual ZNATION ZNATION { get; set; }
         public virtual ZPRSTYPE ZPRSTYPE { get; set; }
+        public virtual ICollection<COMPANYOWNER> COMPANYOWNERs { get; set; }
     }
 }

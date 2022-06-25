@@ -336,6 +336,7 @@
         $("#txtId").val(dataItem.NB);
         $("#txtName1").val(dataItem.NAME);
         $("#ddlCity1").data("kendoDropDownList").value(dataItem.CTY_NB);
+
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         wnd.center().open();
     }
@@ -382,6 +383,7 @@
         debugger
         $("#ddlCity").data('kendoDropDownList').value(-1);
         $("#txtName").val("")
+        $("#ddlGovern").data('kendoDropDownList').value(-1);
 
 
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
@@ -394,10 +396,11 @@
     function btnUpdateReset_Click() {
         debugger
 
-        var Id = $("#txtId1").val();
+        var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
-        $("#ddlCity1").data("kendoDropDownList").value(dataItem.GOVNAME)
-        $("#txtName1").val(dataItem.NAME)
+        $("#ddlCity1").data("kendoDropDownList").value(dataItem.CTY_NB);
+        $("#txtName1").val(dataItem.NAME);
+        $("#ddlGovern1").data('kendoDropDownList').value(-1);
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         return;

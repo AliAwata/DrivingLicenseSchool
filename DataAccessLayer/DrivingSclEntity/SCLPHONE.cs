@@ -13,7 +13,7 @@ namespace DrivingSclData
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-
+    [Table("DRIVINGSCHOOLS.SCLPHONE")]
     public partial class SCLPHONE
     {
         [Key]

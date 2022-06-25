@@ -14,9 +14,13 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
     public class zCompanyController : Controller
     {
         private DrivingSclEntity db = new DrivingSclEntity();
-
         public ActionResult Index()
         {
+            return View();
+        }
+        public ActionResult IndexDetails(int id)
+        {
+            ViewData["ID"] = id;
             return View();
         }
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
@@ -49,6 +53,38 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         CityName = c.NAME,
                         RegionName = r.NAME
                     }).ToList();
+            return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ReadById([DataSourceRequest] DataSourceRequest request, int id)
+        {
+            List<CompanyVM> Data = new List<CompanyVM>();
+            Data = (from a in db.ZCOMPANY
+                    join g in db.ZGOVERN
+                    on a.COMREG_GOV equals g.NB
+                    join c in db.ZCITY
+                    on a.CTY_NB equals c.NB
+                    join r in db.ZREGION
+                    on a.REG_NB equals r.NB
+                    select new CompanyVM
+                    {
+                        NB = a.NB,
+                        COMPNAME = a.COMPNAME,
+                        COMREG_NO = a.COMREG_NO,
+                        COMREG_DATE = a.COMREG_DATE,
+                        COMREG_TYP = a.COMREG_TYP,
+                        COMREG_GOV = a.COMREG_GOV,
+                        CTY_NB = a.CTY_NB,
+                        REG_NB = a.REG_NB,
+                        ADDRESS = a.ADDRESS,
+                        PHONE1 = a.PHONE1,
+                        PHONE2 = a.PHONE2,
+                        MOBILE = a.MOBILE,
+                        FAX = a.FAX,
+                        NOTE = a.NOTE,
+                        GovName = g.NAME,
+                        CityName = c.NAME,
+                        RegionName = r.NAME
+                    }).Where(x => x.NB == id).ToList();
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         [AcceptVerbs(HttpVerbs.Post)]

@@ -146,21 +146,24 @@
     <Compile Include="Areas\Indexes\Controllers\zCategoryController.cs" />
     <Compile Include="Areas\Indexes\Controllers\zCityController.cs" />
     <Compile Include="Areas\Indexes\Controllers\zCompanyController.cs" />
+    <Compile Include="Areas\Indexes\Controllers\zCompanyOwnerController.cs" />
     <Compile Include="Areas\Indexes\Controllers\zGovernController.cs" />
     <Compile Include="Areas\Indexes\Controllers\zNationController.cs" />
     <Compile Include="Areas\Indexes\Controllers\zPersonController.cs" />
     <Compile Include="Areas\Indexes\Controllers\zRegionController.cs" />
     <Compile Include="Areas\Indexes\Data\CategoryVM.cs" />
     <Compile Include="Areas\Indexes\Data\CityVM.cs" />
+    <Compile Include="Areas\Indexes\Data\CompanyOwnerVM.cs" />
     <Compile Include="Areas\Indexes\Data\CompanyVM.cs" />
     <Compile Include="Areas\Indexes\Data\PersonVM.cs" />
     <Compile Include="Areas\Indexes\Data\RegionVM.cs" />
     <Compile Include="Areas\Indexes\IndexesAreaRegistration.cs" />
     <Compile Include="Areas\Schools\Controllers\SchoolController.cs" />
-    <Compile Include="Areas\Schools\Controllers\SchoolDetailsController.cs" />
     <Compile Include="Areas\Schools\Controllers\SchoolOwnerController.cs" />
+    <Compile Include="Areas\Schools\Controllers\SclPhoneController.cs" />
     <Compile Include="Areas\Schools\Data\SchoolOwnerVM.cs" />
     <Compile Include="Areas\Schools\Data\SchoolVM.cs" />
+    <Compile Include="Areas\Schools\Data\SclPhoneVM.cs" />
     <Compile Include="Areas\Schools\SchoolsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GridController.cs" />
@@ -239,10 +242,14 @@
     <Content Include="Areas\Indexes\Views\zCompany\index.cshtml" />
     <Content Include="Areas\Indexes\Views\zPerson\index.cshtml" />
     <Content Include="Areas\Schools\Views\School\Index.cshtml" />
-    <Content Include="Areas\Schools\Views\SchoolDetails\Index.cshtml" />
+    <Content Include="Areas\Schools\Views\School\IndexDetails.cshtml" />
     <Content Include="Areas\Schools\Views\SchoolOwner\_SchoolOwner.cshtml" />
     <Content Include="Areas\Indexes\Views\zCategory\Index.cshtml" />
     <Content Include="Content\Kendo\cultures\kendo.culture.ar-SY.min.js.map" />
+    <Content Include="Areas\Indexes\Views\zCompany\IndexDetails.cshtml" />
+    <Content Include="Areas\Indexes\Views\zCompanyOwner\_CompanyOwner.cshtml" />
+    <Content Include="Areas\Schools\Views\SclPhone\Index.cshtml" />
+    <Content Include="Areas\Schools\Views\SclPhone\_SclPhone.cshtml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -572,6 +579,7 @@
     <Folder Include="Areas\HandleExceptions\Models\" />
     <Folder Include="Areas\Indexes\Views\Codes\" />
     <Folder Include="Areas\Schools\Views\SchoolCodes\" />
+    <Folder Include="Areas\Schools\Views\SchoolDetails\" />
     <Folder Include="Areas\Schools\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

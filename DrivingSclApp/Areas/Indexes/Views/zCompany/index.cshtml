@@ -71,6 +71,7 @@
             .Name("grid")
             .Columns(columns =>
             {
+                columns.Command(command => { command.Custom("تفاصيل").Click("details"); }).Title("تفاصيل").Width(100);
                 columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
                 columns.Bound(c => c.NB).Visible(false).Width(50);
                 columns.Bound(c => c.COMPNAME).Width(50);
@@ -653,6 +654,13 @@
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
     });
 
+    function details(e) {
+        debugger
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location.href = '/Indexes/zCompany/IndexDetails?id=' + dataItem.NB;
+    }
+
     // when i press "edit" on a row and to fill the fields of the edit window
     function editDetails(e) {
         debugger
@@ -736,7 +744,7 @@
         $("#txtCompname").val("");
         $("#txtComreg_no").val("");
         $("#dpComreg_date").val("");
-        $("#ddlComreg_typ").data("kendoDrobDownList").value(-1);
+        $("#ddlComreg_typ").data("kendoDropDownList").value(-1);
         $("#ddlComreg_gov").data("kendoDropDownList").value(-1);
         $("#ddlCty_nb").data("kendoDropDownList").value(-1);
         $("#ddlReg_nb").data("kendoDropDownList").value(-1);
@@ -758,7 +766,6 @@
 
         var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
-        $("#txtId").val(dataItem.NB);
         $("#txtCompname1").val(dataItem.COMPNAME);
         $("#txtComreg_no1").val(dataItem.COMREG_NO);
         $("#ddlComreg_typ1").data("kendoDropDownList").value(dataItem.COMREG_TYP);

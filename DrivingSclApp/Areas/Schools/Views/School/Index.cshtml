@@ -266,7 +266,7 @@
                                         @Html.Label("تاريخ السجل", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().DateTimePicker()
+                                        @(Html.Kendo().DatePicker()
                                             .Name("dpComreg_date")
                                             .HtmlAttributes(new { placeholder = "أدخل تاريخ السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
                                         )
@@ -661,7 +661,7 @@
         debugger
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location.href = '/Schools/SchoolDetails/Index?id=' + dataItem.NB;
+        window.location.href = '/Schools/School/IndexDetails?id=' + dataItem.NB;
     }
 
     // when i press "add" from the grid
@@ -759,16 +759,22 @@
 
         $('#txtScl_code').val("");
         $('#txtSclname').val("");
-        $('#ddlSty_name').data("kendoDropDownList").text("");
-        $('#ddlGov_name').data("kendoDropDownList").text("");
+        $('#ddlSty_name').data("kendoDropDownList").value(-1);
+        $('#ddlGov_name').data("kendoDropDownList").value(-1);
         $('#txtComreg_no').val("");
-        $('#dpComreg_date').data('kendoDateTimePicker').text("");
-        $('#ddlComreg_typ').data("kendoDropDownList").text("")
+        //$('#dpComreg_date').data('kendoDatePicker').text("");
+        $("#dpComreg_date").val("");
+        $('#ddlComreg_typ').data("kendoDropDownList").value(-1)
         $('#txtComreg_gov').val("");
-        $('#ddlCty_name').data("kendoDropDownList").text("");
-        $('#ddlReg_name').data("kendoDropDownList").text(-1);
+        $('#ddlCty_name').data("kendoDropDownList").value(-1);
+        $('#ddlReg_name').data("kendoDropDownList").value(-1);
         $('#txtAddress').val("");
-        $('#ddlSts_name').data("kendoDropDownList").text("");
+        $('#ddlSts_name').data("kendoDropDownList").value(-1);
+
+        $("#dpComreg_date").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: ""
+        });
 
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
         var wnd = $("#AddDetails").data("kendoWindow");

@@ -117,12 +117,12 @@
             {
                 toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
             })
-                .Pageable(pageable =>
-                {
-                    pageable.Refresh(true);
-                    pageable.PageSizes(true);
-                })
-)
+            .Pageable(pageable =>
+            {
+                pageable.Refresh(true);
+                pageable.PageSizes(true);
+            })
+            )
     </div>
 </div>
 
@@ -749,6 +749,7 @@
         e.preventDefault();
         var wnd = $("#EditDetails").data("kendoWindow");
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        alert(dataItem.SEX);
         $("#txtId").val(dataItem.NB);
         $("#txtFname1").val(dataItem.FNAME);
         $("#txtLname1").val(dataItem.LNAME);
@@ -786,12 +787,13 @@
         debugger
         var validator = $("#save-container").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
-            var sex;
-            if ($("#ddlSex").val() == 'ذكر') {
-                sex = true;
-            } else if ($("#ddlSex").val() == 'انثى') {
-                sex = false;
-            }
+            //var sex;
+            //if ($("#ddlSex").val() == 'ذكر') {
+            //    sex = true;
+            //} else if ($("#ddlSex").val() == 'انثى') {
+            //    sex = false;
+            //}
+            //alert(sex);
             //alert('add validator')
             var personModel = {
                 FNAME: $("#txtFname").val(),
@@ -809,7 +811,7 @@
                 IDCARDDAT: $("#dpIdcarddat").val(),
                 BPLACE: $("#txtBplace").val(),
                 ALAMANA: $("#txtAlamana").val(),
-                SEX: sex,
+                SEX: $("#ddlSex").val(),
                 NAT: $("#ddlNation").val(),
                 TYP: $("#ddlPertype").val()
             }
@@ -871,9 +873,9 @@
     function btnUpdateReset_Click() {
         debugger
 
-        var Id = $("#txtId1").val();
+        var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
-        $("#txtId").val(dataItem.NB);
+        alert(dataItem.SEX);
         $("#txtFname1").val(dataItem.FNAME);
         $("#txtLname1").val(dataItem.LNAME);
         $("#txtFather1").val(dataItem.FATHER);
@@ -909,12 +911,12 @@
         debugger
         var validator = $("#Update-container").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
-            var sex;
-            if ($("#ddlSex1").val() == 'ذكر') {
-                sex = true;
-            } else if ($("#ddlSex1").val() == 'انثى') {
-                sex = false;
-            }
+            //var sex;
+            //if ($("#ddlSex1").val() == 'ذكر') {
+            //    sex = true;
+            //} else if ($("#ddlSex1").val() == 'انثى') {
+            //    sex = false;
+            //}
             //alert('edit validator')
             var personModel = {
                 NB: $("#txtId").val(),
@@ -933,7 +935,7 @@
                 IDCARDDAT: $("#dpIdcarddat1").val(),
                 BPLACE: $("#txtBplace1").val(),
                 ALAMANA: $("#txtAlamana1").val(),
-                SEX: sex,
+                SEX: $("#ddlSex1").val(),
                 NAT: $("#ddlNation1").val(),
                 TYP: $("#ddlPertype1").val()
             }

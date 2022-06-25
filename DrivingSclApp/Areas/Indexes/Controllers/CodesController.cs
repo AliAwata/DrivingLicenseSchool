@@ -171,5 +171,32 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                 return db.ZCATEGORY.Find(Data.PREV_CATG).NAME;
             }
         }
+
+        public ActionResult GetPhoneTyp()
+        {
+            List<SelectListItem> types = new List<SelectListItem>()
+            {
+                new SelectListItem() { Text = "أرضي", Value = "1"},
+                new SelectListItem() { Text = "محمول", Value = "2"},
+                new SelectListItem() { Text = "فاكس", Value = "3"},
+                new SelectListItem() { Text = "تلفاكس", Value = "4"}
+            };
+
+            return Json(types, JsonRequestBehavior.AllowGet);
+        }
+
+        public string GetPhoneTypeName(int id)
+        {
+            if (id == 1)
+                return "أرضي";
+            else if (id == 2)
+                return "محمول";
+            else if (id == 3)
+                return "فاكس";
+            else if (id == 4)
+                return "تلفاكس";
+            else
+                return "none";
+        }
     }
 }

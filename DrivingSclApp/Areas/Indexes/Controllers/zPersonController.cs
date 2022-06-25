@@ -57,6 +57,50 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             {
                 if (item.SEX == true)
                     item.SEX_string = "ذكر";
+                else if(item.SEX == false)
+                    item.SEX_string = "انثى";
+            }
+            return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ReadById([DataSourceRequest] DataSourceRequest request, int id)
+        {
+            List<PersonVM> Data = new List<PersonVM>();
+            Data = (from a in db.ZPERSON
+                    join b in db.ZNATION
+                    on a.NAT equals b.NB
+                    join c in db.ZPRSTYPE
+                    on a.TYP equals c.NB
+                    select new PersonVM
+                    {
+                        NB = a.NB,
+                        NATNO = a.NATNO,
+                        FNAME = a.FNAME,
+                        LNAME = a.LNAME,
+                        FATHER = a.FATHER,
+                        MOTHER = a.MOTHER,
+                        CIVILLOC = a.CIVILLOC,
+                        ACTADDRESS = a.ACTADDRESS,
+                        ADDRESS = a.ADDRESS,
+                        PHONE = a.PHONE,
+                        MOBILE = a.MOBILE,
+                        BDATED = a.BDATED,
+                        BDATEM = a.BDATEM,
+                        BDATEY = a.BDATEY,
+                        BDATE = a.BDATE,
+                        IDCARDNO = a.IDCARDNO,
+                        IDCARDDAT = a.IDCARDDAT,
+                        BPLACE = a.BPLACE,
+                        ALAMANA = a.ALAMANA,
+                        SEX = a.SEX,
+                        TYP = a.TYP,
+                        NAT = a.NAT,
+                        NationName = b.NATION,
+                        PerType = c.TYPNAME
+                    }).Where(x => x.NB == id).ToList();
+            foreach (var item in Data)
+            {
+                if (item.SEX == true)
+                    item.SEX_string = "ذكر";
                 else
                     item.SEX_string = "انثى";
             }
@@ -116,6 +160,33 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                     return Json(new { success = false, responseText = "الرجاء التأكد من المدخلات!" }, JsonRequestBehavior.AllowGet);
             }
             return Json(model.NB, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Create_getPrs([DataSourceRequest] DataSourceRequest request, ZPERSON model)
+        {
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        model.BDATED = model.BDATE.Value.Day;
+                        model.BDATEM = model.BDATE.Value.Month;
+                        model.BDATEY = model.BDATE.Value.Year;
+                        model.NB = Convert.ToInt32(MyDataBase.GetSeqValue("GetIndexID"));
+                        db.ZPERSON.Add(model);
+                        db.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return Json(new { success = false, responseText = ex.InnerException.InnerException.Message }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                    return Json(new { success = false, responseText = "الرجاء التأكد من المدخلات!" }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Update([DataSourceRequest] DataSourceRequest request, ZPERSON model)

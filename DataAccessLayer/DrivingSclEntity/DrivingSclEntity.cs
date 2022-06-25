@@ -22,50 +22,66 @@ namespace DrivingSclData
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ZGOVERN>()
-                .HasMany(e => e.ZCITY)
-                .WithRequired(e => e.ZGOVERN)
-                .HasForeignKey(e => e.GOV_NB)
-                .WillCascadeOnDelete(true);
+            // ------         COMPANYOWNER
+            // ------         SCHOOL
+            modelBuilder.Entity<SCHOOL>()
+               .HasMany(e => e.SCHOOLOWNERs)
+               .WithRequired(e => e.SCHOOL)
+               .HasForeignKey(e => e.SCL_NB)
+               .WillCascadeOnDelete(true);
 
-            modelBuilder.Entity<ZCITY>()
-                .Property(e => e.NAME)
-                .IsUnicode(false);
+            modelBuilder.Entity<SCHOOL>()
+               .HasMany(e => e.SCHOOLVEHICLEs)
+               .WithRequired(e => e.SCHOOL)
+               .HasForeignKey(e => e.SCL_NB)
+               .WillCascadeOnDelete(true);
 
+            modelBuilder.Entity<SCHOOL>()
+              .HasMany(e => e.SCLPHONE)
+              .WithRequired(e => e.SCHOOL)
+              .HasForeignKey(e => e.SCL_NB)
+              .WillCascadeOnDelete(true);
+
+            // ------         SCHOOLOWNER
+            // ------         SCHOOLVEHICLE
+            // ------         ZCATEGORY
+            modelBuilder.Entity<ZCATEGORY>()
+               .HasMany(e => e.ZCATEGORY1)
+               .WithRequired(e => e.ZCATEGORY2)
+               .HasForeignKey(e => e.PREV_CATG)
+               .WillCascadeOnDelete(true);
+
+            // ------         ZCITY
             modelBuilder.Entity<ZCITY>()
                .HasMany(e => e.ZREGION)
                .WithRequired(e => e.ZCITY)
                .HasForeignKey(e => e.CTY_NB)
                .WillCascadeOnDelete(true);
 
-            modelBuilder.Entity<ZPRSTYPE>()
-               .HasMany(e => e.ZPERSON)
-               .WithRequired(e => e.ZPRSTYPE)
-               .HasForeignKey(e => e.TYP)
-               .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<ZNATION>()
-               .HasMany(e => e.ZPERSON)
-               .WithRequired(e => e.ZNATION)
-               .HasForeignKey(e => e.NAT)
-               .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<ZGOVERN>()
-               .HasMany(e => e.ZCOMPANY)
-               .WithRequired(e => e.ZGOVERN)
-               .HasForeignKey(e => e.COMREG_GOV)
-               .WillCascadeOnDelete(true);
-
             modelBuilder.Entity<ZCITY>()
                .HasMany(e => e.ZCOMPANY)
                .WithRequired(e => e.ZCITY)
                .HasForeignKey(e => e.CTY_NB)
                .WillCascadeOnDelete(true);
 
-            modelBuilder.Entity<ZREGION>()
+            modelBuilder.Entity<ZCITY>()
+              .HasMany(e => e.SCHOOL)
+              .WithRequired(e => e.ZCITY)
+              .HasForeignKey(e => e.CTY_NB)
+              .WillCascadeOnDelete(true);
+
+            // ------         ZCOMPANY
+            modelBuilder.Entity<ZCOMPANY>()
+                .HasMany(e => e.COMPANYOWNERs)
+                .WithRequired(e => e.ZCOMPANY)
+                .HasForeignKey(e => e.COMP_NB)
+                .WillCascadeOnDelete(true);
+
+            // ------         ZGOVERN
+            modelBuilder.Entity<ZGOVERN>()
                .HasMany(e => e.ZCOMPANY)
-               .WithRequired(e => e.ZREGION)
-               .HasForeignKey(e => e.REG_NB)
+               .WithRequired(e => e.ZGOVERN)
+               .HasForeignKey(e => e.COMREG_GOV)
                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<ZGOVERN>()
@@ -74,47 +90,78 @@ namespace DrivingSclData
                .HasForeignKey(e => e.GOV_NB)
                .WillCascadeOnDelete(true);
 
-            modelBuilder.Entity<ZCITY>()
-               .HasMany(e => e.SCHOOL)
-               .WithRequired(e => e.ZCITY)
-               .HasForeignKey(e => e.CTY_NB)
+            modelBuilder.Entity<ZGOVERN>()
+                .HasMany(e => e.ZCITY)
+                .WithRequired(e => e.ZGOVERN)
+                .HasForeignKey(e => e.GOV_NB)
+                .WillCascadeOnDelete(true);
+
+            // ------         ZNATION
+            modelBuilder.Entity<ZNATION>()
+               .HasMany(e => e.ZPERSON)
+               .WithRequired(e => e.ZNATION)
+               .HasForeignKey(e => e.NAT)
                .WillCascadeOnDelete(true);
 
-            modelBuilder.Entity<ZREGION>()
-               .HasMany(e => e.SCHOOL)
-               .WithRequired(e => e.ZREGION)
-               .HasForeignKey(e => e.REG_NB)
-               .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<ZSCLSTATUS>()
-               .HasMany(e => e.SCHOOL)
-               .WithRequired(e => e.ZSCLSTATUS)
-               .HasForeignKey(e => e.STS_NB)
-               .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<ZSCLTYPE>()
-               .HasMany(e => e.SCHOOL)
-               .WithRequired(e => e.ZSCLTYPE)
-               .HasForeignKey(e => e.ST_NB)
-               .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<SCHOOL>()
-               .HasMany(e => e.SCHOOLOWNER)
-               .WithRequired(e => e.SCHOOL)
-               .HasForeignKey(e => e.SCL_NB)
-               .WillCascadeOnDelete(true);
-
+            // ------         ZOWNERTYP
             modelBuilder.Entity<ZOWNERTYP>()
                .HasMany(e => e.SCHOOLOWNER)
                .WithRequired(e => e.ZOWNERTYP)
                .HasForeignKey(e => e.OT_NB)
                .WillCascadeOnDelete(true);
 
-            modelBuilder.Entity <ZCATEGORY>()
-               .HasMany(e => e.ZCATEGORY1)
-               .WithRequired(e => e.ZCATEGORY2)
-               .HasForeignKey(e => e.PREV_CATG)
+            // ------         ZPERSON
+            modelBuilder.Entity<ZPERSON>()
+                .HasMany(e => e.COMPANYOWNERs)
+                .WithRequired(e => e.ZPERSON)
+                .HasForeignKey(e => e.PRS_NB)
+                .WillCascadeOnDelete(true);
+
+            // ------         ZPRSTYPE
+            modelBuilder.Entity<ZPRSTYPE>()
+               .HasMany(e => e.ZPERSON)
+               .WithRequired(e => e.ZPRSTYPE)
+               .HasForeignKey(e => e.TYP)
                .WillCascadeOnDelete(true);
+
+            // ------         ZREGION
+            modelBuilder.Entity<ZREGION>()
+               .HasMany(e => e.ZCOMPANY)
+               .WithRequired(e => e.ZREGION)
+               .HasForeignKey(e => e.REG_NB)
+               .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<ZREGION>()
+              .HasMany(e => e.SCHOOL)
+              .WithRequired(e => e.ZREGION)
+              .HasForeignKey(e => e.REG_NB)
+              .WillCascadeOnDelete(true);
+
+            // ------         ZSCLSTATUS
+            modelBuilder.Entity<ZSCLSTATUS>()
+               .HasMany(e => e.SCHOOL)
+               .WithRequired(e => e.ZSCLSTATUS)
+               .HasForeignKey(e => e.STS_NB)
+               .WillCascadeOnDelete(true);
+
+            // ------         ZSCLTYPE
+            modelBuilder.Entity<ZSCLTYPE>()
+              .HasMany(e => e.SCHOOL)
+              .WithRequired(e => e.ZSCLTYPE)
+              .HasForeignKey(e => e.ST_NB)
+              .WillCascadeOnDelete(true);
+
+            // ------         ZVEHICLECLASS
+            modelBuilder.Entity<ZVEHICLECLASS>()
+              .HasMany(e => e.SCHOOLVEHICLEs)
+              .WithRequired(e => e.ZVEHICLECLASS)
+              .HasForeignKey(e => e.CLS_NB)
+              .WillCascadeOnDelete(true);
+
+
+            modelBuilder.Entity<ZCITY>()
+                .Property(e => e.NAME)
+                .IsUnicode(false);
         }
 
         public virtual DbSet<SCHOOL> SCHOOL { get; set; }
@@ -131,5 +178,8 @@ namespace DrivingSclData
         public virtual DbSet<ZREGION> ZREGION { get; set; }
         public virtual DbSet<ZSCLSTATUS> ZSCLSTATUS { get; set; }
         public virtual DbSet<ZSCLTYPE> ZSCLTYPE { get; set; }
+        public virtual DbSet<COMPANYOWNER> COMPANYOWNER { get; set; }
+        public virtual DbSet<ZVEHICLECLASS> ZVEHICLECLASS { get; set; }
+        public virtual DbSet<SCHOOLVEHICLE> SCHOOLVEHICLE { get; set; }
     }
 }

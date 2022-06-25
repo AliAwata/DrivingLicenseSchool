@@ -16,6 +16,10 @@ namespace DrivingSclData
     [Table("DRIVINGSCHOOLS.ZCOMPANY")]
     public partial class ZCOMPANY
     {
+        public ZCOMPANY()
+        {
+            this.COMPANYOWNERs = new HashSet<COMPANYOWNER>();
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long NB { get; set; }
@@ -36,5 +40,6 @@ namespace DrivingSclData
         public virtual ZCITY ZCITY { get; set; }
         public virtual ZREGION ZREGION { get; set; }
         public virtual ZGOVERN ZGOVERN { get; set; }
+        public virtual ICollection<COMPANYOWNER> COMPANYOWNERs { get; set; }
     }
 }

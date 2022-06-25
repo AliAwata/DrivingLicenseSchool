@@ -42,6 +42,7 @@ namespace DrivingSclApp.Areas.Indexes.Data
         [DisplayName("سنة الميلاد")]
         public long? BDATEY { get; set; }
         [DisplayName("الميلاد")]
+        
         public DateTime? BDATE { get; set; }
         [DisplayName("رقم الهوية")]
         public string IDCARDNO { get; set; }

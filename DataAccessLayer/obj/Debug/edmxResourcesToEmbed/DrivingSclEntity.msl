@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DrivingSclEntity1StoreContainer" CdmEntityContainer="DrivingSclEntity">
+    <EntitySetMapping Name="SCHOOL">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.SCHOOL">
+        <MappingFragment StoreEntitySet="SCHOOL">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="SCL_CODE" ColumnName="SCL_CODE" />
+          <ScalarProperty Name="SCLNAME" ColumnName="SCLNAME" />
+          <ScalarProperty Name="ST_NB" ColumnName="ST_NB" />
+          <ScalarProperty Name="GOV_NB" ColumnName="GOV_NB" />
+          <ScalarProperty Name="COMREG_NO" ColumnName="COMREG_NO" />
+          <ScalarProperty Name="COMREG_DATE" ColumnName="COMREG_DATE" />
+          <ScalarProperty Name="COMREG_TYP" ColumnName="COMREG_TYP" />
+          <ScalarProperty Name="COMREG_GOV" ColumnName="COMREG_GOV" />
+          <ScalarProperty Name="CTY_NB" ColumnName="CTY_NB" />
+          <ScalarProperty Name="REG_NB" ColumnName="REG_NB" />
+          <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+          <ScalarProperty Name="STS_NB" ColumnName="STS_NB" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SCHOOLOWNER">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.SCHOOLOWNER">
+        <MappingFragment StoreEntitySet="SCHOOLOWNER">
+          <ScalarProperty Name="SCL_NB" ColumnName="SCL_NB" />
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="OT_NB" ColumnName="OT_NB" />
+          <ScalarProperty Name="ONR_NB" ColumnName="ONR_NB" />
+          <ScalarProperty Name="NOTE" ColumnName="NOTE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SCLPHONE">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.SCLPHONE">
+        <MappingFragment StoreEntitySet="SCLPHONE">
+          <ScalarProperty Name="PHONE_TYP" ColumnName="PHONE_TYP" />
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="SCL_NB" ColumnName="SCL_NB" />
+          <ScalarProperty Name="PHONE_NO" ColumnName="PHONE_NO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZCATEGORY">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.ZCATEGORY">
+        <MappingFragment StoreEntitySet="ZCATEGORY">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="PREV_CATG" ColumnName="PREV_CATG" />
+          <ScalarProperty Name="STUDENT_PER_CAR" ColumnName="STUDENT_PER_CAR" />
+          <ScalarProperty Name="STUDENT_PER_MOTO" ColumnName="STUDENT_PER_MOTO" />
+          <ScalarProperty Name="METERS_FOR_STUDENT" ColumnName="METERS_FOR_STUDENT" />
+          <ScalarProperty Name="MAX_STUDENTS_PER_HALL" ColumnName="MAX_STUDENTS_PER_HALL" />
+          <ScalarProperty Name="NOTE" ColumnName="NOTE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZCITY">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.ZCITY">
+        <MappingFragment StoreEntitySet="ZCITY">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="GOV_NB" ColumnName="GOV_NB" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZCOMPANY">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.ZCOMPANY">
+        <MappingFragment StoreEntitySet="ZCOMPANY">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="COMPNAME" ColumnName="COMPNAME" />
+          <ScalarProperty Name="COMREG_NO" ColumnName="COMREG_NO" />
+          <ScalarProperty Name="COMREG_DATE" ColumnName="COMREG_DATE" />
+          <ScalarProperty Name="COMREG_TYP" ColumnName="COMREG_TYP" />
+          <ScalarProperty Name="COMREG_GOV" ColumnName="COMREG_GOV" />
+          <ScalarProperty Name="CTY_NB" ColumnName="CTY_NB" />
+          <ScalarProperty Name="REG_NB" ColumnName="REG_NB" />
+          <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+          <ScalarProperty Name="PHONE1" ColumnName="PHONE1" />
+          <ScalarProperty Name="PHONE2" ColumnName="PHONE2" />
+          <ScalarProperty Name="MOBILE" ColumnName="MOBILE" />
+          <ScalarProperty Name="FAX" ColumnName="FAX" />
+          <ScalarProperty Name="NOTE" ColumnName="NOTE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZGOVERN">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.ZGOVERN">
+        <MappingFragment StoreEntitySet="ZGOVERN">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZNATION">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.ZNATION">
+        <MappingFragment StoreEntitySet="ZNATION">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="NATION" ColumnName="NATION" />
+          <ScalarProperty Name="CNTRYNAME" ColumnName="CNTRYNAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZOWNERTYP">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.ZOWNERTYP">
+        <MappingFragment StoreEntitySet="ZOWNERTYP">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="OTNAME" ColumnName="OTNAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZPERSON">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.ZPERSON">
+        <MappingFragment StoreEntitySet="ZPERSON">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="NATNO" ColumnName="NATNO" />
+          <ScalarProperty Name="FNAME" ColumnName="FNAME" />
+          <ScalarProperty Name="LNAME" ColumnName="LNAME" />
+          <ScalarProperty Name="FATHER" ColumnName="FATHER" />
+          <ScalarProperty Name="MOTHER" ColumnName="MOTHER" />
+          <ScalarProperty Name="CIVILLOC" ColumnName="CIVILLOC" />
+          <ScalarProperty Name="ACTADDRESS" ColumnName="ACTADDRESS" />
+          <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+          <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+          <ScalarProperty Name="MOBILE" ColumnName="MOBILE" />
+          <ScalarProperty Name="BDATED" ColumnName="BDATED" />
+          <ScalarProperty Name="BDATEM" ColumnName="BDATEM" />
+          <ScalarProperty Name="BDATEY" ColumnName="BDATEY" />
+          <ScalarProperty Name="BDATE" ColumnName="BDATE" />
+          <ScalarProperty Name="IDCARDNO" ColumnName="IDCARDNO" />
+          <ScalarProperty Name="IDCARDDAT" ColumnName="IDCARDDAT" />
+          <ScalarProperty Name="BPLACE" ColumnName="BPLACE" />
+          <ScalarProperty Name="ALAMANA" ColumnName="ALAMANA" />
+          <ScalarProperty Name="SEX" ColumnName="SEX" />
+          <ScalarProperty Name="TYP" ColumnName="TYP" />
+          <ScalarProperty Name="NAT" ColumnName="NAT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZPRSTYPE">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.ZPRSTYPE">
+        <MappingFragment StoreEntitySet="ZPRSTYPE">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="TYPNAME" ColumnName="TYPNAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZREGION">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.ZREGION">
+        <MappingFragment StoreEntitySet="ZREGION">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="CTY_NB" ColumnName="CTY_NB" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZSCLSTATUS">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.ZSCLSTATUS">
+        <MappingFragment StoreEntitySet="ZSCLSTATUS">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="STSNAME" ColumnName="STSNAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZSCLTYPE">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.ZSCLTYPE">
+        <MappingFragment StoreEntitySet="ZSCLTYPE">
+          <ScalarProperty Name="NB" ColumnName="NB" />
+          <ScalarProperty Name="TYPNAME" ColumnName="TYPNAME" />
+          <ScalarProperty Name="NOTE" ColumnName="NOTE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="COMPANYOWNER">
+      <EntityTypeMapping TypeName="DrivingSclEntity1.COMPANYOWNER">
+        <MappingFragment StoreEntitySet="COMPANYOWNER">
+          <ScalarProperty Name="NOTE" ColumnName="NOTE" />
+          <ScalarProperty Name="JOBTITLE" ColumnName="JOBTITLE" />
+          <ScalarProperty Name="PRS_NB" ColumnName="PRS_NB" />
+          <ScalarProperty Name="COMP_NB" ColumnName="COMP_NB" />
+          <ScalarProperty Name="NB" ColumnName="NB" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

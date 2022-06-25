@@ -1,0 +1,413 @@
+﻿@model IEnumerable<DrivingSclApp.Areas.Schools.Data.SclPhoneVM>
+
+@{
+    ViewBag.Title = "هواتف المدارس";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Header -->
+<div class="panel panel-default panel-search">
+    <div class="panel-heading">
+        <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">هواتف المدارس</a>
+    </div>
+    <div id="filter_body" class="collapse">
+        <div class="panel-body">
+
+        </div>
+    </div>
+</div>
+
+<!-- Messages -->
+@if (ViewBag.Alert == "Deleted")
+{
+    <div id="success_msg" class="bf-messages" role="alert" style="display:none">
+        <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
+            <a class="close" data-dissmiss="alert" href="#"></a>
+            <span class="bf-messages">
+                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                <span style="color:green" class="bf-messages">
+                    <span class="bf-messages">تم حذف السجل بنجاح </span>
+                </span>
+            </span>
+        </div>
+    </div>
+}
+
+<div id="success_msg" class="bf-messages" role="alert" style="display:none">
+    <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
+        <a class="close" data-dissmiss="alert" href="#"></a>
+        <span class="bf-messages">
+            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+            <span style="color:green" class="bf-messages">
+                <label id="labelIdd"></label>
+            </span>
+        </span>
+    </div>
+</div>
+
+<div id="error_msg" class="bf-messages" role="alert" style="display:none">
+    <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
+        <a class="close" data-dissmiss="alert" href="#">*</a>
+        <span class="bf-messages">
+            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+            <span style="color:red" class="bf-messages">
+                <label id="errlabelIdd"></label>
+            </span>
+        </span>
+    </div>
+</div>
+
+<!-- Kendo -->
+<div id="IdivForm">
+    <div class="k-rtl">
+        @(Html.Kendo().Grid<DrivingSclApp.Areas.Schools.Data.SclPhoneVM>()
+            .Name("grid")
+            .Columns(columns =>
+            {
+                columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
+                columns.Bound(c => c.NB).Visible(false);
+                columns.Bound(c => c.SCL_NB).Visible(false);
+                columns.Bound(c => c.PHONE_TYP).Visible(false);
+                columns.Bound(c => c.SCL_NAME);
+                columns.Bound(c => c.PHONE_NO);
+                columns.Bound(c => c.PHONE_TYPE);
+                
+            })
+            .HtmlAttributes(new { style = "height: auto;" })
+            .Sortable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
+            .PageSize(15)
+            .Model(model => model.Id(p => p.NB))
+            .Create(update => update.Action("Create", "SclPhone"))
+            .Read(read => read.Action("Read", "SclPhone"))
+            .Update(update => update.Action("Update", "SclPhone"))
+            .Destroy(update => update.Action("Destroy", "SclPhone")))
+            .Resizable(resize => resize
+            .Columns(true)
+            )
+            .ToolBar(toolbar =>
+            {
+                toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
+            })
+            .Pageable(pageable =>
+            {
+                pageable.Refresh(true);
+                pageable.PageSizes(true);
+            })
+            )
+    </div>
+</div>
+
+<!-- Add -->
+<div id="AddDiv">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("AddDetails")
+        .Title("إضافة مدينة")
+        .Visible(false)
+        .Modal(true)
+        .Content(@<text>
+            <div style="width:95%;" id="fieldlist">
+                <form id="Addform">
+                    <div id="save-container" class="k-edit-form-container">
+                        <div class="editor-label">
+                            @Html.Label("المدينة", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="editor-field">
+                            @(Html.Kendo().TextBox()
+                                .Name("txtName")
+                                .HtmlAttributes(new { placeholder = "أدخل اسم المدينة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                            )
+                        </div>
+                        <div class="editor-label">
+                            @Html.Label("المدينة", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="editor-field">
+                            @(Html.Kendo().TextBox()
+                                .Name("txtName")
+                                .HtmlAttributes(new { placeholder = "أدخل اسم المدينة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                            )
+                        </div>
+                        <div class="editor-label">
+                            @Html.Label("المحافظة :", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="editor-field">
+                            @(Html.Kendo().DropDownList()
+                            .OptionLabel("اختر المحافظة")
+                            .Name("ddlGovern")
+                            .DataTextField("Name")
+                            .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                            .DataSource(source =>
+                            {
+                                source.Read(read =>
+                                {
+                                    read.Action("GetGovern", "Codes");
+                                });
+                            })
+                            .HtmlAttributes(new { style = "width: 100%" })
+                            )
+                        </div>
+                        <div class="row" style="margin-top:20px"></div>
+                        <div class="k-edit-buttons k-state-default">
+                        @(Html.Kendo().Button()
+                            .Name("btnSave")
+                            .Content("حفظ")
+                            .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;" })
+                            .Events(e => e.Click("btnSave_Click"))
+                        )
+                        @(Html.Kendo().Button()
+                            .Name("btnReset")
+                            .Content("تراجع")
+                            .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
+                            .Events(e => e.Click("btnReset_Click"))
+                        )
+                        </div>
+                     </div>
+                </form>
+            </div>
+        </text>)
+        .Draggable(true) //Enable dragging of the window
+        .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
+            .Width(450)     //Set width of the window
+            .Height(250)
+        )
+    </div>
+</div>
+
+<!-- Edit -->
+<div id="EditDiv">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("EditDetails")
+        .Title("تعديل بيانات مدينة")
+        .Visible(false)
+        .Modal(true)
+        .Content(@<text>
+            <div style="width:95%;" id="fieldlist">
+                <form id="Editform">
+                    <div id="Update-container" class="k-edit-form-container">
+                        <div class="col-md-12">
+                            @Html.Hidden("txtId")
+                            <div class="editor-label">
+                                @Html.Label("المدينة", htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="editor-field">
+                                @(Html.Kendo().TextBox()
+                                    .Name("txtName1")
+                                    .HtmlAttributes(new { placeholder = "ادخل اسم المدينة", required = "required", validationmessage = "*", maxlength = "50", @class = "form-control", style = "width: 100%", })
+                                )
+                            </div>
+                            <div class="editor-label">
+                                @Html.Label("المحافظة", htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="editor-field">
+                                @(Html.Kendo().DropDownList()
+                                    .OptionLabel("اختر المحافظة")
+                                    .Name("ddlGovern1")
+                                    .DataTextField("Name")
+                                    .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("GetGovern", "Codes");
+                                        });
+                                    })
+                                    .HtmlAttributes(new { style = "width: 100%" })
+                                )
+                                <div class="row" style="margin-top:20px"></div>
+                            <div class="k-edit-buttons k-state-default">
+                                @(Html.Kendo().Button()
+                                    .Name("btnUpdate")
+                                    .Content("حفظ")
+                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .Events(e => e.Click("btnUpdate_Click"))
+                                )
+                                @(Html.Kendo().Button()
+                                    .Name("btnUpdateReset")
+                                    .Content("تراجع")
+                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .Events(e => e.Click("btnUpdateReset_Click"))
+                                )
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </text>)
+    .Draggable(true) //Enable dragging of the window
+    .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
+    .Width(450)     //Set width of the window
+    .Height(250)
+    )
+    </div>
+</div>
+
+<script>
+    // Messages
+    function OnRequestEnd(e) {
+        if (e.type == "update" && e.response != null && e.response.success && !e.response.Errors) {
+            $('#success_msg').show();
+            $('#error_msg').hide();
+            $('#labelIdd').text(e.response.responseText);
+        }
+        if (e.type == "destroy" && e.response != null && e.response.success && !e.response.Errors) {
+            $('#success_msg').show();
+            $('#error_msg').hide();
+            $('#labelIdd').text(e.response.responseText);
+        }
+        if (e.response != null && !e.response.success && e.response.responseText != null) {
+            $('#success_msg').hide();
+            $('#error_msg').show();
+            $('#errlabelIdd').text(e.response.responseText);
+        }
+    }
+
+    function sync_handler(e) {
+        this.read();
+    }
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            $(".errorMessage").text(message);
+            alert(message);
+        }
+    }
+
+    // when i press "add" from the grid
+    $("#newAdd").click(function (e) {
+        debugger
+        e.preventDefault();
+        $("#AddDetails").data("kendoWindow").center().open();
+        $("#newAdd").show();
+        $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
+    });
+
+    // when i press "edit" on a row and to fill the fields of the edit window
+    function editDetails(e) {
+        debugger
+        e.preventDefault();
+        var wnd = $("#EditDetails").data("kendoWindow");
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        $("#txtId").val(dataItem.NB);
+        $("#txtName1").val(dataItem.NAME);
+        $("#ddlGovern1").data("kendoDropDownList").value(dataItem.GOV_NB);
+        $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
+        wnd.center().open();
+    }
+
+    // when i click save in add window
+    function btnSave_Click() {
+        debugger
+        var validator = $("#save-container").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+
+            var cityModel = {
+                NAME: $('#txtName').val(),
+                GOVNAME: $('#txtGovern').val(),
+                GOV_NB: $('#ddlGovern').val(),
+            }
+            var model = {
+                "model": cityModel
+            }
+            $.ajax({
+                type: "POST",
+                url: '/zCity/Create', data: model,
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                },
+
+            });
+            btnReset_Click();
+            var wnd = $("#AddDetails").data("kendoWindow");
+            wnd.center().close();
+            var grid = $('#grid').data('kendoGrid');
+            grid.dataSource.read();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    // when i click reset in add window
+    function btnReset_Click() {
+        debugger
+        $("#ddlGovern").data('kendoDropDownList').value(-1);
+        $("#txtName").val("")
+
+
+        $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
+        var wnd = $("#AddDetails").data("kendoWindow");
+        wnd.element.find("span.k-tooltip-validation").hide();
+        return;
+    }
+
+    // when i press "reset" in edit window
+    function btnUpdateReset_Click() {
+        debugger
+
+        var Id = $("#txtId").val();
+        var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
+        //$("#ddlGovern1").val(dataItem.GOVNAME).data("kendoDropDownList").value(dataItem.GOVNAME)
+        $("#ddlGovern1").data("kendoDropDownList").value(dataItem.GOV_NB);
+        $("#txtName1").val(dataItem.NAME)
+
+        $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
+        return;
+    }
+
+    // when i press "update" in edit window
+    function btnUpdate_Click() {
+        debugger
+        var validator = $("#Update-container").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+
+            var cityModel = {
+                NB: $("#txtId").val(),
+                NAME: $('#txtName1').val(),
+                GOV_NB: $('#ddlGovern1').val(),
+            }
+            var model = {
+                "model": cityModel
+            }
+            $.ajax({
+                type: "POST",
+                url: '/zCity/Update', data: model,
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                },
+
+            });
+            btnReset_Click();
+            var wnd = $("#EditDetails").data("kendoWindow");
+            wnd.center().close();
+            var grid = $('#grid').data('kendoGrid');
+            grid.dataSource.read();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+
+
