@@ -88,7 +88,7 @@
             .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
             .PageSize(15)
             .Model(model => model.Id(p => p.NB))
-            .Read(read => read.Action("Read", "SclPhone"))
+            .Read(read => read.Action("PhonesBySclNb", "SclPhone", new { id = ViewData["ID"] }))
             .Destroy(update => update.Action("Destroy", "SclPhone")))
             .Resizable(resize => resize
             .Columns(true)

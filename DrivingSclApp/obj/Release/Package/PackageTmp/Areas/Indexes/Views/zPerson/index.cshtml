@@ -82,15 +82,16 @@
                 columns.Bound(c => c.ADDRESS);
                 columns.Bound(c => c.PHONE);
                 columns.Bound(c => c.MOBILE);
-                columns.Bound(c => c.BDATED);
-                columns.Bound(c => c.BDATEM);
-                columns.Bound(c => c.BDATEY);
-                columns.Bound(c => c.BDATE);
+                columns.Bound(c => c.BDATED).Visible(false);
+                columns.Bound(c => c.BDATEM).Visible(false);
+                columns.Bound(c => c.BDATEY).Visible(false);
+                columns.Bound(c => c.BDATE).Format("{0:dd/MM/yyyy}");
                 columns.Bound(c => c.IDCARDNO);
-                columns.Bound(c => c.IDCARDDAT);
+                columns.Bound(c => c.IDCARDDAT).Format("{0:dd/MM/yyyy}");
                 columns.Bound(c => c.BPLACE);
                 columns.Bound(c => c.ALAMANA);
-                columns.Bound(c => c.SEX);
+                columns.Bound(c => c.SEX_string);
+                columns.Bound(c => c.SEX).Visible(false);
                 columns.Bound(c => c.TYP).Visible(false);
                 columns.Bound(c => c.NAT).Visible(false);
                 columns.Bound(c => c.NationName);
@@ -116,12 +117,12 @@
             {
                 toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
             })
-                .Pageable(pageable =>
-                {
-                    pageable.Refresh(true);
-                    pageable.PageSizes(true);
-                })
-)
+            .Pageable(pageable =>
+            {
+                pageable.Refresh(true);
+                pageable.PageSizes(true);
+            })
+            )
     </div>
 </div>
 
@@ -138,6 +139,17 @@
                     <div id="save-container" @*class="k-edit-form-container"*@>
                         <div class="container-fluid">
                             <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtNatno")
+                                            .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
                                 <div class="col-sm-3">
                                     <div class="editor-label">
                                         @Html.Label("الاسم", htmlAttributes: new { @class = "control-label" })
@@ -157,17 +169,6 @@
                                         @(Html.Kendo().TextBox()
                                             .Name("txtLname")
                                             .HtmlAttributes(new { placeholder = "أدخل الكنية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
-                                        )
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="editor-label">
-                                        @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
-                                            .Name("txtNatno")
-                                            .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
                                         )
                                     </div>
                                 </div>
@@ -274,42 +275,6 @@
                                             .Name("dpIdcarddat")
                                             .Value(DateTime.Today)
                                             .HtmlAttributes(new { placeholder = "أدخل تاريخ الهوية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
-                                        )
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="editor-label">
-                                        @Html.Label("تاريخ الهوية", htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="editor-field">
-                                        @(Html.Kendo().DatePicker()
-                                            .Name("dpIdcarddat")
-                                            .Value(DateTime.Today)
-                                            .HtmlAttributes(new { placeholder = "أدخل تاريخ الهوية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
-                                        )
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="editor-label">
-                                        @Html.Label("شهر الميلاد", htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
-                                            .Name("txtBdatem")
-                                            .HtmlAttributes(new { placeholder = "أدخل شهر الميلاد", validationmessage = "*", @class = "form-control", style = "width: 100%" })
-                                        )
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="editor-label">
-                                        @Html.Label("سنة الميلاد", htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
-                                            .Name("txtBdatey")
-                                            .HtmlAttributes(new { placeholder = "أدخل سنة الميلاد", validationmessage = "*", @class = "form-control", style = "width: 100%" })
                                         )
                                     </div>
                                 </div>
@@ -437,8 +402,8 @@
         </text>)
         .Draggable(true) //Enable dragging of the window
         .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
-            .Width(1000)     //Set width of the window
-            .Height(600)
+            .Width(900)     //Set width of the window
+            .Height(500)
         )
     </div>
 </div>
@@ -460,6 +425,17 @@
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <div class="editor-label">
+                                            @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtNatno1")
+                                                .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
                                             @Html.Label("الاسم", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
@@ -477,17 +453,6 @@
                                             @(Html.Kendo().TextBox()
                                                 .Name("txtLname1")
                                                 .HtmlAttributes(new { placeholder = "أدخل الكنية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
-                                            )
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="editor-label">
-                                            @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
-                                        </div>
-                                        <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
-                                                .Name("txtNatno1")
-                                                .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -594,42 +559,6 @@
                                                 .Name("dpIdcarddat1")
                                                 .Value(DateTime.Today)
                                                 .HtmlAttributes(new { placeholder = "أدخل تاريخ الهوية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
-                                            )
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="editor-label">
-                                            @Html.Label("تاريخ الهوية", htmlAttributes: new { @class = "control-label" })
-                                        </div>
-                                        <div class="editor-field">
-                                            @(Html.Kendo().DatePicker()
-                                                .Name("dpIdcarddat1")
-                                                .Value(DateTime.Today)
-                                                .HtmlAttributes(new { placeholder = "أدخل تاريخ الهوية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
-                                            )
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="editor-label">
-                                            @Html.Label("شهر الميلاد", htmlAttributes: new { @class = "control-label" })
-                                        </div>
-                                        <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
-                                                .Name("txtBdatem1")
-                                                .HtmlAttributes(new { placeholder = "أدخل شهر الميلاد", validationmessage = "*", @class = "form-control", style = "width: 100%" })
-                                            )
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="editor-label">
-                                            @Html.Label("سنة الميلاد", htmlAttributes: new { @class = "control-label" })
-                                        </div>
-                                        <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
-                                                .Name("txtBdatey1")
-                                                .HtmlAttributes(new { placeholder = "أدخل سنة الميلاد", validationmessage = "*", @class = "form-control", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -759,12 +688,11 @@
         </text>)
     .Draggable(true) //Enable dragging of the window
     .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
-    .Width(1000)     //Set width of the window
-    .Height(600)
+    .Width(900)     //Set width of the window
+    .Height(500)
     )
     </div>
 </div>
-
 
 <script>
     // messages
@@ -821,6 +749,7 @@
         e.preventDefault();
         var wnd = $("#EditDetails").data("kendoWindow");
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        alert(dataItem.SEX);
         $("#txtId").val(dataItem.NB);
         $("#txtFname1").val(dataItem.FNAME);
         $("#txtLname1").val(dataItem.LNAME);
@@ -832,17 +761,21 @@
         $("#txtAddress1").val(dataItem.ADDRESS);
         $("#txtPhone1").val(dataItem.PHONE);
         $("#txtMobile1").val(dataItem.MOBILE);
-        $("#txtBdated1").val(dataItem.BDATED);
-        $("#txtBdatem1").val(dataItem.BDATEM);
-        $("#txtBdatey1").val(dataItem.BDATEY);
-        $("#dpBdate1").val(dataItem.BDATE);
         $("#txtIdcardno1").val(dataItem.IDCARDNO);
-        $("#dpIdcarddat1").val(dataItem.IDCARDDAT);
         $("#txtBplace1").val(dataItem.BPLACE);
         $("#txtAlamana1").val(dataItem.ALAMANA);
-        $("#ddlSex1").data('kendoDropDownList').text(dataItem.SEX);
-        $("#ddlNation1").data('kendoDropDownList').text(dataItem.NAT);
-        $("#ddlPertype1").data('kendoDropDownList').text(dataItem.TYP);
+        $("#ddlSex1").data('kendoDropDownList').value(dataItem.SEX);
+        $("#ddlNation1").data('kendoDropDownList').value(dataItem.NAT);
+        $("#ddlPertype1").data('kendoDropDownList').value(dataItem.TYP);
+
+        $("#dpBdate1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.BDATE
+        });
+        $("#dpIdcarddat1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.IDCARDDAT
+        });
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         //alert("editDetails");
@@ -854,6 +787,13 @@
         debugger
         var validator = $("#save-container").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
+            //var sex;
+            //if ($("#ddlSex").val() == 'ذكر') {
+            //    sex = true;
+            //} else if ($("#ddlSex").val() == 'انثى') {
+            //    sex = false;
+            //}
+            //alert(sex);
             //alert('add validator')
             var personModel = {
                 FNAME: $("#txtFname").val(),
@@ -866,9 +806,6 @@
                 ADDRESS: $("#txtAddress").val(),
                 PHONE: $("#txtPhone").val(),
                 MOBILE: $("#txtMobile").val(),
-                BDATED: $("#txtBdated").val(),
-                BDATEM: $("#txtBdatem").val(),
-                BDATEY: $("#txtBdatey").val(),
                 BDATE: $("#dpBdate").val(),
                 IDCARDNO: $("#txtIdcardno").val(),
                 IDCARDDAT: $("#dpIdcarddat").val(),
@@ -917,9 +854,6 @@
         $("#txtAddress").val("");
         $("#txtPhone").val("");
         $("#txtMobile").val("");
-        $("#txtBdated").val("");
-        $("#txtBdatem").val("");
-        $("#txtBdatey").val("");
         $("#dpBdate").val("");
         $("#txtIdcardno").val("");
         $("#dpIdcarddat").val("");
@@ -928,7 +862,6 @@
         $("#ddlSex").data('kendoDropDownList').value(-1);
         $("#ddlNation").data('kendoDropDownList').value(-1);
         $("#ddlPertype").data('kendoDropDownList').value(-1);
-
 
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
         var wnd = $("#AddDetails").data("kendoWindow");
@@ -940,8 +873,9 @@
     function btnUpdateReset_Click() {
         debugger
 
-        var Id = $("#txtId1").val();
+        var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
+        alert(dataItem.SEX);
         $("#txtFname1").val(dataItem.FNAME);
         $("#txtLname1").val(dataItem.LNAME);
         $("#txtFather1").val(dataItem.FATHER);
@@ -952,17 +886,21 @@
         $("#txtAddress1").val(dataItem.ADDRESS);
         $("#txtPhone1").val(dataItem.PHONE);
         $("#txtMobile1").val(dataItem.MOBILE);
-        $("#txtBdated1").val(dataItem.BDATED);
-        $("#txtBdatem1").val(dataItem.BDATEM);
-        $("#txtBdatey1").val(dataItem.BDATEY);
-        $("#dpBdate1").val(dataItem.BDATE);
         $("#txtIdcardno1").val(dataItem.IDCARDNO);
-        $("#dpIdcarddat1").val(dataItem.IDCARDDAT);
         $("#txtBplace1").val(dataItem.BPLACE);
         $("#txtAlamana1").val(dataItem.ALAMANA);
         $("#ddlSex1").data('kendoDropDownList').value(dataItem.SEX);
         $("#ddlNation1").data('kendoDropDownList').value(dataItem.NAT);
-        $("#ddlPertype1").data('kendoDropDownList').value(dataItem.PERTYPE);
+        $("#ddlPertype1").data('kendoDropDownList').value(dataItem.TYP);
+
+        $("#dpBdate1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.BDATE
+        });
+        $("#dpIdcarddat1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.IDCARDDAT
+        });
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         return;
@@ -973,6 +911,12 @@
         debugger
         var validator = $("#Update-container").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
+            //var sex;
+            //if ($("#ddlSex1").val() == 'ذكر') {
+            //    sex = true;
+            //} else if ($("#ddlSex1").val() == 'انثى') {
+            //    sex = false;
+            //}
             //alert('edit validator')
             var personModel = {
                 NB: $("#txtId").val(),
@@ -986,9 +930,6 @@
                 ADDRESS: $("#txtAddress1").val(),
                 PHONE: $("#txtPhone1").val(),
                 MOBILE: $("#txtMobile1").val(),
-                BDATED: $("#txtBdated1").val(),
-                BDATEM: $("#txtBdatem1").val(),
-                BDATEY: $("#txtBdatey1").val(),
                 BDATE: $("#dpBdate1").val(),
                 IDCARDNO: $("#txtIdcardno1").val(),
                 IDCARDDAT: $("#dpIdcarddat1").val(),
@@ -1025,7 +966,4 @@
         }
     }
 
-    function Gender(dataItem) {
-        return dataItem.SEX = true ? "Male" : "Female";
-    }
 </script>

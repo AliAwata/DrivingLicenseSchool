@@ -1,0 +1,303 @@
+﻿@model IEnumerable<DrivingSclApp.Areas.Indexes.Data.CompanyVM>
+
+@{
+    ViewBag.Title = "تفاصيل شركة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Header with the info of company-->
+<div class="panel panel-default panel-search" style="width:1500px">
+    <div class="panel-heading">
+        <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">تفاصيل شركة</a>
+    </div>
+    <div id="filter_body" class="collapse">
+        <div class="panel-body container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <dl class="dl-horizontal d-inline">
+                        <dt>اسم الشركة :</dt>
+                        <dd>@Model.Select(x => x.COMPNAME).FirstOrDefault()</dd>
+                        <dt>رقم السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_NO).FirstOrDefault()</dd>
+                        <dt>تاريخ السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_DATE).FirstOrDefault()</dd>
+                        <dt>نوع السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_TYP).FirstOrDefault()</dd>
+                        <dt>رمز مصدر السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_TYP).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+                <div class="col-md-3">
+                    <dl class="dl-horizontal d-inline">
+                        <dt>المدينة :</dt>
+                        <dd>@Model.Select(x => x.CityName).FirstOrDefault()</dd>
+                        <dt>المنطقة :</dt>
+                        <dd>@Model.Select(x => x.RegionName).FirstOrDefault()</dd>
+                        <dt>العنوان :</dt>
+                        <dd>@Model.Select(x => x.ADDRESS).FirstOrDefault()</dd>
+                        <dt>ملاحظات :</dt>
+                        <dd>@Model.Select(x => x.NOTE).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+                <div class="col-md-3">
+                    <dl class="dl-horizontal d-inline">
+                        <dt>الهاتف الاول :</dt>
+                        <dd>@Model.Select(x => x.PHONE1).FirstOrDefault()</dd>
+                        <dt>الهاتف الثاني :</dt>
+                        <dd>@Model.Select(x => x.PHONE2).FirstOrDefault()</dd>
+                        <dt>المحمول :</dt>
+                        <dd>@Model.Select(x => x.MOBILE).FirstOrDefault()</dd>
+                        <dt>فاكس :</dt>
+                        <dd>@Model.Select(x => x.FAX).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Messages -->
+@if (ViewBag.Alert == "Deleted")
+{
+    <div id="success_msg" class="bf-messages" role="alert" style="display:none">
+        <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
+            <a class="close" data-dissmiss="alert" href="#"></a>
+            <span class="bf-messages">
+                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                <span style="color:green" class="bf-messages">
+                    <span class="bf-messages">تم حذف السجل بنجاح </span>
+                </span>
+            </span>
+        </div>
+    </div>
+}
+
+<div id="success_msg" class="bf-messages" role="alert" style="display:none">
+    <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
+        <a class="close" data-dissmiss="alert" href="#"></a>
+        <span class="bf-messages">
+            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+            <span style="color:green" class="bf-messages">
+                <label id="labelIdd"></label>
+            </span>
+        </span>
+    </div>
+</div>
+
+<div id="error_msg" class="bf-messages" role="alert" style="display:none">
+    <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
+        <a class="close" data-dissmiss="alert" href="#">*</a>
+        <span class="bf-messages">
+            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+            <span style="color:red" class="bf-messages">
+                <label id="errlabelIdd"></label>
+            </span>
+        </span>
+    </div>
+</div>
+
+<!-- TapStrip -->
+<div id="IdivForm">
+    <div class="row" style="margin:10px"></div>
+    <div class="k-rtl">
+        @(Html.Kendo().TabStrip()
+        .Name("tabstrip")
+        .TabPosition(TabStripTabPosition.Top)
+        .Collapsible(true)
+        .Navigatable(true)
+        .Animation(animation =>
+        {
+            animation.Open(config =>
+            {
+                config.Fade(FadeDirection.In);
+            });
+        })
+        .Items(items =>
+        {
+            items.Add().Text("مالكين").LoadContentFrom("Owner", "zCompanyOwner", new { id = ViewData["ID"] }).Selected(true);
+        })
+        )
+    </div>
+</div>
+
+<script>
+    // Messages
+    function OnRequestEnd(e) {
+        if (e.type == "update" && e.response != null && e.response.success && !e.response.Errors) {
+            $('#success_msg').show();
+            $('#error_msg').hide();
+            $('#labelIdd').text(e.response.responseText);
+        }
+        if (e.type == "destroy" && e.response != null && e.response.success && !e.response.Errors) {
+            $('#success_msg').show();
+            $('#error_msg').hide();
+            $('#labelIdd').text(e.response.responseText);
+        }
+        if (e.response != null && !e.response.success && e.response.responseText != null) {
+            $('#success_msg').hide();
+            $('#error_msg').show();
+            $('#errlabelIdd').text(e.response.responseText);
+        }
+    }
+
+    function sync_handler(e) {
+        this.read();
+    }
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            $(".errorMessage").text(message);
+            alert(message);
+        }
+    }
+
+    // When i choose an owner from the search grid
+
+    function FillPerson(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var name = dataItem.FNAME + " " + dataItem.LNAME;
+        $("#comOwnper").val(name);
+        $("#prsNb").val(dataItem.NB);
+        var wnd = $("#OwnerPersonSearch").data("kendoWindow");
+        wnd.center().close();
+    }
+
+    function ChoosePerson(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scl = $("#comNb").val();
+        var own;
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var companyOwner = {
+            COMP_NB : scl,
+            PRS_NB: dataItem.NB,
+        }
+
+        var model = {
+            "model": schoolOwner
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Create", "zCompanyOwner")',
+            data: model,
+            datatype: "json",
+            cache: false,
+            success: function (response) {
+                $('#success_msg').show();
+                $('#error_msg').hide();
+                $('#labelIdd').text(response.responseText);
+            }
+        });
+        var wnd = $("#OwnerPersonSearch").data("kendoWindow");
+        wnd.center().close();
+        var grid = $('#OwnerGrid').data('kendoGrid');
+        grid.dataSource.read();
+
+    }
+
+    // When i want to add a new owner
+
+    function SaveNewOwner() {
+
+        var com = $("#comNb").val();
+        var prs = $("#prsNb").val();
+        var job = $("#comJobtitle").val();
+
+        alert(com);
+        alert(prs);
+        alert(job);
+
+        companyownerModel = {
+            COMP_NB: com,
+            PRS_NB: prs,
+            JOBTITLE: job
+        };
+
+        var model = {
+            "model": companyownerModel
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/zCompanyOwner/Create', data: model,
+            datatype: "json",
+            cache: false,
+            success: function (response) {
+                $("#comOwnper").val("");
+                $("#comJobtitle").val("");
+                var grid = $('#OwnerGrid').data('kendoGrid');
+                grid.dataSource.read();
+            }
+        });
+
+    }
+
+    function SaveNewOwnerPerson() {
+        $.when(SaveNewPerson()).done(function (s1) {
+            alert("s1.NB : " + s1.NB);
+            alert("s1.FNAME : " + s1.FNAME);
+            var name = s1.FNAME + " " + s1.LNAME;
+            $("#comOwnper").val(name);
+            $("#prsNb").val(s1.NB);
+            var wnd1 = $("#AddPerson").data("kendoWindow");
+            wnd1.center().close();
+            var wnd2 = $("#OwnerPersonSearch").data("kendoWindow");
+            wnd2.center().close();
+        });
+    }
+
+    function SaveNewPerson() {
+        var sex;
+        if ($("#ddlSex").val() == 'ذكر') {
+            sex = true;
+        } else if ($("#ddlSex").val() == 'انثى') {
+            sex = false;
+        }
+        var personModel = {
+            FNAME: $("#txtFname").val(),
+            LNAME: $("#txtLname").val(),
+            FATHER: $("#txtFather").val(),
+            MOTHER: $("#txtMother").val(),
+            NATNO: $("#txtNatno").val(),
+            CIVILLOC: $("#txtCivilloc").val(),
+            ACTADDRESS: $("#txtActaddress").val(),
+            ADDRESS: $("#txtAddress").val(),
+            PHONE: $("#txtPhone").val(),
+            MOBILE: $("#txtMobile").val(),
+            BDATED: $("#txtBdated").val(),
+            BDATEM: $("#txtBdatem").val(),
+            BDATEY: $("#txtBdatey").val(),
+            BDATE: $("#dpBdate").val(),
+            IDCARDNO: $("#txtIdcardno").val(),
+            IDCARDDAT: $("#dpIdcarddat").val(),
+            BPLACE: $("#txtBplace").val(),
+            ALAMANA: $("#txtAlamana").val(),
+            SEX: sex,
+            NAT: $("#ddlNation").val(),
+            TYP: $("#ddlPertype").val()
+        }
+        var model1 = {
+            "model": personModel
+        }
+        return $.ajax({
+            type: "POST",
+            url: '@Url.Action("Create_getPrs", "zPerson", new { area = "Indexes" })',
+            data: model1,
+            datatype: "json",
+            cache: false,
+            success: function (response) {
+            },
+        });
+    }
+</script>

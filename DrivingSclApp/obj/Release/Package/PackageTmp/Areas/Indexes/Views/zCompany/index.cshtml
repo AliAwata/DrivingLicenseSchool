@@ -71,15 +71,14 @@
             .Name("grid")
             .Columns(columns =>
             {
+                columns.Command(command => { command.Custom("تفاصيل").Click("details"); }).Title("تفاصيل").Width(100);
                 columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
                 columns.Bound(c => c.NB).Visible(false).Width(50);
                 columns.Bound(c => c.COMPNAME).Width(50);
                 columns.Bound(c => c.COMREG_NO).Width(100);
-                columns.Bound(c => c.COMREG_DATE).Width(100);
-                columns.Bound(c => c.COMREG_TYP).Width(100);
-                //columns.ForeignKey(p => p.COMREG_GOV).Filterable(true);
+                columns.Bound(c => c.COMREG_DATE).Width(100).Format("{0:dd/MM/yyyy}");
+                columns.Bound(c => c.COMREG_TYP).Width(100).Visible(false);
                 columns.Bound(c => c.COMREG_GOV).Visible(false).Width(100);
-                //columns.foreignkey(p => p.cty_nb, (system.collections.ienumerable)viewdata["cityname"], "nb", "name").filterable(true);
                 columns.Bound(c => c.CTY_NB).Visible(false).Width(100);
                 columns.Bound(c => c.REG_NB).Visible(false).Width(100);
                 columns.Bound(c => c.ADDRESS).Width(100);
@@ -166,6 +165,7 @@
                                             @(Html.Kendo().DatePicker()
                                                 .Name("dpComreg_date")
                                                 .HtmlAttributes(new { placeholder = "أدخل تاريخ السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                                .Format("{dd-mm-yyyy}")
                                             )
                                         </div>
                                     </div>
@@ -174,9 +174,19 @@
                                             @Html.Label("نوع السجل", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
-                                                .Name("txtComreg_typ")
-                                                .HtmlAttributes(new { placeholder = "أدخل نوع السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر نوع السجل")
+                                            .Name("ddlComreg_typ")
+                                            .DataTextField("Text")
+                                            .DataValueField("Value").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetComreg_Typ", "Codes");
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -221,7 +231,7 @@
                                             {
                                                 source.Read(read =>
                                                 {
-                                                    read.Action("GetCityByGovern", "Codes");
+                                                    read.Action("GetCity", "Codes");
                                                 });
                                             })
                                             .HtmlAttributes(new { style = "width: 100%" })
@@ -365,7 +375,7 @@
                     <div id="Update-container" @*class="k-edit-form-container"*@>
                         <div class="col-md-12">
                             @Html.Hidden("txtId")
-                                 <div class="row">
+                                <div class="row">
                                     <div class="col-sm-10">
                                         <div class="editor-label">
                                             @Html.Label("الشركة", htmlAttributes: new { @class = "control-label" })
@@ -406,9 +416,19 @@
                                             @Html.Label("نوع السجل", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
-                                                .Name("txtComreg_typ1")
-                                                .HtmlAttributes(new { placeholder = "أدخل نوع السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر نوع السجل")
+                                            .Name("ddlComreg_typ1")
+                                            .DataTextField("Text")
+                                            .DataValueField("Value").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetComreg_Typ", "Codes");
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -453,7 +473,7 @@
                                             {
                                                 source.Read(read =>
                                                 {
-                                                    read.Action("GetCityByGovern", "Codes");
+                                                    read.Action("GetCity", "Codes");
                                                 });
                                             })
                                             .HtmlAttributes(new { style = "width: 100%" })
@@ -634,6 +654,13 @@
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
     });
 
+    function details(e) {
+        debugger
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location.href = '/Indexes/zCompany/IndexDetails?id=' + dataItem.NB;
+    }
+
     // when i press "edit" on a row and to fill the fields of the edit window
     function editDetails(e) {
         debugger
@@ -643,17 +670,22 @@
         $("#txtId").val(dataItem.NB);
         $("#txtCompname1").val(dataItem.COMPNAME);
         $("#txtComreg_no1").val(dataItem.COMREG_NO);
-        $("#dpComreg_date1").val(dataItem.COMREG_DATE);
-        $("#txtComreg_typ1").val(dataItem.COMREG_TYP);
-        $("#ddlComreg_gov1").data("kendoDropDownList").text(dataItem.COMREG_GOV);
-        $("#ddlCty_nb1").data("kendoDropDownList").text(dataItem.CTY_NB);
-        $("#ddlReg_nb1").data("kendoDropDownList").text(dataItem.REG_NB);
+        $("#ddlComreg_typ1").data("kendoDropDownList").value(dataItem.COMREG_TYP);
+        $("#ddlComreg_gov1").data("kendoDropDownList").value(dataItem.COMREG_GOV);
+        $("#ddlCty_nb1").data("kendoDropDownList").value(dataItem.CTY_NB);
+        $("#ddlReg_nb1").data("kendoDropDownList").value(dataItem.REG_NB);
         $("#txtAddress1").val(dataItem.ADDRESS);
         $("#txtPhone1_1").val(dataItem.PHONE1);
         $("#txtPhone2_1").val(dataItem.PHONE2);
         $("#txtMobile1").val(dataItem.MOBILE);
         $("#txtFax1").val(dataItem.FAX);
         $("#txtNote1").val(dataItem.NOTE);
+
+        $("#dpComreg_date1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.COMREG_DATE
+        });
+
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         wnd.center().open();
     }
@@ -668,7 +700,7 @@
                 COMPNAME: $("#txtCompname").val(),
                 COMREG_NO: $("#txtComreg_no").val(),
                 COMREG_DATE: $("#dpComreg_date").val(),
-                COMREG_TYP: $("#txtComreg_typ").val(),
+                COMREG_TYP: $("#ddlComreg_typ").val(),
                 COMREG_GOV: $("#ddlComreg_gov").val(),
                 CTY_NB: $("#ddlCty_nb").val(),
                 REG_NB: $("#ddlReg_nb").val(),
@@ -712,7 +744,7 @@
         $("#txtCompname").val("");
         $("#txtComreg_no").val("");
         $("#dpComreg_date").val("");
-        $("#txtComreg_typ").val("");
+        $("#ddlComreg_typ").data("kendoDropDownList").value(-1);
         $("#ddlComreg_gov").data("kendoDropDownList").value(-1);
         $("#ddlCty_nb").data("kendoDropDownList").value(-1);
         $("#ddlReg_nb").data("kendoDropDownList").value(-1);
@@ -734,20 +766,23 @@
 
         var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
-        $("#txtId").val(dataItem.NB);
         $("#txtCompname1").val(dataItem.COMPNAME);
         $("#txtComreg_no1").val(dataItem.COMREG_NO);
-        $("#dpComreg_date1").val(dataItem.COMREG_DATE);
-        $("#txtComreg_typ1").val(dataItem.COMREG_TYP);
-        $("#ddlComreg_gov1").data("kendoDropDownList").text(dataItem.COMREG_GOV);
-        $("#ddlCty_nb1").data("kendoDropDownList").text(dataItem.CTY_NB);
-        $("#ddlReg_nb1").data("kendoDropDownList").text(dataItem.REG_NB);
+        $("#ddlComreg_typ1").data("kendoDropDownList").value(dataItem.COMREG_TYP);
+        $("#ddlComreg_gov1").data("kendoDropDownList").value(dataItem.COMREG_GOV);
+        $("#ddlCty_nb1").data("kendoDropDownList").value(dataItem.CTY_NB);
+        $("#ddlReg_nb1").data("kendoDropDownList").value(dataItem.REG_NB);
         $("#txtAddress1").val(dataItem.ADDRESS);
         $("#txtPhone1_1").val(dataItem.PHONE1);
         $("#txtPhone2_1").val(dataItem.PHONE2);
         $("#txtMobile1").val(dataItem.MOBILE);
         $("#txtFax1").val(dataItem.FAX);
         $("#txtNote1").val(dataItem.NOTE);
+
+        $("#dpComreg_date1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.COMREG_DATE
+        });
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         return;
@@ -764,7 +799,7 @@
                 COMPNAME: $("#txtCompname1").val(),
                 COMREG_NO: $("#txtComreg_no1").val(),
                 COMREG_DATE: $("#dpComreg_date1").val(),
-                COMREG_TYP: $("#txtComreg_typ1").val(),
+                COMREG_TYP: $("#ddlComreg_typ1").val(),
                 COMREG_GOV: $("#ddlComreg_gov1").val(),
                 CTY_NB: $("#ddlCty_nb1").val(),
                 REG_NB: $("#ddlReg_nb1").val(),
@@ -801,48 +836,6 @@
             return false;
         }
     }
-
-    //function GovernValue() {
-    //    ddlgovern = $("#ddlComreg_gov").val()
-    //    return ddlgovern;
-    //}
-
-    //function CityValue() {
-    //    return {
-    //        cityId: $("#ddlCty_nb").val()
-    //    };
-    //}
-
-    @*function CityResource() {
-        var govern = $("#ddlComreg_gov").val()
-        var url = '@Url.Action("GetCityByGovern", "Codes")' + '?govern=' + govern;
-        //$("#ddlCty_nb").kendoDropDownList({
-        //    dataTextField: "Name",
-        //    dataValueField: "Id",
-        //    dataSource: {
-        //        transport: {
-        //            read: {
-        //                url: url,
-        //                dataType: "json"
-        //            }
-        //        }
-        //    }
-        //});
-        var dataSource = new kendo.data.DataSource({
-            data: url
-        });
-        var dropdownlist = $("#ddlCty_nb").data("kendoDropDownList");
-        dropdownlist.setDataSource(dataSource);
-    }*@
-
-    @*function CitySource() {
-        var url = '@Url.Action("GetCityByGovern", "Codes")' + '?govern=' + govern;
-        $("#ddlCty_nb").kendoDropDownList({
-            dataSource: url,
-            dataTextField: "Name",
-            dataValueField: "Id"
-        }).data("kendoDropDownList");
-    }*@
 
     function CityDataSource() {
         var govern = $("#ddlComreg_gov").val()

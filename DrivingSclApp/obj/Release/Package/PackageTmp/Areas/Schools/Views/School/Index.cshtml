@@ -5,8 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    #grid {
+        width: 1600px;
+    }
+</style>
+
 <!-- Header -->
-<div class="panel panel-default panel-search">
+<div class="panel panel-default panel-search" style="width:1600px">
     <div class="panel-heading">
         <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">المدارس</a>
     </div>
@@ -64,6 +70,7 @@
             .Name("grid")
             .Columns(columns =>
             {
+                columns.Command(command => { command.Custom("تفاصيل").Click("details"); }).Title("تفاصيل").Width(100);
                 columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
                 columns.Bound(c => c.NB).Visible(false);
                 columns.Bound(c => c.SCLNAME);
@@ -73,9 +80,9 @@
                 columns.Bound(c => c.CTY_NAME);
                 columns.Bound(c => c.REG_NAME);
                 columns.Bound(c => c.COMREG_NO);
-                columns.Bound(c => c.COMREG_DATE);
+                columns.Bound(c => c.COMREG_DATE).Format("{0:dd/MM/yyyy}");
                 columns.Bound(c => c.COMREG_GOV);
-                columns.Bound(c => c.COMREG_TYP);
+                columns.Bound(c => c.COMREG_TYP).Visible(false);
                 columns.Bound(c => c.ADDRESS);
                 columns.Bound(c => c.CTY_NB).Visible(false);
                 columns.Bound(c => c.REG_NB).Visible(false);
@@ -108,7 +115,7 @@
                     pageable.Refresh(true);
                     pageable.PageSizes(true);
                 })
-)
+        )
     </div>
 </div>
 
@@ -116,43 +123,225 @@
 <div id="AddDiv">
     <div class="k-rtl">
         @(Html.Kendo().Window().Name("AddDetails")
-        .Title("إضافة مدينة")
+        .Title("إضافة مدرسة")
         .Visible(false)
         .Modal(true)
         .Content(@<text>
             <div style="width:95%;" id="fieldlist">
                 <form id="Addform">
-                        <div id="save-container" class="k-edit-form-container">
-                            <div class="editor-label">
-                                @Html.Label("المدينة", htmlAttributes: new { @class = "control-label" })
+                    <div id="save-container" @*class="k-edit-form-container"*@>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("اسم المدرسة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtSclname")
+                                            .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("رمز المدرسة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtScl_code")
+                                            .HtmlAttributes(new { placeholder = "أدخل رمز المدرسة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("نوع المدرسة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر نوع المدرسة")
+                                        .Name("ddlSty_name")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetSclType", "Codes", new { area = "Indexes" });
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
                             </div>
-                            <div class="editor-field">
-                                @(Html.Kendo().TextBox()
-                                    .Name("txtName")
-                                    .HtmlAttributes(new { placeholder = "أدخل اسم المدينة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
-                                )
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("المحافظة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر المحافظة")
+                                        .Name("ddlGov_name")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetGovern", "Codes", new { area = "Indexes" });
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%" })
+                                        .Events(e =>
+                                        {
+                                            e.Change("CityDataSource");
+                                        })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("المدينة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر المدينة")
+                                        .Name("ddlCty_name")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetCity", "Codes", new { area = "Indexes" });
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%" })
+                                        .Events(e => 
+                                        {
+                                            e.Change("RegionDataSource");
+                                        })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("المنطقة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر المنطقة")
+                                        .Name("ddlReg_name")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetRegion", "Codes", new { area = "Indexes" });
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
                             </div>
-                            <div class="editor-label">
-                                @Html.Label("المحافظة :", htmlAttributes: new { @class = "control-label" })
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("رقم السجل :", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtComreg_no")
+                                            .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("تاريخ السجل", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DatePicker()
+                                            .Name("dpComreg_date")
+                                            .HtmlAttributes(new { placeholder = "أدخل تاريخ السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("رمز مصدر السجل", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtComreg_gov")
+                                            .HtmlAttributes(new { placeholder = "رمز مصدر السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
                             </div>
-                            <div class="editor-field">
-                                @(Html.Kendo().DropDownList()
-                                .OptionLabel("اختر المحافظة")
-                                .Name("ddlGovern")
-                                .DataTextField("Name")
-                                .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
-                                .DataSource(source =>
-                                {
-                                    source.Read(read =>
-                                    {
-                                        read.Action("GetGovern", "Codes");
-                                    });
-                                })
-                                .HtmlAttributes(new { style = "width: 100%" })
-                                )
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("نوع السجل التجاري", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر نوع السجل التجاري")
+                                        .Name("ddlComreg_typ")
+                                        .DataTextField("Text")
+                                        .DataValueField("Value").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetComreg_Typ", "Codes", new { area = "Indexes" });
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("العنوان", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtAddress")
+                                            .HtmlAttributes(new { placeholder = "أدخل العنوان", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("حالة المدرسة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر حالة المدرسة")
+                                        .Name("ddlSts_name")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetSclStatus", "Codes", new { area = "Indexes" });
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row" style="margin-top:20px"></div>
-                            <div class="k-edit-buttons k-state-default">
+                        </div>
+                        <div class="row" style="margin-top:20px"></div>
+                        <div class="k-edit-buttons k-state-default">
                             @(Html.Kendo().Button()
                                 .Name("btnSave")
                                 .Content("حفظ")
@@ -165,15 +354,15 @@
                                 .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
                                 .Events(e => e.Click("btnReset_Click"))
                             )
-                            </div>
-                         </div>
+                        </div>
+                        </div>
                 </form>
             </div>
         </text>)
         .Draggable(true) //Enable dragging of the window
         .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
-            .Width(450)     //Set width of the window
-            .Height(200)
+            .Width(900)     //Set width of the window
+            .Height(400)
         )
     </div>
 </div>
@@ -182,58 +371,240 @@
 <div id="EditDiv">
     <div class="k-rtl">
         @(Html.Kendo().Window().Name("EditDetails")
-        .Title("تعديل بيانات مدينة")
+        .Title("تعديل مدرسة")
         .Visible(false)
         .Modal(true)
         .Content(@<text>
             <div style="width:95%;" id="fieldlist">
                 <form id="Editform">
-                    <div id="Update-container" class="k-edit-form-container">
+                    <div id="Update-container" @*class="k-edit-form-container"*@>
                         <div class="col-md-12">
                             @Html.Hidden("txtId")
-                            <div class="editor-label">
-                                @Html.Label("المدينة", htmlAttributes: new { @class = "control-label" })
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("اسم المدرسة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtSclname1")
+                                                .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("رمز المدرسة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtScl_code1")
+                                                .HtmlAttributes(new { placeholder = "أدخل رمز المدرسة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("نوع المدرسة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر نوع المدرسة")
+                                            .Name("ddlSty_name1")
+                                            .DataTextField("Name")
+                                            .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetSclType", "Codes", new { area = "Indexes" });
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("المحافظة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر المحافظة")
+                                            .Name("ddlGov_name1")
+                                            .DataTextField("Name")
+                                            .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetGovern", "Codes", new { area = "Indexes" });
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
+                                            .Events(e =>
+                                            {
+                                                e.Change("CityDataSourceEdit");
+                                            })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("المدينة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر المدينة")
+                                            .Name("ddlCty_name1")
+                                            .DataTextField("Name")
+                                            .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetCity", "Codes", new { area = "Indexes" });
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
+                                            .Events(e =>
+                                            {
+                                                e.Change("RegionDataSourceEdit");
+                                            })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("المنطقة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر المنطقة")
+                                            .Name("ddlReg_name1")
+                                            .DataTextField("Name")
+                                            .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetRegion", "Codes", new { area = "Indexes" });
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("رقم السجل :", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtComreg_no1")
+                                                .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("رمز مصدر السجل", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtComreg_gov1")
+                                                .HtmlAttributes(new { placeholder = "رمز مصدر السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("تاريخ السجل", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DatePicker()
+                                                .Name("dpComreg_date1")
+                                                .HtmlAttributes(new { placeholder = "أدخل تاريخ السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("نوع السجل التجاري", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر نوع السجل التجاري")
+                                            .Name("ddlComreg_typ1")
+                                            .DataTextField("Text")
+                                            .DataValueField("Value").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetComreg_Typ", "Codes", new { area = "Indexes" });
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("العنوان", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtAddress1")
+                                                .HtmlAttributes(new { placeholder = "أدخل العنوان", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("حالة المدرسة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر حالة المدرسة")
+                                            .Name("ddlSts_name1")
+                                            .DataTextField("Name")
+                                            .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetSclStatus", "Codes", new { area = "Indexes" });
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="editor-field">
-                                @(Html.Kendo().TextBox()
-                                    .Name("txtName1")
-                                    .HtmlAttributes(new { placeholder = "ادخل اسم المدينة", required = "required", validationmessage = "*", maxlength = "50", @class = "form-control", style = "width: 100%", })
-                                )
-                            </div>
-                            <div class="editor-label">
-                                @Html.Label("المحافظة", htmlAttributes: new { @class = "control-label" })
-                            </div>
-                            <div class="editor-field">
-                                @(Html.Kendo().DropDownList()
-                                    .OptionLabel("اختر المحافظة")
-                                    .Name("ddlGovern1")
-                                    .DataTextField("Name")
-                                    .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
-                                    .DataSource(source =>
-                                    {
-                                        source.Read(read =>
-                                        {
-                                            read.Action("GetGovern", "Codes");
-                                        });
-                                    })
-                                    .HtmlAttributes(new { style = "width: 100%" })
-                                )
-                                <div class="row" style="margin-top:20px"></div>
-                            <div class="k-edit-buttons k-state-default">
-                                @(Html.Kendo().Button()
-                                    .Name("btnUpdate")
-                                    .Content("حفظ")
-                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
-                                    .Events(e => e.Click("btnUpdate_Click"))
-                                )
-                                @(Html.Kendo().Button()
-                                    .Name("btnUpdateReset")
-                                    .Content("تراجع")
-                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
-                                    .Events(e => e.Click("btnUpdateReset_Click"))
-                                )
-                            </div>
-                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px"></div>
+                        <div class="k-edit-buttons k-state-default">
+                            @(Html.Kendo().Button()
+                                .Name("btnUpdate")
+                                .Content("حفظ")
+                                .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                .Events(e => e.Click("btnUpdate_Click"))
+                            )
+                            @(Html.Kendo().Button()
+                                .Name("btnUpdateReset")
+                                .Content("تراجع")
+                                .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                .Events(e => e.Click("btnUpdateReset_Click"))
+                            )
                         </div>
                     </div>
                 </form>
@@ -241,8 +612,8 @@
         </text>)
     .Draggable(true) //Enable dragging of the window
     .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
-    .Width(450)     //Set width of the window
-    .Height(200)
+    .Width(900)     //Set width of the window
+    .Height(400)
     )
     </div>
 </div>
@@ -286,6 +657,13 @@
         }
     }
 
+    function details(e) {
+        debugger
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location.href = '/Schools/School/IndexDetails?id=' + dataItem.NB;
+    }
+
     // when i press "add" from the grid
     $("#newAdd").click(function (e) {
         debugger
@@ -302,8 +680,22 @@
         var wnd = $("#EditDetails").data("kendoWindow");
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         $("#txtId").val(dataItem.NB);
-        $("#txtName1").val(dataItem.NAME);
-        $("#ddlGovern1").data("kendoDropDownList").text(dataItem.GOVNAME);
+        $("#txtScl_code1").val(dataItem.SCL_CODE);
+        $('#txtSclname1').val(dataItem.SCLNAME);
+        $('#ddlSty_name1').data("kendoDropDownList").value(dataItem.ST_NB);
+        $('#ddlGov_name1').data("kendoDropDownList").value(dataItem.GOV_NB);
+        $('#txtComreg_no1').val(dataItem.COMREG_NO);
+        $('#ddlComreg_typ1').data("kendoDropDownList").value(dataItem.COMREG_TYP)
+        $('#txtComreg_gov1').val(dataItem.COMREG_GOV);
+        $('#ddlCty_name1').data("kendoDropDownList").value(dataItem.CTY_NB);
+        $('#ddlReg_name1').data("kendoDropDownList").value(dataItem.REG_NB);
+        $('#txtAddress1').val(dataItem.ADDRESS);
+        $('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
+        $("#dpComreg_date1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.COMREG_DATE
+        });
+
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         wnd.center().open();
     }
@@ -314,17 +706,28 @@
         var validator = $("#save-container").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
 
-            var cityModel = {
-                NAME: $('#txtName').val(),
-                GOVNAME: $('#txtGovern').val(),
-                GOV_NB: $('#ddlGovern').val(),
+            var schoolModel = {
+                SCL_CODE: $('#txtScl_code').val(),
+                SCLNAME: $('#txtSclname').val(),
+                ST_NB: $('#ddlSty_name').val(),
+                GOV_NB: $('#ddlGov_name').val(),
+                COMREG_NO: $('#txtComreg_no').val(),
+                COMREG_DATE: $('#dpComreg_date').val(),
+                COMREG_TYP: $('#ddlComreg_typ').val(),
+                COMREG_GOV: $('#txtComreg_gov').val(),
+                CTY_NB: $('#ddlCty_name').val(),
+                REG_NB: $('#ddlReg_name').val(),
+                ADDRESS: $('#txtAddress').val(),
+                STS_NB: $('#ddlSts_name').val()
             }
+
             var model = {
-                "model": cityModel
+                "model": schoolModel
             }
+
             $.ajax({
                 type: "POST",
-                url: '/zCity/Create', data: model,
+                url: '/School/Create', data: model,
                 datatype: "json",
                 cache: false,
                 success: function (response) {
@@ -332,7 +735,11 @@
                     $('#error_msg').hide();
                     $('#labelIdd').text(response.responseText);
                 },
-
+                fail: function (response) {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                }
             });
             btnReset_Click();
             var wnd = $("#AddDetails").data("kendoWindow");
@@ -349,9 +756,25 @@
     // when i click reset in add window
     function btnReset_Click() {
         debugger
-        $("#ddlGovern").data('kendoDropDownList').value(-1);
-        $("#txtName").val("")
 
+        $('#txtScl_code').val("");
+        $('#txtSclname').val("");
+        $('#ddlSty_name').data("kendoDropDownList").value(-1);
+        $('#ddlGov_name').data("kendoDropDownList").value(-1);
+        $('#txtComreg_no').val("");
+        //$('#dpComreg_date').data('kendoDatePicker').text("");
+        $("#dpComreg_date").val("");
+        $('#ddlComreg_typ').data("kendoDropDownList").value(-1)
+        $('#txtComreg_gov').val("");
+        $('#ddlCty_name').data("kendoDropDownList").value(-1);
+        $('#ddlReg_name').data("kendoDropDownList").value(-1);
+        $('#txtAddress').val("");
+        $('#ddlSts_name').data("kendoDropDownList").value(-1);
+
+        $("#dpComreg_date").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: ""
+        });
 
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
         var wnd = $("#AddDetails").data("kendoWindow");
@@ -363,10 +786,27 @@
     function btnUpdateReset_Click() {
         debugger
 
-        var Id = $("#txtId1").val();
+        var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
-        $("#ddlGovern1").val(dataItem.GOVNAME).data("kendoDropDownList").value(dataItem.GOVNAME)
-        $("#txtName1").val(dataItem.NAME)
+        alert(dataItem.GOV_NB);
+        alert(dataItem.CTY_NB);
+        alert(dataItem.REG_NB);
+
+        $("#txtScl_code1").val(dataItem.SCL_CODE);
+        $('#txtSclname1').val(dataItem.SCLNAME);
+        $('#ddlSty_name1').data("kendoDropDownList").value(dataItem.ST_NB);
+        $('#ddlGov_name1').data("kendoDropDownList").value(dataItem.GOV_NB);
+        $('#txtComreg_no1').val(dataItem.COMREG_NO);
+        $('#ddlComreg_typ1').data("kendoDropDownList").value(dataItem.COMREG_TYP)
+        $('#txtComreg_gov1').val(dataItem.COMREG_GOV);
+        $('#ddlCty_name1').data("kendoDropDownList").value(dataItem.CTY_NB);
+        $('#ddlReg_name1').data("kendoDropDownList").value(dataItem.REG_NB);
+        $('#txtAddress1').val(dataItem.ADDRESS);
+        $('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
+        $("#dpComreg_date1").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.COMREG_DATE
+        });
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         return;
@@ -378,19 +818,27 @@
         var validator = $("#Update-container").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
 
-            var cityModel = {
+            var schoolModel = {
                 NB: $("#txtId").val(),
-                NAME: $('#txtName1').val(),
-                GOV_NB: $('#ddlGovern1').val(),
-
-
+                SCL_CODE: $('#txtScl_code1').val(),
+                SCLNAME: $('#txtSclname1').val(),
+                ST_NB: $('#ddlSty_name1').val(),
+                GOV_NB: $('#ddlGov_name1').val(),
+                COMREG_NO: $('#txtComreg_no1').val(),
+                COMREG_DATE: $('#dpComreg_date1').val(),
+                COMREG_TYP: $('#ddlComreg_typ1').val(),
+                COMREG_GOV: $('#txtComreg_gov1').val(),
+                CTY_NB: $('#ddlCty_name1').val(),
+                REG_NB: $('#ddlReg_name1').val(),
+                ADDRESS: $('#txtAddress1').val(),
+                STS_NB: $('#ddlSts_name1').val()
             }
             var model = {
-                "model": cityModel
+                "model": schoolModel
             }
             $.ajax({
                 type: "POST",
-                url: '/zCity/Update', data: model,
+                url: '/School/Update', data: model,
                 datatype: "json",
                 cache: false,
                 success: function (response) {
@@ -410,5 +858,97 @@
         else {
             return false;
         }
+    }
+
+    function CityDataSource() {
+        var govern = $("#ddlGov_name").val()
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetCityByGovern", "Codes", new { area = "Indexes" })',
+            data: { govern: govern },
+            dataType: "json",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#ddlCty_name").data("kendoDropDownList");
+                dropdownlist.setDataSource(dataSource);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function RegionDataSource() {
+        var city = $("#ddlCty_name").val()
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetRegionByCity", "Codes", new { area = "Indexes" })',
+            data: { city: city },
+            dataType: "json",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#ddlReg_name").data("kendoDropDownList");
+                dropdownlist.setDataSource(dataSource);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function CityDataSourceEdit() {
+        var govern = $("#ddlGov_name1").val()
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetCityByGovern", "Codes", new { area = "Indexes" })',
+            data: { govern: govern },
+            dataType: "json",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#ddlCty_name1").data("kendoDropDownList");
+                dropdownlist.setDataSource(dataSource);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function RegionDataSourceEdit() {
+        var city = $("#ddlCty_name1").val()
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetRegionByCity", "Codes", new { area = "Indexes" })',
+            data: { city: city },
+            dataType: "json",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#ddlReg_name1").data("kendoDropDownList");
+                dropdownlist.setDataSource(dataSource);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
     }
 </script>

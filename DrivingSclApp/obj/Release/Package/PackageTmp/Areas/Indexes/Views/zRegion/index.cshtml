@@ -60,19 +60,19 @@
 <div id="IdivForm">
     <div class="k-rtl">
         @(Html.Kendo().Grid<DrivingSclApp.Areas.Indexes.Data.RegionVM>()
-            .Name("grid")
-            .Columns(columns =>
-            {
-                columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
-                columns.Bound(c => c.NB).Visible(false);
-                columns.Bound(c => c.NAME).Width(150);
-                columns.Bound(c => c.CTY_NB).Visible(false);
-                columns.Bound(c => c.CityName).Width(150).Filterable(false);
-            })
-            .HtmlAttributes(new { style = "height: 550px;" })
-            .Sortable()
-            .Filterable()
-            .DataSource(dataSource => dataSource
+        .Name("grid")
+        .Columns(columns =>
+        {
+            columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
+            columns.Bound(c => c.NB).Visible(false);
+            columns.Bound(c => c.NAME).Width(150);
+            columns.Bound(c => c.CTY_NB).Visible(false);
+            columns.Bound(c => c.CityName).Width(150).Filterable(false);
+        })
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Sortable()
+        .Filterable()
+        .DataSource(dataSource => dataSource
             .Ajax()
             .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
             .PageSize(15)
@@ -81,20 +81,20 @@
             .Read(read => read.Action("Read", "zRegion"))
             .Update(update => update.Action("Update", "zRegion"))
             .Destroy(update => update.Action("Destroy", "zRegion"))
-            )
-            .Resizable(resize => resize
+        )
+        .Resizable(resize => resize
             .Columns(true)
-            )
-            .ToolBar(toolbar =>
-                {
-                    toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
-                })
-                .Pageable(pageable =>
-                {
-                    pageable.Refresh(true);
-                    pageable.PageSizes(true);
-                })
-)
+        )
+        .ToolBar(toolbar =>
+        {
+            toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
+        })
+        .Pageable(pageable =>
+        {
+            pageable.Refresh(true);
+            pageable.PageSizes(true);
+        })
+        )
     </div>
 </div>
 
@@ -273,12 +273,11 @@
         </text>)
     .Draggable(true) //Enable dragging of the window
     .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
-    .Width(450)     //Set width of the window
-    .Height(200)
+    .Width(500)     //Set width of the window
+    .Height(300)
     )
     </div>
 </div>
-
 
 <script>
     // messages
@@ -336,7 +335,8 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         $("#txtId").val(dataItem.NB);
         $("#txtName1").val(dataItem.NAME);
-        $("#ddlCity1").data("kendoDropDownList").text(dataItem.CityName);
+        $("#ddlCity1").data("kendoDropDownList").value(dataItem.CTY_NB);
+
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         wnd.center().open();
     }
@@ -383,6 +383,7 @@
         debugger
         $("#ddlCity").data('kendoDropDownList').value(-1);
         $("#txtName").val("")
+        $("#ddlGovern").data('kendoDropDownList').value(-1);
 
 
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
@@ -395,10 +396,11 @@
     function btnUpdateReset_Click() {
         debugger
 
-        var Id = $("#txtId1").val();
+        var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
-        $("#ddlCity1").val(dataItem.GOVNAME).data("kendoDropDownList").value(dataItem.GOVNAME)
-        $("#txtName1").val(dataItem.NAME)
+        $("#ddlCity1").data("kendoDropDownList").value(dataItem.CTY_NB);
+        $("#txtName1").val(dataItem.NAME);
+        $("#ddlGovern1").data('kendoDropDownList').value(-1);
 
         $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
         return;

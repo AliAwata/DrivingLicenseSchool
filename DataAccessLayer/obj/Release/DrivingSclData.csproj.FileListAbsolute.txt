@@ -1,0 +1,14 @@
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Release\DrivingSclData.dll.config
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Release\DrivingSclData.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Release\DrivingSclData.pdb
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Release\EntityFramework.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Release\EntityFramework.SqlServer.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Release\Oracle.ManagedDataAccess.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Release\Oracle.ManagedDataAccess.EntityFramework.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Release\EntityFramework.xml
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\bin\Release\EntityFramework.SqlServer.xml
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\obj\Release\DrivingSclData.csproj.AssemblyReference.cache
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\obj\Release\DrivingSclData.csproj.CoreCompileInputs.cache
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\obj\Release\DrivingSclData.csproj.CopyComplete
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\obj\Release\DrivingSclData.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DataAccessLayer\obj\Release\DrivingSclData.pdb

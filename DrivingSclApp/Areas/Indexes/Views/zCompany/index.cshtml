@@ -68,55 +68,55 @@
 <div id="IdivForm">
     <div class="k-rtl">
         @(Html.Kendo().Grid<DrivingSclApp.Areas.Indexes.Data.CompanyVM>()
-            .Name("grid")
-            .Columns(columns =>
-            {
-                columns.Command(command => { command.Custom("تفاصيل").Click("details"); }).Title("تفاصيل").Width(100);
-                columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
-                columns.Bound(c => c.NB).Visible(false).Width(50);
-                columns.Bound(c => c.COMPNAME).Width(50);
-                columns.Bound(c => c.COMREG_NO).Width(100);
-                columns.Bound(c => c.COMREG_DATE).Width(100).Format("{0:dd/MM/yyyy}");
-                columns.Bound(c => c.COMREG_TYP).Width(100).Visible(false);
-                columns.Bound(c => c.COMREG_GOV).Visible(false).Width(100);
-                columns.Bound(c => c.CTY_NB).Visible(false).Width(100);
-                columns.Bound(c => c.REG_NB).Visible(false).Width(100);
-                columns.Bound(c => c.ADDRESS).Width(100);
-                columns.Bound(c => c.PHONE1).Width(100);
-                columns.Bound(c => c.PHONE2).Width(100);
-                columns.Bound(c => c.MOBILE).Width(100);
-                columns.Bound(c => c.FAX).Width(100);
-                columns.Bound(c => c.NOTE).Width(100);
-                columns.Bound(c => c.GovName).Width(100);
-                columns.Bound(c => c.CityName).Width(100);
-                columns.Bound(c => c.RegionName).Width(100);
-            })
-            .HtmlAttributes(new { style = "height: 1000px;" })
-            .Sortable()
-            .Filterable()
-            .DataSource(dataSource => dataSource
-                .Ajax()
-                .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
-                .PageSize(15)
-                .Model(model => model.Id(p => p.NB))
-                .Create(update => update.Action("Create", "zCompany"))
-                .Read(read => read.Action("Read", "zCompany"))
-                .Update(update => update.Action("Update", "zCompnay"))
-                .Destroy(update => update.Action("Destroy", "zCompany"))
-            )
-            .Resizable(resize => resize
-                .Columns(true)
-            )
-            .ToolBar(toolbar =>
-            {
-                toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
-            })
-            .Pageable(pageable =>
-            {
-                pageable.Refresh(true);
-                pageable.PageSizes(true);
-            })
-)
+        .Name("grid")
+        .Columns(columns =>
+        {
+            columns.Command(command => { command.Custom("تفاصيل").Click("details"); }).Title("تفاصيل").Width(100);
+            columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
+            columns.Bound(c => c.NB).Visible(false).Width(50);
+            columns.Bound(c => c.COMPNAME).Width(50);
+            columns.Bound(c => c.COMREG_NO).Width(100);
+            columns.Bound(c => c.COMREG_DATE).Width(100).Format("{0:dd/MM/yyyy}");
+            columns.Bound(c => c.COMREG_TYP).Width(100).Visible(false);
+            columns.Bound(c => c.COMREG_GOV).Visible(false).Width(100);
+            columns.Bound(c => c.CTY_NB).Visible(false).Width(100);
+            columns.Bound(c => c.REG_NB).Visible(false).Width(100);
+            columns.Bound(c => c.ADDRESS).Width(100);
+            columns.Bound(c => c.PHONE1).Width(100);
+            columns.Bound(c => c.PHONE2).Width(100);
+            columns.Bound(c => c.MOBILE).Width(100);
+            columns.Bound(c => c.FAX).Width(100);
+            columns.Bound(c => c.NOTE).Width(100);
+            columns.Bound(c => c.GovName).Width(100);
+            columns.Bound(c => c.CityName).Width(100);
+            columns.Bound(c => c.RegionName).Width(100);
+        })
+        .HtmlAttributes(new { style = "height: 1000px;" })
+        .Sortable()
+        .Filterable()
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
+            .PageSize(15)
+            .Model(model => model.Id(p => p.NB))
+            .Create(update => update.Action("Create", "zCompany"))
+            .Read(read => read.Action("Read", "zCompany"))
+            .Update(update => update.Action("Update", "zCompnay"))
+            .Destroy(update => update.Action("Destroy", "zCompany"))
+        )
+        .Resizable(resize => resize
+            .Columns(true)
+        )
+        .ToolBar(toolbar =>
+        {
+            toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
+        })
+        .Pageable(pageable =>
+        {
+            pageable.Refresh(true);
+            pageable.PageSizes(true);
+        })
+        )
     </div>
 </div>
 

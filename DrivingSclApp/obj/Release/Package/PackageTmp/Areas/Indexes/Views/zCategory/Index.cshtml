@@ -1,0 +1,561 @@
+﻿@model IEnumerable<DrivingSclApp.Areas.Indexes.Data.CategoryVM>
+
+@{
+    ViewBag.Title = "فئات الشهادة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Header -->
+<div class="panel panel-default panel-search">
+    <div class="panel-heading">
+        <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">فئات الشهادة</a>
+    </div>
+    <div id="filter_body" class="collapse">
+        <div class="panel-body">
+
+        </div>
+    </div>
+</div>
+
+<!-- Messages -->
+@if (ViewBag.Alert == "Deleted")
+{
+    <div id="success_msg" class="bf-messages" role="alert" style="display:none">
+        <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
+            <a class="close" data-dissmiss="alert" href="#"></a>
+            <span class="bf-messages">
+                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                <span style="color:green" class="bf-messages">
+                    <span class="bf-messages">تم حذف السجل بنجاح </span>
+                </span>
+            </span>
+        </div>
+    </div>
+}
+
+<div id="success_msg" class="bf-messages" role="alert" style="display:none">
+    <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
+        <a class="close" data-dissmiss="alert" href="#"></a>
+        <span class="bf-messages">
+            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+            <span style="color:green" class="bf-messages">
+                <label id="labelIdd"></label>
+            </span>
+        </span>
+    </div>
+</div>
+
+<div id="error_msg" class="bf-messages" role="alert" style="display:none">
+    <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
+        <a class="close" data-dissmiss="alert" href="#">*</a>
+        <span class="bf-messages">
+            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+            <span style="color:red" class="bf-messages">
+                <label id="errlabelIdd"></label>
+            </span>
+        </span>
+    </div>
+</div>
+
+<!-- Kendo -->
+<div id="IdivForm">
+    <div class="k-rtl">
+        @(Html.Kendo().Grid<DrivingSclApp.Areas.Indexes.Data.CategoryVM>()
+            .Name("grid")
+            .Columns(columns =>
+            {
+                columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
+                columns.Bound(c => c.NB).Visible(false);
+                columns.Bound(c => c.NAME).Width(150);
+                columns.Bound(c => c.PREV_CATG).Width(150).Visible(false);
+                columns.Bound(c => c.CATG_NAME).Width(150);
+                columns.Bound(c => c.STUDENT_PER_CAR).Width(150);
+                columns.Bound(c => c.STUDENT_PER_MOTO).Width(150);
+                columns.Bound(c => c.METERS_FOR_STUDENT).Width(150);
+                columns.Bound(c => c.MAX_STUDENTS_PER_HALL).Width(150);
+                columns.Bound(c => c.NOTE).Width(150);
+            })
+            .HtmlAttributes(new { style = "height: 550px;" })
+            .Sortable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
+            .PageSize(15)
+            .Model(model => model.Id(p => p.NB))
+            .Create(update => update.Action("Create", "zCategory"))
+            .Read(read => read.Action("Read", "zCategory"))
+            .Update(update => update.Action("Update", "zCategory"))
+            .Destroy(update => update.Action("Destroy", "zCategory")))
+            .Resizable(resize => resize
+            .Columns(true)
+            )
+            .ToolBar(toolbar =>
+                {
+                    toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
+                })
+                .Pageable(pageable =>
+                {
+                    pageable.Refresh(true);
+                    pageable.PageSizes(true);
+                })
+)
+    </div>
+</div>
+
+<!-- Add -->
+<div id="AddDiv">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("AddDetails")
+        .Title("إضافة فئة")
+        .Visible(false)
+        .Modal(true)
+        .Content(@<text>
+            <div style="width:95%;" id="fieldlist">
+                <form id="Addform">
+                        <div id="save-container" @*class="k-edit-form-container"*@>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="editor-label">
+                                            @Html.Label("الفئة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtCategory")
+                                                .HtmlAttributes(new { placeholder = "أدخل اسم الفئة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("الفئة السابقة :", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().DropDownList()
+                                            .OptionLabel("اختر الفئة السابقة")
+                                            .Name("ddlPrev_cat")
+                                            .DataTextField("Name")
+                                            .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetCategories", "Codes");
+                                                });
+                                            })
+                                            .HtmlAttributes(new { style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("عدد الطلاب لكل مركبة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtNum_car")
+                                                .HtmlAttributes(new { placeholder = "أدخل العدد", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("عدد الطلاب لكل دراجة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtNum_moto")
+                                                .HtmlAttributes(new { placeholder = "أدخل العدد", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("المساحة المطلوبة لكل طالب", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtSpace_stu")
+                                                .HtmlAttributes(new { placeholder = "أدخل المساحة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("عدد الطلاب الأعظمي لكل قاعة", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtNum_room")
+                                                .HtmlAttributes(new { placeholder = "أدخل العدد", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="editor-label">
+                                            @Html.Label("ملاحظات", htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="editor-field">
+                                            @(Html.Kendo().TextBox()
+                                                .Name("txtNote")
+                                                .HtmlAttributes(new { placeholder = "أدخل الملاحظة", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                            )
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:20px"></div>
+                            <div class="k-edit-buttons k-state-default">
+                            @(Html.Kendo().Button()
+                                .Name("btnSave")
+                                .Content("حفظ")
+                                .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;" })
+                                .Events(e => e.Click("btnSave_Click"))
+                            )
+                            @(Html.Kendo().Button()
+                                .Name("btnReset")
+                                .Content("تراجع")
+                                .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
+                                .Events(e => e.Click("btnReset_Click"))
+                            )
+                            </div>
+                         </div>
+                </form>
+            </div>
+        </text>)
+        .Draggable(true) //Enable dragging of the window
+        .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
+            .Width(900)     //Set width of the window
+            .Height(300)
+        )
+    </div>
+</div>
+
+<!-- Edit -->
+<div id="EditDiv">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("EditDetails")
+        .Title("تعديل بيانات مدينة")
+        .Visible(false)
+        .Modal(true)
+        .Content(@<text>
+            <div style="width:95%;" id="fieldlist">
+                <form id="Editform">
+                    <div id="Update-container" @*class="k-edit-form-container"*@>
+                        <div class="container-fluid">
+                            @Html.Hidden("txtId")
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <div class="editor-label">
+                                        @Html.Label("الفئة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtCategory1")
+                                            .HtmlAttributes(new { placeholder = "أدخل اسم الفئة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الفئة السابقة :", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر الفئة السابقة")
+                                        .Name("ddlPrev_cat1")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetCategories", "Codes");
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("عدد الطلاب لكل مركبة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtNum_car1")
+                                            .HtmlAttributes(new { placeholder = "أدخل العدد", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("عدد الطلاب لكل دراجة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtNum_moto1")
+                                            .HtmlAttributes(new { placeholder = "أدخل العدد", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("المساحة المطلوبة لكل طالب", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtSpace_stu1")
+                                            .HtmlAttributes(new { placeholder = "أدخل المساحة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("عدد الطلاب الأعظمي لكل قاعة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtNum_room1")
+                                            .HtmlAttributes(new { placeholder = "أدخل العدد", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="editor-label">
+                                        @Html.Label("ملاحظات", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtNote1")
+                                            .HtmlAttributes(new { placeholder = "أدخل الملاحظة", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px"></div>
+                            <div class="k-edit-buttons k-state-default">
+                                @(Html.Kendo().Button()
+                                    .Name("btnUpdate")
+                                    .Content("حفظ")
+                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .Events(e => e.Click("btnUpdate_Click"))
+                                )
+                                @(Html.Kendo().Button()
+                                    .Name("btnUpdateReset")
+                                    .Content("تراجع")
+                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .Events(e => e.Click("btnUpdateReset_Click"))
+                                )
+                            </div>
+                    </div>
+                </form>
+            </div>
+        </text>)
+    .Draggable(true) //Enable dragging of the window
+    .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
+    .Width(900)     //Set width of the window
+    .Height(300)
+    )
+    </div>
+</div>
+
+<script>
+    // Messages
+    function OnRequestEnd(e) {
+        if (e.type == "update" && e.response != null && e.response.success && !e.response.Errors) {
+            $('#success_msg').show();
+            $('#error_msg').hide();
+            $('#labelIdd').text(e.response.responseText);
+        }
+        if (e.type == "destroy" && e.response != null && e.response.success && !e.response.Errors) {
+            $('#success_msg').show();
+            $('#error_msg').hide();
+            $('#labelIdd').text(e.response.responseText);
+        }
+        if (e.response != null && !e.response.success && e.response.responseText != null) {
+            $('#success_msg').hide();
+            $('#error_msg').show();
+            $('#errlabelIdd').text(e.response.responseText);
+        }
+    }
+
+    function sync_handler(e) {
+        this.read();
+    }
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            $(".errorMessage").text(message);
+            alert(message);
+        }
+    }
+
+    // when i press "add" from the grid
+    $("#newAdd").click(function (e) {
+        debugger
+        e.preventDefault();
+        $("#AddDetails").data("kendoWindow").center().open();
+        $("#newAdd").show();
+        $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
+    });
+
+    // when i press "edit" on a row and to fill the fields of the edit window
+    function editDetails(e) {
+        debugger
+        e.preventDefault();
+        var wnd = $("#EditDetails").data("kendoWindow");
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        $("#txtId").val(dataItem.NB);
+        $("#txtCategory1").val(dataItem.NAME);
+        $("#txtNum_car1").val(dataItem.STUDENT_PER_CAR);
+        $("#txtNum_moto1").val(dataItem.STUDENT_PER_MOTO);
+        $("#txtSpace_stu1").val(dataItem.METERS_FOR_STUDENT);
+        $("#txtNum_room1").val(dataItem.MAX_STUDENTS_PER_HALL);
+        $("#txtNote1").val(dataItem.NOTE);
+        $("#ddlPrev_cat1").data("kendoDropDownList").value(dataItem.PREV_CATG);
+
+        $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
+        wnd.center().open();
+    }
+
+    // when i click save in add window
+    function btnSave_Click() {
+        debugger
+        var validator = $("#save-container").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+
+            var categoryModel = {
+                NAME: $('#txtCategory').val(),
+                PREV_CATG: $('#ddlPrev_cat').val(),
+                STUDENT_PER_CAR: $('#txtNum_car').val(),
+                STUDENT_PER_MOTO: $('#txtNum_moto').val(),
+                METERS_FOR_STUDENT: $('#txtSpace_stu').val(),
+                MAX_STUDENTS_PER_HALL: $('#txtNum_room').val(),
+                NOTE: $('#txtNote').val(),
+            }
+            var model = {
+                "model": categoryModel
+            }
+            $.ajax({
+                type: "POST",
+                url: '/zCategory/Create', data: model,
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                },
+
+            });
+            btnReset_Click();
+            var wnd = $("#AddDetails").data("kendoWindow");
+            wnd.center().close();
+            var grid = $('#grid').data('kendoGrid');
+            grid.dataSource.read();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    // when i click reset in add window
+    function btnReset_Click() {
+        debugger
+        
+        $("#txtId").val("");
+        $("#txtCategory").val("");
+        $("#txtNum_car").val("");
+        $("#txtNum_moto").val("");
+        $("#txtSpace_stu").val("");
+        $("#txtNum_room").val("");
+        $("#txtNote").val("");
+        $("#ddlPrev_cat").data("kendoDropDownList").value(-1);
+
+        $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
+        var wnd = $("#AddDetails").data("kendoWindow");
+        wnd.element.find("span.k-tooltip-validation").hide();
+        return;
+    }
+
+    // when i press "reset" in edit window
+    function btnUpdateReset_Click() {
+        debugger
+
+        var Id = $("#txtId").val();
+        var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
+
+        $("#txtCategory1").val(dataItem.NAME);
+        $("#txtNum_car1").val(dataItem.STUDENT_PER_CAR);
+        $("#txtNum_moto1").val(dataItem.STUDENT_PER_MOTO);
+        $("#txtSpace_stu1").val(dataItem.METERS_FOR_STUDENT);
+        $("#txtNum_room1").val(dataItem.MAX_STUDENTS_PER_HALL);
+        $("#txtNote1").val(dataItem.NOTE);
+        $("#ddlPrev_cat1").data("kendoDropDownList").value(dataItem.PREV_CATG);
+
+        $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
+        return;
+    }
+
+    // when i press "update" in edit window
+    function btnUpdate_Click() {
+        debugger
+        var validator = $("#Update-container").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+
+            var categoryModel = {
+                NB: $("#txtId").val(),
+                NAME: $('#txtCategory1').val(),
+                PREV_CATG: $('#ddlPrev_cat1').val(),
+                STUDENT_PER_CAR: $('#txtNum_car1').val(),
+                STUDENT_PER_MOTO: $('#txtNum_moto1').val(),
+                METERS_FOR_STUDENT: $('#txtSpace_stu1').val(),
+                MAX_STUDENTS_PER_HALL: $('#txtNum_room1').val(),
+                NOTE: $('#txtNote1').val(),
+            }
+            var model = {
+                "model": categoryModel
+            }
+            $.ajax({
+                type: "POST",
+                url: '/zCategory/Update', data: model,
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                },
+
+            });
+            btnReset_Click();
+            var wnd = $("#EditDetails").data("kendoWindow");
+            wnd.center().close();
+            var grid = $('#grid').data('kendoGrid');
+            grid.dataSource.read();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>

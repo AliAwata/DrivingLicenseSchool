@@ -4,6 +4,15 @@
     ViewBag.Title = "الدول والجنسيات";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .alert-message {
+        position: absolute;
+        top: 30px;
+        right: 16px;
+        width: fit-content;
+    }
+</style>
+
 <!-- Header -->
 <div class="panel panel-default panel-search">
     <div class="panel-heading">
@@ -32,8 +41,8 @@
     </div>
 }
 
-<div id="success_msg" class="bf-messages" role="alert" style="display:none">
-    <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
+<div id="success_msg" class="modal alert-message" role="alert" style="display:none">
+    <div class="alert fadein alert-success"  style="padding:15px;margin-top:10px;">
         <a class="close" data-dissmiss="alert" href="#"></a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
@@ -44,7 +53,7 @@
     </div>
 </div>
 
-<div id="error_msg" class="bf-messages" role="alert" style="display:none">
+<div id="error_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
         <a class="close" data-dissmiss="alert" href="#">*</a>
         <span class="bf-messages">
@@ -56,6 +65,39 @@
     </div>
 </div>
 
+<div id="deleteWindow">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("DeleteWindow")
+        .Title("تأكيد حذف")
+        .Visible(false)
+        .Modal(true)
+        .HtmlAttributes(new { style = "text-align:center;" })
+        .Content(@<text>
+            <div class="container-fluid" style="text-align:center;">
+                <h3>هل أنت متأكد من الحذف؟</h3>
+                <div class="row">
+                    <button id="YesDelete" class="btn btn-default" style="width:100px;">نعم</button>
+                    <button id="NoDelete" class="btn btn-default" style="width:100px;">لا</button>
+                </div>
+                <span id="validationRFC" class="k-label alert-danger"></span>
+            </div>
+        </text>)
+        .Draggable(true) //Enable dragging of the window
+        .Resizable() //Enable resizing of the window
+        .Width(300)  //Set width of the window
+        .Height(150)
+        )
+    </div>
+    
+    <!--<div class="k-window" style="width:100px; ">
+        <h3> هل أنت متأكد من عملية الحذف </h3>-->
+    @*  <span class="k-label">Reason For Deletion</span> <input id="txtReasonForChange" class="k-textbox" />*@
+    <!--<button id="yes" class="k-button">نعم</button>
+        <button id="no" class="k-button">لا</button>
+        <span id="validationRFC" class="k-label alert-danger"></span>
+    </div>-->
+</div>
+
 <!-- Kendo -->
 <div id="IdivForm">
     <div class="k-rtl">
@@ -63,7 +105,7 @@
             .Name("grid")
             .Columns(columns =>
             {
-                columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
+                columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Custom("حذف").Click("DestroyOrder"); }).Title("العمليات").Width(100);
                 columns.Bound(c => c.NB).Visible(false);
                 columns.Bound(c => c.NATION).Width(150);
                 columns.Bound(c => c.CNTRYNAME).Width(150);
@@ -249,6 +291,47 @@
         }
     }
 
+    function DestroyOrder(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#DeleteWindow").data("kendoWindow");
+        wnd.center().open();
+
+        $("#YesDelete").on('click', function () {
+            
+            var nationModel = {
+                NB: dataItem.NB,
+                NATION: dataItem.NATION,
+                CNTRYNAME: dataItem.CNTRYNAME,
+            }
+            var model = {
+                "model": nationModel
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Destroy", "zNation")',
+                data: model,
+                dataType: "JSON",
+                success: function (response) {
+                    wnd.close();
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                        $("#success_msg").slideUp(500);
+                    });
+                    var grid = $('#grid').data('kendoGrid');
+                    grid.dataSource.read();
+                }
+            });
+        })
+
+        $("#NoDelete").on('click', function () {
+            wnd.close();
+        })
+    }
+
     // when i press "add" from the grid
     $("#newAdd").click(function (e) {
         debugger
@@ -293,6 +376,9 @@
                     $('#success_msg').show();
                     $('#error_msg').hide();
                     $('#labelIdd').text(response.responseText);
+                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                        $("#success_msg").slideUp(500);
+                    });
                 },
 
             });
@@ -357,8 +443,10 @@
                     $('#success_msg').show();
                     $('#error_msg').hide();
                     $('#labelIdd').text(response.responseText);
+                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                        $("#success_msg").slideUp(500);
+                    });
                 },
-
             });
             btnReset_Click();
             var wnd = $("#EditDetails").data("kendoWindow");

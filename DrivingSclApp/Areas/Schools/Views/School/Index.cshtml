@@ -317,7 +317,7 @@
                                         )
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                @*<div class="col-sm-3">
                                     <div class="editor-label">
                                         @Html.Label("حالة المدرسة", htmlAttributes: new { @class = "control-label" })
                                     </div>
@@ -337,7 +337,7 @@
                                         .HtmlAttributes(new { style = "width: 100%" })
                                         )
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
                         </div>
                         <div class="row" style="margin-top:20px"></div>
@@ -567,7 +567,7 @@
                                             )
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                    @*<div class="col-sm-3">
                                         <div class="editor-label">
                                             @Html.Label("حالة المدرسة", htmlAttributes: new { @class = "control-label" })
                                         </div>
@@ -587,7 +587,7 @@
                                             .HtmlAttributes(new { style = "width: 100%" })
                                             )
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                         </div>
@@ -690,7 +690,7 @@
         $('#ddlCty_name1').data("kendoDropDownList").value(dataItem.CTY_NB);
         $('#ddlReg_name1').data("kendoDropDownList").value(dataItem.REG_NB);
         $('#txtAddress1').val(dataItem.ADDRESS);
-        $('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
+        //$('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
         $("#dpComreg_date1").kendoDatePicker({
             format: "dd/MM/yyyy",
             value: dataItem.COMREG_DATE
@@ -718,7 +718,7 @@
                 CTY_NB: $('#ddlCty_name').val(),
                 REG_NB: $('#ddlReg_name').val(),
                 ADDRESS: $('#txtAddress').val(),
-                STS_NB: $('#ddlSts_name').val()
+                //STS_NB: $('#ddlSts_name').val()
             }
 
             var model = {
@@ -769,7 +769,7 @@
         $('#ddlCty_name').data("kendoDropDownList").value(-1);
         $('#ddlReg_name').data("kendoDropDownList").value(-1);
         $('#txtAddress').val("");
-        $('#ddlSts_name').data("kendoDropDownList").value(-1);
+        //$('#ddlSts_name').data("kendoDropDownList").value(-1);
 
         $("#dpComreg_date").kendoDatePicker({
             format: "dd/MM/yyyy",
@@ -802,7 +802,7 @@
         $('#ddlCty_name1').data("kendoDropDownList").value(dataItem.CTY_NB);
         $('#ddlReg_name1').data("kendoDropDownList").value(dataItem.REG_NB);
         $('#txtAddress1').val(dataItem.ADDRESS);
-        $('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
+        //$('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
         $("#dpComreg_date1").kendoDatePicker({
             format: "dd/MM/yyyy",
             value: dataItem.COMREG_DATE
@@ -831,7 +831,7 @@
                 CTY_NB: $('#ddlCty_name1').val(),
                 REG_NB: $('#ddlReg_name1').val(),
                 ADDRESS: $('#txtAddress1').val(),
-                STS_NB: $('#ddlSts_name1').val()
+                //STS_NB: $('#ddlSts_name1').val()
             }
             var model = {
                 "model": schoolModel

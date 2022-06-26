@@ -139,6 +139,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                     try
                     {
                         model.NB = MyDataBase.GetSeqValue("GetIndexID");
+                        model.STS_NB = 1;
                         db.SCHOOL.Add(model);
                         db.SaveChanges();
                         transaction.Commit();

@@ -148,5 +148,26 @@ namespace DrivingSclApp.Areas.Schools.Controllers
             ViewData["ID"] = id;
             return PartialView("_SclPhone", Data);
         }
+        public ActionResult PhonesBySclNb([DataSourceRequest] DataSourceRequest request, int id)
+        {
+            List<SclPhoneVM> Data = new List<SclPhoneVM>();
+            Data = (from p in db.SCLPHONE
+                    join s in db.SCHOOL
+                    on p.SCL_NB equals s.NB
+                    select new SclPhoneVM
+                    {
+                        NB = p.NB,
+                        SCL_NB = p.SCL_NB,
+                        PHONE_NO = p.PHONE_NO,
+                        PHONE_TYP = p.PHONE_TYP,
+                        SCL_NAME = s.SCLNAME
+                    }).Where(x => x.SCL_NB == id).ToList();
+            foreach (var item in Data)
+            {
+                item.PHONE_TYPE = codes.GetPhoneTypeName(item.PHONE_TYP);
+            }
+            ViewData["ID"] = id;
+            return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
     }
 }
