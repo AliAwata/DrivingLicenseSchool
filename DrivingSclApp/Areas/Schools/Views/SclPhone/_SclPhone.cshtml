@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<DrivingSclApp.Areas.Schools.Data.SchoolVM>
 
+<!-- Header -->
 <div class="container-fluid" style="text-align:center;">
     <div class="row">
         <div class="col-md-3">
@@ -114,8 +115,7 @@
     $("#btnPhoneSave").on('click', function () {
         var scl = @Model.Select(x => x.NB).FirstOrDefault();
         var phone = $("#SclPhone").val();
-        var phonetyp = $("#SclPhoneTyp").val();
-        alert(phonetyp);
+        var phonetyp = $("#ddlPhoneTyp").val();
         var phone = {
             SCL_NB: scl,
             PHONE_NO: phone,
@@ -130,9 +130,11 @@
             data: model,
             dataType: "JSON",
             success: function (response) {
-                alert("Success");
                 var grid = $('#PhonesGrid').data('kendoGrid');
                 grid.dataSource.read();
+                $('#success_msg').show();
+                $('#error_msg').hide();
+                $('#labelIdd').text(response.responseText);
             },
         });
     })
