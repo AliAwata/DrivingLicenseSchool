@@ -20,8 +20,36 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
         }
         public ActionResult IndexDetails(int id)
         {
+            List<CompanyVM> Data = new List<CompanyVM>();
+            Data = (from a in db.ZCOMPANY
+                    join g in db.ZGOVERN
+                    on a.COMREG_GOV equals g.NB
+                    join c in db.ZCITY
+                    on a.CTY_NB equals c.NB
+                    join r in db.ZREGION
+                    on a.REG_NB equals r.NB
+                    select new CompanyVM
+                    {
+                        NB = a.NB,
+                        COMPNAME = a.COMPNAME,
+                        COMREG_NO = a.COMREG_NO,
+                        COMREG_DATE = a.COMREG_DATE,
+                        COMREG_TYP = a.COMREG_TYP,
+                        COMREG_GOV = a.COMREG_GOV,
+                        CTY_NB = a.CTY_NB,
+                        REG_NB = a.REG_NB,
+                        ADDRESS = a.ADDRESS,
+                        PHONE1 = a.PHONE1,
+                        PHONE2 = a.PHONE2,
+                        MOBILE = a.MOBILE,
+                        FAX = a.FAX,
+                        NOTE = a.NOTE,
+                        GovName = g.NAME,
+                        CityName = c.NAME,
+                        RegionName = r.NAME
+                    }).Where(x => x.NB == id).ToList();
             ViewData["ID"] = id;
-            return View();
+            return View(Data);
         }
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {

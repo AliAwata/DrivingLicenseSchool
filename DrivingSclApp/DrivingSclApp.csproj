@@ -248,7 +248,6 @@
     <Content Include="Content\Kendo\cultures\kendo.culture.ar-SY.min.js.map" />
     <Content Include="Areas\Indexes\Views\zCompany\IndexDetails.cshtml" />
     <Content Include="Areas\Indexes\Views\zCompanyOwner\_CompanyOwner.cshtml" />
-    <Content Include="Areas\Schools\Views\SclPhone\Index.cshtml" />
     <Content Include="Areas\Schools\Views\SclPhone\_SclPhone.cshtml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />

@@ -191,7 +191,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                 if(item.OT_NB == 1)
                 {
                     var person = db.ZPERSON.Find(item.ONR_NB);
-                    item.OwnerName = person.FNAME;
+                    item.OwnerName = person.FNAME + " " + person.LNAME + " بن " + person.FATHER;
                 } else if (item.OT_NB == 2)
                 {
                     var company = db.ZCOMPANY.Find(item.ONR_NB);

@@ -9,9 +9,9 @@
             </div>
             <div class="editor-field">
                 @(Html.Kendo().TextBox()
-                .Name("SclName")
+                .Name("SclName").Enable(false)
                 .Value(Model.Select(x => x.SCLNAME).FirstOrDefault())
-                .HtmlAttributes(new { @class = "form-control", style = "width: 100%" })
+                .HtmlAttributes(new { @class = "form-control", style = "width: 100%; text-align:center;" })
                 )
             </div>
         </div>
@@ -54,13 +54,11 @@
             .Name("btnPhoneSave")
             .Content("حفظ")
             .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;" })
-        //.Events(e => e.Click("btnSave_Click"))
         )
         @(Html.Kendo().Button()
             .Name("btnPhoneReset")
             .Content("تراجع")
             .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
-        //.Events(e => e.Click("btnReset_Click"))
         )
     </div>
     <div class="row" style="margin:10px"></div>

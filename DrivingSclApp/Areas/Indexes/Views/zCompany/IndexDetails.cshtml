@@ -5,14 +5,53 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Header -->
+<!-- Header with the info of company-->
 <div class="panel panel-default panel-search" style="width:1500px">
     <div class="panel-heading">
         <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">تفاصيل شركة</a>
     </div>
     <div id="filter_body" class="collapse">
-        <div class="panel-body">
-
+        <div class="panel-body container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <dl class="dl-horizontal d-inline">
+                        <dt>اسم الشركة :</dt>
+                        <dd>@Model.Select(x => x.COMPNAME).FirstOrDefault()</dd>
+                        <dt>رقم السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_NO).FirstOrDefault()</dd>
+                        <dt>تاريخ السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_DATE).FirstOrDefault()</dd>
+                        <dt>نوع السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_TYP).FirstOrDefault()</dd>
+                        <dt>رمز مصدر السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_TYP).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+                <div class="col-md-3">
+                    <dl class="dl-horizontal d-inline">
+                        <dt>المدينة :</dt>
+                        <dd>@Model.Select(x => x.CityName).FirstOrDefault()</dd>
+                        <dt>المنطقة :</dt>
+                        <dd>@Model.Select(x => x.RegionName).FirstOrDefault()</dd>
+                        <dt>العنوان :</dt>
+                        <dd>@Model.Select(x => x.ADDRESS).FirstOrDefault()</dd>
+                        <dt>ملاحظات :</dt>
+                        <dd>@Model.Select(x => x.NOTE).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+                <div class="col-md-3">
+                    <dl class="dl-horizontal d-inline">
+                        <dt>الهاتف الاول :</dt>
+                        <dd>@Model.Select(x => x.PHONE1).FirstOrDefault()</dd>
+                        <dt>الهاتف الثاني :</dt>
+                        <dd>@Model.Select(x => x.PHONE2).FirstOrDefault()</dd>
+                        <dt>المحمول :</dt>
+                        <dd>@Model.Select(x => x.MOBILE).FirstOrDefault()</dd>
+                        <dt>فاكس :</dt>
+                        <dd>@Model.Select(x => x.FAX).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -57,48 +96,9 @@
     </div>
 </div>
 
-<!-- School Grid And TapStrip -->
+<!-- TapStrip -->
 <div id="IdivForm">
-    <!-- Grid -->
-    <div calss="k_rtl">
-        @(Html.Kendo().Grid<DrivingSclApp.Areas.Indexes.Data.CompanyVM>()
-            .Name("grid")
-            .Columns(columns =>
-            {
-                columns.Bound(c => c.NB).Visible(false).Width(50);
-                columns.Bound(c => c.COMPNAME).Width(50);
-                columns.Bound(c => c.COMREG_NO).Width(100);
-                columns.Bound(c => c.COMREG_DATE).Width(100).Format("{0:dd/MM/yyyy}");
-                columns.Bound(c => c.COMREG_TYP).Width(100);
-                columns.Bound(c => c.COMREG_GOV).Visible(false).Width(100);
-                columns.Bound(c => c.CTY_NB).Visible(false).Width(100);
-                columns.Bound(c => c.REG_NB).Visible(false).Width(100);
-                columns.Bound(c => c.ADDRESS).Width(100).Visible(false);
-                columns.Bound(c => c.PHONE1).Width(100).Visible(false);
-                columns.Bound(c => c.PHONE2).Width(100).Visible(false);
-                columns.Bound(c => c.MOBILE).Width(100).Visible(false);
-                columns.Bound(c => c.FAX).Width(100).Visible(false);
-                columns.Bound(c => c.NOTE).Width(100).Visible(false);
-                columns.Bound(c => c.GovName).Width(100);
-                columns.Bound(c => c.CityName).Width(100);
-                columns.Bound(c => c.RegionName).Width(100);
-            })
-            .HtmlAttributes(new { style = "height: auto;" })
-            .Sortable()
-            .Filterable()
-            .DataSource(dataSource => dataSource
-            .Ajax()
-            .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
-            .PageSize(15)
-            .Model(model => model.Id(p => p.NB))
-            .Read(read => read.Action("ReadById", "zCompany", new { id = ViewData["ID"] })))
-            .Resizable(resize => resize
-            .Columns(true)
-        )
-        )
-    </div>
     <div class="row" style="margin:10px"></div>
-    <!-- TapStrip -->
     <div class="k-rtl">
         @(Html.Kendo().TabStrip()
         .Name("tabstrip")
@@ -114,7 +114,7 @@
         })
         .Items(items =>
         {
-            items.Add().Text("مالكين").LoadContentFrom("Owner", "zCompanyOwner", new { id = ViewData["ID"] });
+            items.Add().Text("مالكين").LoadContentFrom("Owner", "zCompanyOwner", new { id = ViewData["ID"] }).Selected(true);
         })
         )
     </div>

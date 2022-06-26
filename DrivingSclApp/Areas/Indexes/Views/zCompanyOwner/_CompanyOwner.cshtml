@@ -15,6 +15,7 @@
 
     .search-bars {
         text-align: center;
+
     }
 </style>
 
@@ -56,7 +57,7 @@
                 </div>
                 <div class="editor-field">
                     @(Html.Kendo().TextBox()
-                    .Name("comName")
+                    .Name("comName").Enable(false)
                     .Value(Model.Select(x => x.COMPNAME).FirstOrDefault())
                     .HtmlAttributes(new { @class = "form-control", style = "width: 100%; text-align:center;" })
                     )
@@ -68,8 +69,8 @@
                 </div>
                 <div class="editor-field">
                     @(Html.Kendo().TextBox()
-                    .Name("comOwnper")
-                    .HtmlAttributes(new { @class = "form-control", style = "width: 100%; text-align:center;" })
+                    .Name("comOwnper").Enable(false)
+                    .HtmlAttributes(new { @class = "form-control", style = "width: 100%; text-align:center; editable:false;" })
                     )
                 </div>
             </div>

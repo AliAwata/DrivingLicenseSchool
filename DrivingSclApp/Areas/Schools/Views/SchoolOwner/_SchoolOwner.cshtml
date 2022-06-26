@@ -28,7 +28,7 @@
             </div>
             <div class="editor-field">
                 @(Html.Kendo().NumericTextBox()
-                    .Name("sclNb")
+                    .Name("sclNb").Enable(false)
                     .Value(Model.Select(x => x.NB).FirstOrDefault())
                     .HtmlAttributes(new { placeholder = "ملاحظة", @class = "form-control", style = "width: 100%" })
                     )
@@ -40,22 +40,27 @@
             </div>
             <div class="editor-field">
                 @(Html.Kendo().TextBox()
-                    .Name("ownerTyp")
+                    .Name("ownerTyp").Enable(false)
                     .Value(Model.Select(x => x.COMREG_TYP).FirstOrDefault())
                     .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
                     )
             </div>
         </div>
     </div>
-
+    <!-- Buttons -->
     <div class="row">
         <div class="row" style="margin-top:20px"></div>
         <div class="buttons">
             <div class="k-edit-buttons k-state-default">
                 @(Html.Kendo().Button()
-                    .Name("btnSearch")
-                    .Content("إضافة")
-                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;text-align:center;" })
+                    .Name("btnAddPerson")
+                    .Content("إضافة شخص طبيعي")
+                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:auto;text-align:center;" })
+                )
+                @(Html.Kendo().Button()
+                    .Name("btnAddCompany")
+                    .Content("إضافة شخص اعتباري")
+                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:auto;text-align:center;" })
                 )
             </div>
         </div>
@@ -221,7 +226,7 @@
                             columns.Bound(c => c.BDATED).Visible(false);
                             columns.Bound(c => c.BDATEM).Visible(false);
                             columns.Bound(c => c.BDATEY).Visible(false);
-                            columns.Bound(c => c.BDATE).ClientTemplate("#= kendo.toString(kendo.parseDate(BDATE), 'yyyy/MM/dd') #"); ;
+                            columns.Bound(c => c.BDATE).ClientTemplate("#= kendo.toString(kendo.parseDate(BDATE), 'yyyy/MM/dd') #");
                             columns.Bound(c => c.IDCARDNO).Visible(false);
                             columns.Bound(c => c.IDCARDDAT).Visible(false);
                             columns.Bound(c => c.BPLACE).Visible(false);
@@ -406,7 +411,7 @@
                         columns.Bound(c => c.NB).Visible(false);
                         columns.Bound(c => c.COMPNAME).Width(50);
                         columns.Bound(c => c.COMREG_NO).Width(100);
-                        columns.Bound(c => c.COMREG_DATE).Width(100).Format("{0:dd/mm/yyyy}");
+                        columns.Bound(c => c.COMREG_DATE).Width(100).ClientTemplate("#= kendo.toString(kendo.parseDate(COMREG_DATE), 'yyyy/MM/dd') #"); ;
                         columns.Bound(c => c.COMREG_TYP).Width(100);
                         columns.Bound(c => c.COMREG_GOV).Visible(false);
                         columns.Bound(c => c.CTY_NB).Visible(false);
@@ -429,7 +434,7 @@
                     .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
                     .PageSize(15)
                     .Model(model => model.Id(p => p.NB))
-                    .Read(read => read.Action("CompanyFilter", "SchoolOwner")))
+                    .Read(read => read.Action("", "")))
                     .Resizable(resize => resize
                     .Columns(true)
                     )
@@ -967,9 +972,14 @@
 </div>
 
 <script>
-    $("#btnSearch").on('click', function () {
+    $("#btnAddPerson").on('click', function () {
         debugger
-        var owner = '@Model.Select(x => x.COMREG_TYP).FirstOrDefault()';
+
+        $("#OwnerPersonSearch").data("kendoWindow").center().open();
+        $("#btnNew").show();
+        //$("#btnPersonSave").kendoButton({}).data("kendoButton").enable(true);
+
+        @*var owner = '@Model.Select(x => x.COMREG_TYP).FirstOrDefault()';
 
         if (owner == 'افراد') {
             alert("PersonHere");
@@ -982,7 +992,30 @@
             $("#OwnerCompanySearch").data("kendoWindow").center().open();
             $("#btnNew").show();
             //$("#btnCompanySave").kendoButton({}).data("kendoButton").enable(true);
+        }*@
+    });
+
+    $("#btnAddCompany").on('click', function () {
+        debugger
+
+        $("#OwnerCompanySearch").data("kendoWindow").center().open();
+        $("#btnNew").show();
+        //$("#btnCompanySave").kendoButton({}).data("kendoButton").enable(true);
+
+        @*var owner = '@Model.Select(x => x.COMREG_TYP).FirstOrDefault()';
+
+        if (owner == 'افراد') {
+            alert("PersonHere");
+            $("#OwnerPersonSearch").data("kendoWindow").center().open();
+            $("#btnNew").show();
+            //$("#btnPersonSave").kendoButton({}).data("kendoButton").enable(true);
         }
+        else if (owner == 'شركات') {
+            alert("CompanyHere");
+            $("#OwnerCompanySearch").data("kendoWindow").center().open();
+            $("#btnNew").show();
+            //$("#btnCompanySave").kendoButton({}).data("kendoButton").enable(true);
+        }*@
     });
 
     $("#btnCompanyNew").on('click', function () {

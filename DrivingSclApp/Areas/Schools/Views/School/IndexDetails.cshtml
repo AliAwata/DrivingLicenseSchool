@@ -109,7 +109,7 @@
         })
         .Items(items =>
         {
-            items.Add().Text("مالكين").LoadContentFrom("Owner", "SchoolOwner", new { id = ViewData["ID"] });
+            items.Add().Text("مالكين").LoadContentFrom("Owner", "SchoolOwner", new { id = ViewData["ID"] }).Selected(true);
             items.Add().Text("هواتف").LoadContentFrom("Phones", "SclPhone", new { id = ViewData["ID"] });
         })
         )
@@ -160,13 +160,8 @@
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var scl = $("#sclNb").val();
-        var own;
-        if ($("#ownerTyp").val() == 'افراد') {
-            own = 1;
-        } else {
-            own = 2;
-        }
-        e.preventDefault();
+        var own = 2;
+
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var schoolOwner = {
             SCL_NB: scl,
@@ -201,12 +196,8 @@
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var scl = $("#sclNb").val();
-        var own;
-        if ($("#ownerTyp").val() == 'افراد') {
-            own = 1;
-        } else {
-            own = 2;
-        }
+        var own = 1;
+        
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var schoolOwner = {
             SCL_NB: scl,
@@ -240,20 +231,9 @@
     // When i want to add a new owner
     function SaveNewOwnerCompany() {
         $.when(SaveNewCompany()).done(function (s1) {
-            alert("SaveNewCompany");
             var scl = $("#sclNb").val();
             var person_nb = s1;
-            var own_type;
-
-            if ($("#ownerTyp").val() == 'افراد') {
-                own_type = 1;
-            } else {
-                own_type = 2;
-            }
-
-            alert("scl: " + scl);
-            alert("person_nb: " + person_nb);
-            alert("own_type: " + own_type);
+            var own_type = 2;
 
             var schoolOwner = {
                 SCL_NB: scl,
@@ -309,8 +289,6 @@
             datatype: "json",
             cache: false,
             success: function (response) {
-                alert("Save New Company AJAX");
-                alert("response: " + response);
             },
 
         });
@@ -318,20 +296,9 @@
 
     function SaveNewOwnerPerson() {
         $.when(SaveNewPerson()).done(function (s1) {
-            alert("SaveNewPerson");
             var scl = $("#sclNb").val();
             var person_nb = s1;
-            var own_type;
-
-            if ($("#ownerTyp").val() == 'افراد') {
-                own_type = 1;
-            } else {
-                own_type = 2;
-            }
-
-            alert("scl: " + scl);
-            alert("person_nb: " + person_nb);
-            alert("own_type: " + own_type);
+            var own_type = 1;
 
             var schoolOwner = {
                 SCL_NB: scl,
@@ -349,7 +316,6 @@
                 datatype: "json",
                 cache: false,
                 success: function (response) {
-                    alert("SchoolOwner AJAX");
                 }
             });
             var wnd1 = $("#AddPerson").data("kendoWindow");
@@ -401,8 +367,6 @@
             datatype: "json",
             cache: false,
             success: function (response) {
-                alert("Person AJAX Success");
-                alert("response: " + response);
             },
         });
     }
