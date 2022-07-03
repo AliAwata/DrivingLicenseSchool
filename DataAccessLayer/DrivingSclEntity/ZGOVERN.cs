@@ -36,5 +36,6 @@ namespace DrivingSclData
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ZCOMPANY> ZCOMPANY { get; set; }
         public virtual ICollection<ZCITY> ZCITY { get; set; }
+        public virtual ICollection<SCHOOLVEHICLE> SCHOOLVEHICLEs { get; set; }
     }
 }

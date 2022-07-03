@@ -35,7 +35,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         NOTE = co.NOTE,
                         COMP_NAME = c.COMPNAME,
                         PRS_NAME = p.FNAME + " " + p.LNAME
-                    }).ToList();
+                    }).OrderBy(x => x.NB).ToList();
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         [AcceptVerbs(HttpVerbs.Post)]
@@ -138,7 +138,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         GovName = g.NAME,
                         CityName = c.NAME,
                         RegionName = r.NAME
-                    }).Where(x => x.NB == id).ToList();
+                    }).Where(x => x.NB == id).OrderBy(x => x.NB).ToList();
             ViewData["ID"] = id;
             return PartialView("_CompanyOwner", Data);
         }
@@ -159,7 +159,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         NOTE = co.NOTE,
                         COMP_NAME = c.COMPNAME,
                         PRS_NAME = p.FNAME
-                    }).Where(x => x.COMP_NB == id).ToList();
+                    }).Where(x => x.COMP_NB == id).OrderBy(x => x.NB).ToList();
             ViewData["ID"] = id;
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -198,7 +198,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         NAT = a.NAT,
                         NationName = b.NATION,
                         PerType = c.TYPNAME
-                    }).ToList();
+                    }).OrderBy(x => x.NB).ToList();
             foreach (var item in Data)
             {
                 if (item.SEX == true)

@@ -4,35 +4,29 @@
     ViewBag.Title = "المدن";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .alert-message {
+        position: fixed;
+        top: 30px;
+        right: 16px;
+        width: fit-content;
+    }
+</style>
+
 <!-- Header -->
 <div class="panel panel-default panel-search">
     <div class="panel-heading">
         <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">المدن</a>
     </div>
-    <div id="filter_body" class="collapse">
+    @*<div id="filter_body" class="collapse">
         <div class="panel-body">
 
         </div>
-    </div>
+    </div>*@
 </div>
 
 <!-- Messages -->
-@if (ViewBag.Alert == "Deleted")
-{
-    <div id="success_msg" class="bf-messages" role="alert" style="display:none">
-        <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
-            <a class="close" data-dissmiss="alert" href="#"></a>
-            <span class="bf-messages">
-                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-                <span style="color:green" class="bf-messages">
-                    <span class="bf-messages">تم حذف السجل بنجاح </span>
-                </span>
-            </span>
-        </div>
-    </div>
-}
-
-<div id="success_msg" class="bf-messages" role="alert" style="display:none">
+<div id="success_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
         <a class="close" data-dissmiss="alert" href="#"></a>
         <span class="bf-messages">
@@ -44,7 +38,7 @@
     </div>
 </div>
 
-<div id="error_msg" class="bf-messages" role="alert" style="display:none">
+<div id="error_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
         <a class="close" data-dissmiss="alert" href="#">*</a>
         <span class="bf-messages">
@@ -56,6 +50,31 @@
     </div>
 </div>
 
+<div id="deleteWindow">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("DeleteWindow")
+        .Title("تأكيد حذف")
+        .Visible(false)
+        .Modal(true)
+        .HtmlAttributes(new { style = "text-align:center;" })
+        .Content(@<text>
+            <div class="container-fluid" style="text-align:center;">
+                <h3>هل أنت متأكد من الحذف؟</h3>
+                <div class="row">
+                    <button id="YesDelete" class="btn btn-default" style="width:100px;">نعم</button>
+                    <button id="NoDelete" class="btn btn-default" style="width:100px;">لا</button>
+                </div>
+                <span id="validationRFC" class="k-label alert-danger"></span>
+            </div>
+        </text>)
+        .Draggable(true) //Enable dragging of the window
+        .Resizable() //Enable resizing of the window
+        .Width(300)  //Set width of the window
+        .Height(150)
+        )
+    </div>
+</div>
+
 <!-- Kendo -->
 <div id="IdivForm">
     <div class="k-rtl">
@@ -63,11 +82,11 @@
             .Name("grid")
             .Columns(columns =>
             {
-                columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
+                columns.Command(command => { command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new {@class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.NB).Visible(false);
-                columns.Bound(c => c.NAME).Width(150);
+                columns.Bound(c => c.NAME).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.GOV_NB).Visible(false);
-                columns.Bound(c => c.GOVNAME).Width(150).Filterable(false);
+                columns.Bound(c => c.GOVNAME).HtmlAttributes(new { style = "width:auto;" }).Filterable(false);
             })
             .HtmlAttributes(new { style = "height: 550px;" })
             .Sortable()
@@ -85,9 +104,9 @@
             .Columns(true)
             )
             .ToolBar(toolbar =>
-                {
-                    toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
-                })
+            {
+                toolbar.Custom().Name("newAdd").Text(" جديد ").Url("#").HtmlAttributes(new { id = "newAdd", @class = "btn btn-primary" });
+            })
                 .Pageable(pageable =>
                 {
                     pageable.Refresh(true);
@@ -141,13 +160,13 @@
                             @(Html.Kendo().Button()
                                 .Name("btnSave")
                                 .Content("حفظ")
-                                .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;" })
+                                .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
                                 .Events(e => e.Click("btnSave_Click"))
                             )
                             @(Html.Kendo().Button()
                                 .Name("btnReset")
                                 .Content("تراجع")
-                                .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
+                                .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
                                 .Events(e => e.Click("btnReset_Click"))
                             )
                             </div>
@@ -208,13 +227,13 @@
                                 @(Html.Kendo().Button()
                                     .Name("btnUpdate")
                                     .Content("حفظ")
-                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:70px;" })
                                     .Events(e => e.Click("btnUpdate_Click"))
                                 )
                                 @(Html.Kendo().Button()
                                     .Name("btnUpdateReset")
                                     .Content("تراجع")
-                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:70px;" })
                                     .Events(e => e.Click("btnUpdateReset_Click"))
                                 )
                             </div>
@@ -271,6 +290,57 @@
         }
     }
 
+    function Destroy(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#DeleteWindow").data("kendoWindow");
+        wnd.center().open();
+
+        $("#YesDelete").on('click', function () {
+
+            var cityModel = {
+                NB: dataItem.NB,
+                NAME: dataItem.NAME,
+                GOV_NB: dataItem.GOV_NB,
+            }
+            var model = {
+                "model": cityModel
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Destroy", "zCity")',
+                data: model,
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        btnReset_Click();
+                        wnd.close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
+                }
+            });
+        })
+
+        $("#NoDelete").on('click', function () {
+            wnd.close();
+        })
+    }
+
     // when i press "add" from the grid
     $("#newAdd").click(function (e) {
         debugger
@@ -313,17 +383,29 @@
                 datatype: "json",
                 cache: false,
                 success: function (response) {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        btnReset_Click();
+                        var wnd = $("#AddDetails").data("kendoWindow");
+                        wnd.center().close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
                 },
 
             });
-            btnReset_Click();
-            var wnd = $("#AddDetails").data("kendoWindow");
-            wnd.center().close();
-            var grid = $('#grid').data('kendoGrid');
-            grid.dataSource.read();
             return true;
         }
         else {
@@ -378,17 +460,29 @@
                 datatype: "json",
                 cache: false,
                 success: function (response) {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        btnUpdateReset_Click();
+                        var wnd = $("#EditDetails").data("kendoWindow");
+                        wnd.center().close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
                 },
 
             });
-            btnReset_Click();
-            var wnd = $("#EditDetails").data("kendoWindow");
-            wnd.center().close();
-            var grid = $('#grid').data('kendoGrid');
-            grid.dataSource.read();
             return true;
         }
         else {

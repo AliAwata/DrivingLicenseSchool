@@ -23,7 +23,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
         }
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            List<ZGOVERN> Data = db.ZGOVERN.ToList();
+            List<ZGOVERN> Data = db.ZGOVERN.OrderBy(x => x.NB).ToList();            
             return Json(Data.ToDataSourceResult(request));
         }
         [AcceptVerbs(HttpVerbs.Post)]

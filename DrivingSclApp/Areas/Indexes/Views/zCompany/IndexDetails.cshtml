@@ -4,13 +4,22 @@
     ViewBag.Title = "تفاصيل شركة";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .alert-message {
+        position: fixed;
+        top: 30px;
+        right: 16px;
+        width: fit-content;
+        
+    }
+</style>
 
 <!-- Header with the info of company-->
 <div class="panel panel-default panel-search" style="width:1500px">
     <div class="panel-heading">
         <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">تفاصيل شركة</a>
     </div>
-    <div id="filter_body" class="collapse">
+    <div id="filter_body" class="toggle">
         <div class="panel-body container-fluid">
             <div class="row">
                 <div class="col-md-3">
@@ -57,22 +66,7 @@
 </div>
 
 <!-- Messages -->
-@if (ViewBag.Alert == "Deleted")
-{
-    <div id="success_msg" class="bf-messages" role="alert" style="display:none">
-        <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
-            <a class="close" data-dissmiss="alert" href="#"></a>
-            <span class="bf-messages">
-                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-                <span style="color:green" class="bf-messages">
-                    <span class="bf-messages">تم حذف السجل بنجاح </span>
-                </span>
-            </span>
-        </div>
-    </div>
-}
-
-<div id="success_msg" class="bf-messages" role="alert" style="display:none">
+<div id="success_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
         <a class="close" data-dissmiss="alert" href="#"></a>
         <span class="bf-messages">
@@ -84,7 +78,7 @@
     </div>
 </div>
 
-<div id="error_msg" class="bf-messages" role="alert" style="display:none">
+<div id="error_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
         <a class="close" data-dissmiss="alert" href="#">*</a>
         <span class="bf-messages">
@@ -96,8 +90,33 @@
     </div>
 </div>
 
+<div id="deleteWindow">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("DeleteWindow")
+        .Title("تأكيد حذف")
+        .Visible(false)
+        .Modal(true)
+        .HtmlAttributes(new { style = "text-align:center;" })
+        .Content(@<text>
+            <div class="container-fluid" style="text-align:center;">
+                <h3>هل أنت متأكد من الحذف؟</h3>
+                <div class="row">
+                    <button id="YesDelete" class="btn btn-default" style="width:100px;">نعم</button>
+                    <button id="NoDelete" class="btn btn-default" style="width:100px;">لا</button>
+                </div>
+                <span id="validationRFC" class="k-label alert-danger"></span>
+            </div>
+        </text>)
+        .Draggable(true) //Enable dragging of the window
+        .Resizable() //Enable resizing of the window
+        .Width(300)  //Set width of the window
+        .Height(150)
+        )
+    </div>
+</div>
+
 <!-- TapStrip -->
-<div id="IdivForm">
+<div id="IdivForm" class="container-fluid">
     <div class="row" style="margin:10px"></div>
     <div class="k-rtl">
         @(Html.Kendo().TabStrip()
@@ -159,8 +178,60 @@
         }
     }
 
-    // When i choose an owner from the search grid
+    function Destroy(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#DeleteWindow").data("kendoWindow");
+        wnd.center().open();
 
+        $("#YesDelete").on('click', function () {
+
+            companyownerModel = {
+                NB: dataItem.NB,
+                COMP_NB: dataItem.COMP_NB,
+                PRS_NB: dataItem.PRS_NB,
+                JOBTITLE: dataItem.JOBTITLE,
+                NOTE: dataItem.NOTE
+            };
+
+            var model = {
+                "model": companyownerModel
+            };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Destroy", "zCompanyOwner")',
+                data: model,
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        wnd.close();
+                        var grid = $('#OwnerGrid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
+                }
+            });
+        })
+
+        $("#NoDelete").on('click', function () {
+            wnd.close();
+        })
+    }
+
+    // When i choose an owner from the search grid
     function FillPerson(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
@@ -174,18 +245,33 @@
     function ChoosePerson(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var scl = $("#comNb").val();
-        var own;
+        //var scl = $("#comNb").val();
+        //var own;
 
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var companyOwner = {
-            COMP_NB : scl,
-            PRS_NB: dataItem.NB,
-        }
+        //var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        //var companyOwner = {
+        //    COMP_NB : scl,
+        //    PRS_NB: dataItem.NB,
+        //}
+
+        //var model = {
+        //    "model": companyOwner
+        //}
+        var com = dataItem.COMP_NB;
+        var prs = dataItem.PRS_NB;
+        var job = dataItem.JOBTITLE;
+        var note = dataItem.NOTE;
+
+        companyownerModel = {
+            COMP_NB: com,
+            PRS_NB: prs,
+            JOBTITLE: job,
+            NOTE: note
+        };
 
         var model = {
-            "model": schoolOwner
-        }
+            "model": companyownerModel
+        };
 
         $.ajax({
             type: 'POST',
@@ -194,34 +280,42 @@
             datatype: "json",
             cache: false,
             success: function (response) {
-                $('#success_msg').show();
-                $('#error_msg').hide();
-                $('#labelIdd').text(response.responseText);
+                if (response.success == true) {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                        $("#success_msg").slideUp(500);
+                    });
+                    var wnd = $("#OwnerPersonSearch").data("kendoWindow");
+                    wnd.center().close();
+                    var grid = $('#OwnerGrid').data('kendoGrid');
+                    grid.dataSource.read();
+                } else {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                    $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                        $("#success_msg").slideUp(500);
+                    });
+                }
             }
         });
-        var wnd = $("#OwnerPersonSearch").data("kendoWindow");
-        wnd.center().close();
-        var grid = $('#OwnerGrid').data('kendoGrid');
-        grid.dataSource.read();
-
     }
 
     // When i want to add a new owner
-
     function SaveNewOwner() {
 
         var com = $("#comNb").val();
         var prs = $("#prsNb").val();
         var job = $("#comJobtitle").val();
-
-        alert(com);
-        alert(prs);
-        alert(job);
+        var note = $("comNote").val();
 
         companyownerModel = {
             COMP_NB: com,
             PRS_NB: prs,
-            JOBTITLE: job
+            JOBTITLE: job,
+            NOTE: note
         };
 
         var model = {
@@ -234,6 +328,12 @@
             datatype: "json",
             cache: false,
             success: function (response) {
+                $('#success_msg').show();
+                $('#error_msg').hide();
+                $('#labelIdd').text(response.responseText);
+                $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#success_msg").slideUp(500);
+                });
                 $("#comOwnper").val("");
                 $("#comJobtitle").val("");
                 var grid = $('#OwnerGrid').data('kendoGrid');
@@ -245,8 +345,6 @@
 
     function SaveNewOwnerPerson() {
         $.when(SaveNewPerson()).done(function (s1) {
-            alert("s1.NB : " + s1.NB);
-            alert("s1.FNAME : " + s1.FNAME);
             var name = s1.FNAME + " " + s1.LNAME;
             $("#comOwnper").val(name);
             $("#prsNb").val(s1.NB);

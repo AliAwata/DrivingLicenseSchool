@@ -37,12 +37,20 @@ namespace DrivingSclData
                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<SCHOOL>()
+               .HasMany(e => e.SCHOOLTRAINERs)
+               .WithRequired(e => e.SCHOOL)
+               .HasForeignKey(e => e.SCL_NB)
+               .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<SCHOOL>()
               .HasMany(e => e.SCLPHONE)
               .WithRequired(e => e.SCHOOL)
               .HasForeignKey(e => e.SCL_NB)
               .WillCascadeOnDelete(true);
 
             // ------         SCHOOLOWNER
+            // ------         SCLPHONE
+            // ------         SCHOOLTrainer
             // ------         SCHOOLVEHICLE
             // ------         ZCATEGORY
             modelBuilder.Entity<ZCATEGORY>()
@@ -96,6 +104,12 @@ namespace DrivingSclData
                 .HasForeignKey(e => e.GOV_NB)
                 .WillCascadeOnDelete(true);
 
+            modelBuilder.Entity<ZGOVERN>()
+                .HasMany(e => e.SCHOOLVEHICLEs)
+                .WithRequired(e => e.ZGOVERN)
+                .HasForeignKey(e => e.GOV_NB)
+                .WillCascadeOnDelete(true);
+
             // ------         ZNATION
             modelBuilder.Entity<ZNATION>()
                .HasMany(e => e.ZPERSON)
@@ -116,6 +130,23 @@ namespace DrivingSclData
                 .WithRequired(e => e.ZPERSON)
                 .HasForeignKey(e => e.PRS_NB)
                 .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<ZPERSON>()
+               .HasMany(e => e.SCHOOLVEHICLEs)
+               .WithRequired(e => e.ZPERSON)
+               .HasForeignKey(e => e.PRS_NB)
+               .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<ZPERSON>()
+               .HasMany(e => e.SCHOOLTRAINERs)
+               .WithRequired(e => e.ZPERSON)
+               .HasForeignKey(e => e.PRS_NB)
+               .WillCascadeOnDelete(true);
+
+            //modelBuilder.Entity<ZPERSON>()
+            //    .HasRequired(r => r.SCHOOLTRAINERs)
+            //    .WithMany(p => p.ZPERSON)
+            //    .HasForeignKey(p => p.PRS_NB);
 
             // ------         ZPRSTYPE
             modelBuilder.Entity<ZPRSTYPE>()
@@ -151,6 +182,13 @@ namespace DrivingSclData
               .HasForeignKey(e => e.ST_NB)
               .WillCascadeOnDelete(true);
 
+            // ------         ZTRAINERTYPE
+            modelBuilder.Entity<ZTRAINERTYPE>()
+              .HasMany(e => e.SCHOOLTRAINERs)
+              .WithRequired(e => e.ZTRAINERTYPE)
+              .HasForeignKey(e => e.TYP_NB)
+              .WillCascadeOnDelete(true);
+
             // ------         ZVEHICLECLASS
             modelBuilder.Entity<ZVEHICLECLASS>()
               .HasMany(e => e.SCHOOLVEHICLEs)
@@ -181,5 +219,7 @@ namespace DrivingSclData
         public virtual DbSet<COMPANYOWNER> COMPANYOWNER { get; set; }
         public virtual DbSet<ZVEHICLECLASS> ZVEHICLECLASS { get; set; }
         public virtual DbSet<SCHOOLVEHICLE> SCHOOLVEHICLE { get; set; }
+        public virtual DbSet<ZTRAINERTYPE> ZTRAINERTYPE { get; set; }
+        public virtual DbSet<SCHOOLTRAINER> SCHOOLTRAINER { get; set; }
     }
 }

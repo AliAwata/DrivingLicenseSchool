@@ -6,7 +6,7 @@
 }
 <style>
     .alert-message {
-        position: absolute;
+        position: fixed;
         top: 30px;
         right: 16px;
         width: fit-content;
@@ -18,29 +18,14 @@
     <div class="panel-heading">
         <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">الدول والجنسيات</a>
     </div>
-    <div id="filter_body" class="collapse">
+    @*<div id="filter_body" class="collapse">
         <div class="panel-body">
 
         </div>
-    </div>
+    </div>*@
 </div>
 
 <!-- Messages -->
-@if (ViewBag.Alert == "Deleted")
-{
-    <div id="success_msg" class="bf-messages" role="alert" style="display:none">
-        <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
-            <a class="close" data-dissmiss="alert" href="#"></a>
-            <span class="bf-messages">
-                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-                <span style="color:green" class="bf-messages">
-                    <span class="bf-messages">تم حذف السجل بنجاح </span>
-                </span>
-            </span>
-        </div>
-    </div>
-}
-
 <div id="success_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-success"  style="padding:15px;margin-top:10px;">
         <a class="close" data-dissmiss="alert" href="#"></a>
@@ -88,14 +73,6 @@
         .Height(150)
         )
     </div>
-    
-    <!--<div class="k-window" style="width:100px; ">
-        <h3> هل أنت متأكد من عملية الحذف </h3>-->
-    @*  <span class="k-label">Reason For Deletion</span> <input id="txtReasonForChange" class="k-textbox" />*@
-    <!--<button id="yes" class="k-button">نعم</button>
-        <button id="no" class="k-button">لا</button>
-        <span id="validationRFC" class="k-label alert-danger"></span>
-    </div>-->
 </div>
 
 <!-- Kendo -->
@@ -105,10 +82,10 @@
             .Name("grid")
             .Columns(columns =>
             {
-                columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Custom("حذف").Click("DestroyOrder"); }).Title("العمليات").Width(100);
+                columns.Command(command => { command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new {  @class = "btn btn-danger"}); }).Title("العمليات").HtmlAttributes(new {  style = "width:auto;"});
                 columns.Bound(c => c.NB).Visible(false);
-                columns.Bound(c => c.NATION).Width(150);
-                columns.Bound(c => c.CNTRYNAME).Width(150);
+                columns.Bound(c => c.NATION).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.CNTRYNAME).HtmlAttributes(new { style = "width:auto;" });
             })
             .HtmlAttributes(new { style = "height: 550px;" })
             .Sortable()
@@ -126,9 +103,9 @@
             .Columns(true)
             )
             .ToolBar(toolbar =>
-                {
-                    toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
-                })
+            {
+                toolbar.Custom().Name("newAdd").Text(" جديد ").Url("#").HtmlAttributes(new { id = "newAdd", @class = "btn btn-primary" });
+            })
                 .Pageable(pageable =>
                 {
                     pageable.Refresh(true);
@@ -169,13 +146,13 @@
                             @(Html.Kendo().Button()
                                 .Name("btnSave")
                                 .Content("حفظ")
-                                .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;" })
+                                .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
                                 .Events(e => e.Click("btnSave_Click"))
                             )
                             @(Html.Kendo().Button()
                                 .Name("btnReset")
                                 .Content("تراجع")
-                                .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
+                                .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
                                 .Events(e => e.Click("btnReset_Click"))
                             )
                             </div>
@@ -227,13 +204,13 @@
                                 @(Html.Kendo().Button()
                                     .Name("btnUpdate")
                                     .Content("حفظ")
-                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:70px;" })
                                     .Events(e => e.Click("btnUpdate_Click"))
                                 )
                                 @(Html.Kendo().Button()
                                     .Name("btnUpdateReset")
                                     .Content("تراجع")
-                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:70px;" })
                                     .Events(e => e.Click("btnUpdateReset_Click"))
                                 )
                             </div>
@@ -250,7 +227,6 @@
     )
     </div>
 </div>
-
 
 <script>
     // messages
@@ -291,7 +267,7 @@
         }
     }
 
-    function DestroyOrder(e) {
+    function Destroy(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var wnd = $("#DeleteWindow").data("kendoWindow");
@@ -314,15 +290,24 @@
                 data: model,
                 dataType: "JSON",
                 success: function (response) {
-                    wnd.close();
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
-                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
-                        $("#success_msg").slideUp(500);
-                    });
-                    var grid = $('#grid').data('kendoGrid');
-                    grid.dataSource.read();
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        wnd.close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
                 }
             });
         })
@@ -373,20 +358,29 @@
                 datatype: "json",
                 cache: false,
                 success: function (response) {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
-                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
-                        $("#success_msg").slideUp(500);
-                    });
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        btnReset_Click();
+                        var wnd = $("#AddDetails").data("kendoWindow");
+                        wnd.center().close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
                 },
 
             });
-            btnReset_Click();
-            var wnd = $("#AddDetails").data("kendoWindow");
-            wnd.center().close();
-            var grid = $('#grid').data('kendoGrid');
-            grid.dataSource.read();
             return true;
         }
         else {
@@ -440,19 +434,28 @@
                 datatype: "json",
                 cache: false,
                 success: function (response) {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
-                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
-                        $("#success_msg").slideUp(500);
-                    });
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        btnUpdateReset_Click();
+                        var wnd = $("#EditDetails").data("kendoWindow");
+                        wnd.center().close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
                 },
             });
-            btnReset_Click();
-            var wnd = $("#EditDetails").data("kendoWindow");
-            wnd.center().close();
-            var grid = $('#grid').data('kendoGrid');
-            grid.dataSource.read();
             return true;
         }
         else {

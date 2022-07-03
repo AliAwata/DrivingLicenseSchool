@@ -32,7 +32,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         PHONE_NO = p.PHONE_NO,
                         PHONE_TYP = p.PHONE_TYP,
                         SCL_NAME = s.SCLNAME
-                    }).ToList();
+                    }).OrderBy(x => x.NB).ToList();
             foreach(var item in Data)
             {
                 item.PHONE_TYPE = codes.GetPhoneTypeName(item.PHONE_TYP);
@@ -144,7 +144,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         REG_NAME = r.NAME,
                         STS_NAME = st.STSNAME,
                         STY_NAME = sty.TYPNAME
-                    }).Where(x => x.NB == id).ToList();
+                    }).Where(x => x.NB == id).OrderBy(x => x.NB).ToList();
             ViewData["ID"] = id;
             return PartialView("_SclPhone", Data);
         }
@@ -161,7 +161,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         PHONE_NO = p.PHONE_NO,
                         PHONE_TYP = p.PHONE_TYP,
                         SCL_NAME = s.SCLNAME
-                    }).Where(x => x.SCL_NB == id).ToList();
+                    }).Where(x => x.SCL_NB == id).OrderBy(x => x.NB).ToList();
             foreach (var item in Data)
             {
                 item.PHONE_TYPE = codes.GetPhoneTypeName(item.PHONE_TYP);

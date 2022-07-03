@@ -19,6 +19,8 @@ namespace DrivingSclData
         public ZPERSON()
         {
             this.COMPANYOWNERs = new HashSet<COMPANYOWNER>();
+            this.SCHOOLVEHICLEs = new HashSet<SCHOOLVEHICLE>();
+            this.SCHOOLTRAINERs = new HashSet<SCHOOLTRAINER>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -44,9 +46,11 @@ namespace DrivingSclData
         public Nullable<bool> SEX { get; set; }
         public long TYP { get; set; }
         public long NAT { get; set; }
-    
+
         public virtual ZNATION ZNATION { get; set; }
         public virtual ZPRSTYPE ZPRSTYPE { get; set; }
         public virtual ICollection<COMPANYOWNER> COMPANYOWNERs { get; set; }
+        public virtual ICollection<SCHOOLVEHICLE> SCHOOLVEHICLEs { get; set; }
+        public virtual ICollection<SCHOOLTRAINER> SCHOOLTRAINERs { get; set; }
     }
 }

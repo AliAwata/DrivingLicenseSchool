@@ -52,7 +52,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         NAT = a.NAT,
                         NationName = b.NATION,
                         PerType = c.TYPNAME
-                    }).ToList();
+                    }).OrderBy(x => x.NB).ToList();
             foreach(var item in Data)
             {
                 if (item.SEX == true)
@@ -61,6 +61,76 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                     item.SEX_string = "انثى";
             }
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ReadByFilter(
+             DateTime? bdate, string natno = "", string fname = "", string lname = "",
+            string father = "", string mother = "")
+        {
+            List<PersonVM> Data = new List<PersonVM>();
+            Data = (from a in db.ZPERSON
+                    join b in db.ZNATION
+                    on a.NAT equals b.NB
+                    join c in db.ZPRSTYPE
+                    on a.TYP equals c.NB
+                    select new PersonVM
+                    {
+                        NB = a.NB,
+                        NATNO = a.NATNO,
+                        FNAME = a.FNAME,
+                        LNAME = a.LNAME,
+                        FATHER = a.FATHER,
+                        MOTHER = a.MOTHER,
+                        CIVILLOC = a.CIVILLOC,
+                        ACTADDRESS = a.ACTADDRESS,
+                        ADDRESS = a.ADDRESS,
+                        PHONE = a.PHONE,
+                        MOBILE = a.MOBILE,
+                        BDATED = a.BDATED,
+                        BDATEM = a.BDATEM,
+                        BDATEY = a.BDATEY,
+                        BDATE = a.BDATE,
+                        IDCARDNO = a.IDCARDNO,
+                        IDCARDDAT = a.IDCARDDAT,
+                        BPLACE = a.BPLACE,
+                        ALAMANA = a.ALAMANA,
+                        SEX = a.SEX,
+                        TYP = a.TYP,
+                        NAT = a.NAT,
+                        NationName = b.NATION,
+                        PerType = c.TYPNAME
+                    }).OrderBy(x => x.NB).ToList();
+            foreach (var item in Data)
+            {
+                if (item.SEX == true)
+                    item.SEX_string = "ذكر";
+                else if (item.SEX == false)
+                    item.SEX_string = "انثى";
+            }
+            if(natno != "")
+            {
+                Data = Data.Where(x => x.NATNO == natno).ToList();
+            }
+            if (fname != "")
+            {
+                Data = Data.Where(x => x.FNAME == fname).ToList();
+            }
+            if (lname != "")
+            {
+                Data = Data.Where(x => x.LNAME == lname).ToList();
+            }
+            if (father != "")
+            {
+                Data = Data.Where(x => x.FATHER == father).ToList();
+            }
+            if (mother != "")
+            {
+                Data = Data.Where(x => x.MOTHER == mother).ToList();
+            }
+            if (bdate != null)
+            {
+                Data = Data.Where(x => x.BDATE == bdate).ToList();
+            }
+            return Json(Data, JsonRequestBehavior.AllowGet);
         }
         public ActionResult ReadById([DataSourceRequest] DataSourceRequest request, int id)
         {
@@ -96,7 +166,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         NAT = a.NAT,
                         NationName = b.NATION,
                         PerType = c.TYPNAME
-                    }).Where(x => x.NB == id).ToList();
+                    }).Where(x => x.NB == id).OrderBy(x => x.NB).ToList();
             foreach (var item in Data)
             {
                 if (item.SEX == true)
@@ -172,7 +242,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         model.BDATED = model.BDATE.Value.Day;
                         model.BDATEM = model.BDATE.Value.Month;
                         model.BDATEY = model.BDATE.Value.Year;
-                        model.NB = Convert.ToInt32(MyDataBase.GetSeqValue("GetIndexID"));
+                        model.NB = MyDataBase.GetSeqValue("GetIndexID");
                         db.ZPERSON.Add(model);
                         db.SaveChanges();
                         transaction.Commit();

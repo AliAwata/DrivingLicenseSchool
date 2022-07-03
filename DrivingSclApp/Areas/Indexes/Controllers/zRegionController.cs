@@ -36,7 +36,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         NAME = a.NAME,
                         CTY_NB = a.CTY_NB,
                         CityName = b.NAME
-                    }).ToList();
+                    }).OrderBy(x => x.NB).ToList();
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         [AcceptVerbs(HttpVerbs.Post)]

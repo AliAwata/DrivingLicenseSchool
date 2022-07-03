@@ -3,6 +3,7 @@ using DrivingSclData;
 using Kendo.Mvc.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,12 +13,13 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
     public class CodesController : Controller
     {
         DrivingSclEntity db = new DrivingSclEntity();
+
         public ActionResult GetGovern()
         {
             var res = db.ZGOVERN.Select(x => new {
                 Id = x.NB,
                 Name = x.NAME
-            });
+            }).OrderBy(x => x.Id);
 
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -27,7 +29,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             var res = db.ZCITY.Select(x => new {
                 Id = x.NB,
                 Name = x.NAME
-            });
+            }).OrderBy(x => x.Id);
 
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -38,7 +40,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                 Id = x.NB,
                 Name = x.NAME,
                 Govern = x.GOV_NB
-            }).Where(d => d.Govern == govern );
+            }).Where(d => d.Govern == govern ).OrderBy(x => x.Id);
 
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -48,7 +50,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             var res = db.ZREGION.Select(x => new {
                 Id = x.NB,
                 Name = x.NAME
-            });
+            }).OrderBy(x => x.Id);
 
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -59,7 +61,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                 Id = x.NB,
                 Name = x.NAME,
                 City = x.CTY_NB
-            }).Where(d => d.City == city);
+            }).Where(d => d.City == city).OrderBy(x => x.Id);
 
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -69,7 +71,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             var res = db.ZNATION.Select(x => new {
                 Id = x.NB,
                 Name = x.NATION
-            });
+            }).OrderBy(x => x.Id);
 
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -79,7 +81,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             var res = db.ZPRSTYPE.Select(x => new {
                 Id = x.NB,
                 Name = x.TYPNAME
-            });
+            }).OrderBy(x => x.Id);
 
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -115,7 +117,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                     Id = x.NB,
                     Name = x.FNAME + x.LNAME,
                     NationNo = x.NATNO
-                });
+                }).OrderBy(x => x.Id);
                 return Json(persons, JsonRequestBehavior.AllowGet);
             }
             else
@@ -124,7 +126,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                 {
                     Id = x.NB,
                     Name = x.COMPNAME,
-                });
+                }).OrderBy(x => x.Id);
                 return Json(companies, JsonRequestBehavior.AllowGet);
             }
         }
@@ -134,7 +136,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             var res = db.ZSCLSTATUS.Select(x => new {
                 Id = x.NB,
                 Name = x.STSNAME
-            });
+            }).OrderBy(x => x.Id);
 
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -144,7 +146,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             var res = db.ZSCLTYPE.Select(x => new {
                 Id = x.NB,
                 Name = x.TYPNAME
-            });
+            }).OrderBy(x => x.Id);
 
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -154,7 +156,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             var res = db.ZCATEGORY.Select(x => new {
                 Id = x.NB,
                 Name = x.NAME
-            });
+            }).OrderBy(x => x.Id);
             return Json(res, JsonRequestBehavior.AllowGet);
         }
 
@@ -197,6 +199,33 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                 return "تلفاكس";
             else
                 return "none";
+        }
+    
+        public ActionResult GetVegicleClasses()
+        {
+            var veh = db.ZVEHICLECLASS.Select(x => new {
+                Id = x.NB,
+                Name = x.NAME
+            }).OrderBy(x => x.Id);
+            return Json(veh, JsonRequestBehavior.AllowGet);
+        }
+    
+        public ActionResult GetTrainerType()
+        {
+            var res = db.ZTRAINERTYPE.Select(x => new
+            {
+                Id = x.NB,
+                Name = x.NAME
+            }).OrderBy(x => x.Id);
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+    
+        public string GetPrsFullName(long prs_nb)
+        {
+            var prs = db.ZPERSON.Where(x => x.NB == prs_nb).ToList();
+            string name;
+            name = prs.Select(x => x.FNAME).FirstOrDefault() + " " + prs.Select(x => x.LNAME).FirstOrDefault();
+            return name;
         }
     }
 }

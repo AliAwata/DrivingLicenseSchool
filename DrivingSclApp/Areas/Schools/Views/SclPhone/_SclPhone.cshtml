@@ -2,6 +2,20 @@
 
 <!-- Header -->
 <div class="container-fluid" style="text-align:center;">
+    <!-- Hidden Fields -->
+    <div class="hidden">
+        <div class="editor-label">
+            @Html.Label("اسم المدرسة", htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="editor-field">
+            @(Html.Kendo().NumericTextBox()
+                .Name("sclNb").Enable(false)
+                .Value(Model.Select(x => x.NB).FirstOrDefault())
+                .HtmlAttributes(new { style = "width: 100%; text-align:center;" })
+            )
+        </div>
+    </div>
+    <!-- the info that the user will fill -->
     <div class="row">
         <div class="col-md-3">
             <div class="editor-label">
@@ -20,9 +34,9 @@
                 @Html.Label("رقم الهاتف", htmlAttributes: new { @class = "control-label" })
             </div>
             <div class="editor-field">
-                @(Html.Kendo().TextBox()
+                @(Html.Kendo().NumericTextBox()
                 .Name("SclPhone")
-                .HtmlAttributes(new { placeholder = "أدخل رقم الهاتف", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%; text-align:center;" })
+                .HtmlAttributes(new { placeholder = "أدخل رقم الهاتف", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
                 )
             </div>
         </div>
@@ -49,16 +63,17 @@
         </div>
     </div>
     <div class="row" style="margin:10px;"></div>
+    <!-- Buttons -->
     <div class="row" style="text-align:center;">
         @(Html.Kendo().Button()
             .Name("btnPhoneSave")
             .Content("حفظ")
-            .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;" })
+            .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
         )
         @(Html.Kendo().Button()
             .Name("btnPhoneReset")
             .Content("تراجع")
-            .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
+            .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
         )
     </div>
     <div class="row" style="margin:10px"></div>
@@ -71,14 +86,13 @@
             .Name("PhonesGrid")
             .Columns(columns =>
             {
-                columns.Command(command => { command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
+                columns.Command(command => { command.Custom("حذف").Click("DestroyPhone").HtmlAttributes(new { @class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.NB).Visible(false);
                 columns.Bound(c => c.SCL_NB).Visible(false);
                 columns.Bound(c => c.PHONE_TYP).Visible(false);
-                columns.Bound(c => c.SCL_NAME);
-                columns.Bound(c => c.PHONE_NO);
-                columns.Bound(c => c.PHONE_TYPE);
-
+                columns.Bound(c => c.SCL_NAME).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.PHONE_NO).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.PHONE_TYPE).HtmlAttributes(new { style = "width:auto;" });
             })
             .HtmlAttributes(new { style = "height: auto;" })
             .Sortable()
@@ -111,7 +125,7 @@
     })
 
     $("#btnPhoneSave").on('click', function () {
-        var scl = @Model.Select(x => x.NB).FirstOrDefault();
+        var scl = $("#sclNb").val();
         var phone = $("#SclPhone").val();
         var phonetyp = $("#ddlPhoneTyp").val();
         var phone = {

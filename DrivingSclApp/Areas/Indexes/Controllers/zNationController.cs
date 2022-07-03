@@ -19,7 +19,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
         }
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            List<ZNATION> Data = db.ZNATION.ToList();
+            List<ZNATION> Data = db.ZNATION.OrderBy(x => x.NB).ToList();
             return Json(Data.ToDataSourceResult(request));
         }
         [AcceptVerbs(HttpVerbs.Post)]

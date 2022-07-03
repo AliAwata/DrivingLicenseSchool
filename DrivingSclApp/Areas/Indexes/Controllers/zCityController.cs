@@ -29,7 +29,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         NAME = a.NAME,
                         GOV_NB = a.GOV_NB,
                         GOVNAME = b.NAME
-                    }).ToList();
+                    }).OrderBy(x => x.NB).ToList();
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         [AcceptVerbs(HttpVerbs.Post)]

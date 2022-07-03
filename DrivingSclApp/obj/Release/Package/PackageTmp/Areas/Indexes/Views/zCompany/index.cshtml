@@ -10,6 +10,12 @@
         width: 2000px;
     }
 
+    .alert-message {
+        position: fixed;
+        top: 30px;
+        right: 16px;
+        width: fit-content;
+    }
 </style>
 
 <!-- Header -->
@@ -17,30 +23,15 @@
     <div class="panel-heading">
         <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">الشركات</a>
     </div>
-    <div id="filter_body" class="collapse">
+    @*<div id="filter_body" class="collapse">
         <div class="panel-body">
 
         </div>
-    </div>
+    </div>*@
 </div>
 
 <!-- Messages -->
-@if (ViewBag.Alert == "Deleted")
-{
-    <div id="success_msg" class="bf-messages" role="alert" style="display:none">
-        <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
-            <a class="close" data-dissmiss="alert" href="#"></a>
-            <span class="bf-messages">
-                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-                <span style="color:green" class="bf-messages">
-                    <span class="bf-messages">تم حذف السجل بنجاح </span>
-                </span>
-            </span>
-        </div>
-    </div>
-}
-
-<div id="success_msg" class="bf-messages" role="alert" style="display:none">
+<div id="success_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
         <a class="close" data-dissmiss="alert" href="#"></a>
         <span class="bf-messages">
@@ -52,7 +43,7 @@
     </div>
 </div>
 
-<div id="error_msg" class="bf-messages" role="alert" style="display:none">
+<div id="error_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
         <a class="close" data-dissmiss="alert" href="#">*</a>
         <span class="bf-messages">
@@ -64,59 +55,83 @@
     </div>
 </div>
 
+<div id="deleteWindow">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("DeleteWindow")
+        .Title("تأكيد حذف")
+        .Visible(false)
+        .Modal(true)
+        .HtmlAttributes(new { style = "text-align:center;" })
+        .Content(@<text>
+            <div class="container-fluid" style="text-align:center;">
+                <h3>هل أنت متأكد من الحذف؟</h3>
+                <div class="row">
+                    <button id="YesDelete" class="btn btn-default" style="width:100px;">نعم</button>
+                    <button id="NoDelete" class="btn btn-default" style="width:100px;">لا</button>
+                </div>
+                <span id="validationRFC" class="k-label alert-danger"></span>
+            </div>
+        </text>)
+        .Draggable(true) //Enable dragging of the window
+        .Resizable() //Enable resizing of the window
+        .Width(300)  //Set width of the window
+        .Height(150)
+        )
+    </div>
+</div>
+
 <!-- Kendo -->
 <div id="IdivForm">
     <div class="k-rtl">
         @(Html.Kendo().Grid<DrivingSclApp.Areas.Indexes.Data.CompanyVM>()
-            .Name("grid")
-            .Columns(columns =>
-            {
-                columns.Command(command => { command.Custom("تفاصيل").Click("details"); }).Title("تفاصيل").Width(100);
-                columns.Command(command => { command.Custom("تعديل").Click("editDetails"); command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
-                columns.Bound(c => c.NB).Visible(false).Width(50);
-                columns.Bound(c => c.COMPNAME).Width(50);
-                columns.Bound(c => c.COMREG_NO).Width(100);
-                columns.Bound(c => c.COMREG_DATE).Width(100).Format("{0:dd/MM/yyyy}");
-                columns.Bound(c => c.COMREG_TYP).Width(100).Visible(false);
-                columns.Bound(c => c.COMREG_GOV).Visible(false).Width(100);
-                columns.Bound(c => c.CTY_NB).Visible(false).Width(100);
-                columns.Bound(c => c.REG_NB).Visible(false).Width(100);
-                columns.Bound(c => c.ADDRESS).Width(100);
-                columns.Bound(c => c.PHONE1).Width(100);
-                columns.Bound(c => c.PHONE2).Width(100);
-                columns.Bound(c => c.MOBILE).Width(100);
-                columns.Bound(c => c.FAX).Width(100);
-                columns.Bound(c => c.NOTE).Width(100);
-                columns.Bound(c => c.GovName).Width(100);
-                columns.Bound(c => c.CityName).Width(100);
-                columns.Bound(c => c.RegionName).Width(100);
-            })
-            .HtmlAttributes(new { style = "height: 1000px;" })
-            .Sortable()
-            .Filterable()
-            .DataSource(dataSource => dataSource
-                .Ajax()
-                .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
-                .PageSize(15)
-                .Model(model => model.Id(p => p.NB))
-                .Create(update => update.Action("Create", "zCompany"))
-                .Read(read => read.Action("Read", "zCompany"))
-                .Update(update => update.Action("Update", "zCompnay"))
-                .Destroy(update => update.Action("Destroy", "zCompany"))
-            )
-            .Resizable(resize => resize
-                .Columns(true)
-            )
-            .ToolBar(toolbar =>
-            {
-                toolbar.Custom().Name("newAdd").Text("+ جديد ").Url("#").HtmlAttributes(new { id = "newAdd" });
-            })
-            .Pageable(pageable =>
-            {
-                pageable.Refresh(true);
-                pageable.PageSizes(true);
-            })
-)
+        .Name("grid")
+        .Columns(columns =>
+        {
+            columns.Command(command => { command.Custom("تفاصيل").Click("details").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new { @class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;" });
+            columns.Bound(c => c.NB).Visible(false);
+            columns.Bound(c => c.COMPNAME).HtmlAttributes(new { style = "width:auto;" });
+            columns.Bound(c => c.COMREG_NO).HtmlAttributes(new { style = "width:auto;" });
+            columns.Bound(c => c.COMREG_DATE).HtmlAttributes(new { style = "width:auto;" }).Format("{0:dd/MM/yyyy}");
+            columns.Bound(c => c.COMREG_TYP).Visible(false);
+            columns.Bound(c => c.COMREG_GOV).Visible(false);
+            columns.Bound(c => c.CTY_NB).Visible(false);
+            columns.Bound(c => c.REG_NB).Visible(false);
+            columns.Bound(c => c.ADDRESS).HtmlAttributes(new { style = "width:auto;" });
+            columns.Bound(c => c.PHONE1).HtmlAttributes(new { style = "width:auto;" });
+            columns.Bound(c => c.PHONE2).HtmlAttributes(new { style = "width:auto;" });
+            columns.Bound(c => c.MOBILE).HtmlAttributes(new { style = "width:auto;" });
+            columns.Bound(c => c.FAX).HtmlAttributes(new { style = "width:auto;" });
+            columns.Bound(c => c.NOTE).HtmlAttributes(new { style = "width:auto;" });
+            columns.Bound(c => c.GovName).HtmlAttributes(new { style = "width:auto;" });
+            columns.Bound(c => c.CityName).HtmlAttributes(new { style = "width:auto;" });
+            columns.Bound(c => c.RegionName).HtmlAttributes(new { style = "width:auto;" });
+        })
+        .HtmlAttributes(new { style = "height: auto;" })
+        .Sortable()
+        .Filterable()
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
+            .PageSize(15)
+            .Model(model => model.Id(p => p.NB))
+            .Create(update => update.Action("Create", "zCompany"))
+            .Read(read => read.Action("Read", "zCompany"))
+            .Update(update => update.Action("Update", "zCompnay"))
+            .Destroy(update => update.Action("Destroy", "zCompany"))
+        )
+        .Resizable(resize => resize
+            .Columns(true)
+        )
+        .ToolBar(toolbar =>
+        {
+            toolbar.Custom().Name("newAdd").Text(" جديد ").Url("#").HtmlAttributes(new { id = "newAdd", @class = "btn btn-primary" });
+        })
+        .Pageable(pageable =>
+        {
+            pageable.Refresh(true);
+            pageable.PageSizes(true);
+        })
+        )
     </div>
 </div>
 
@@ -151,9 +166,9 @@
                                             @Html.Label("رقم السجل التجاري", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
+                                            @(Html.Kendo().NumericTextBox()
                                                 .Name("txtComreg_no")
-                                                .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                                .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -281,9 +296,9 @@
                                             @Html.Label("الهاتف الأول", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
+                                            @(Html.Kendo().NumericTextBox()
                                                 .Name("txtPhone1")
-                                                .HtmlAttributes(new { placeholder = "أدخل الهاتف الأول", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                                .HtmlAttributes(new { placeholder = "أدخل الهاتف الأول", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -292,9 +307,9 @@
                                             @Html.Label("الهاتف الثاني", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
+                                            @(Html.Kendo().NumericTextBox()
                                                 .Name("txtPhone2")
-                                                .HtmlAttributes(new { placeholder = "أدخل الهاتف الثاني", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                                .HtmlAttributes(new { placeholder = "أدخل الهاتف الثاني", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -305,9 +320,9 @@
                                             @Html.Label("المحمول", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
+                                            @(Html.Kendo().NumericTextBox()
                                                 .Name("txtMobile")
-                                                .HtmlAttributes(new { placeholder = "أدخل المحمول", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                                .HtmlAttributes(new { placeholder = "أدخل المحمول", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -316,9 +331,9 @@
                                             @Html.Label("الفاكس", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
+                                            @(Html.Kendo().NumericTextBox()
                                                 .Name("txtFax")
-                                                .HtmlAttributes(new { placeholder = "أدخل الفاكس", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                                .HtmlAttributes(new { placeholder = "أدخل الفاكس", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -340,13 +355,13 @@
                                 @(Html.Kendo().Button()
                                     .Name("btnSave")
                                     .Content("حفظ")
-                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;" })
+                                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
                                     .Events(e => e.Click("btnSave_Click"))
                                 )
                                 @(Html.Kendo().Button()
                                     .Name("btnReset")
                                     .Content("تراجع")
-                                    .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
+                                    .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
                                     .Events(e => e.Click("btnReset_Click"))
                                 )
                             </div>
@@ -394,9 +409,9 @@
                                             @Html.Label("رقم السجل التجاري", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
+                                            @(Html.Kendo().NumericTextBox()
                                                 .Name("txtComreg_no1")
-                                                .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                                .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -523,9 +538,9 @@
                                             @Html.Label("الهاتف الأول", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
+                                            @(Html.Kendo().NumericTextBox()
                                                 .Name("txtPhone1_1")
-                                                .HtmlAttributes(new { placeholder = "أدخل الهاتف الأول", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                                .HtmlAttributes(new { placeholder = "أدخل الهاتف الأول", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -534,9 +549,9 @@
                                             @Html.Label("الهاتف الثاني", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
+                                            @(Html.Kendo().NumericTextBox()
                                                 .Name("txtPhone2_1")
-                                                .HtmlAttributes(new { placeholder = "أدخل الهاتف الثاني", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                                .HtmlAttributes(new { placeholder = "أدخل الهاتف الثاني", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -547,9 +562,9 @@
                                             @Html.Label("المحمول", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
+                                            @(Html.Kendo().NumericTextBox()
                                                 .Name("txtMobile1")
-                                                .HtmlAttributes(new { placeholder = "أدخل المحمول", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                                .HtmlAttributes(new { placeholder = "أدخل المحمول", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -558,9 +573,9 @@
                                             @Html.Label("الفاكس", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().TextBox()
+                                            @(Html.Kendo().NumericTextBox()
                                                 .Name("txtFax1")
-                                                .HtmlAttributes(new { placeholder = "أدخل الفاكس", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                                .HtmlAttributes(new { placeholder = "أدخل الفاكس", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
                                     </div>
@@ -581,13 +596,13 @@
                                 @(Html.Kendo().Button()
                                     .Name("btnUpdate")
                                     .Content("حفظ")
-                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:70px;" })
                                     .Events(e => e.Click("btnUpdate_Click"))
                                 )
                                 @(Html.Kendo().Button()
                                     .Name("btnUpdateReset")
                                     .Content("تراجع")
-                                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:70px;" })
+                                    .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:70px;" })
                                     .Events(e => e.Click("btnUpdateReset_Click"))
                                 )
                             </div>
@@ -604,7 +619,6 @@
     )
     </div>
 </div>
-
 
 <script>
     // messages
@@ -643,6 +657,67 @@
             $(".errorMessage").text(message);
             alert(message);
         }
+    }
+
+    function Destroy(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#DeleteWindow").data("kendoWindow");
+        wnd.center().open();
+
+        $("#YesDelete").on('click', function () {
+
+            var companyModel = {
+                NB: dataItem.NB,
+                COMPNAME: dataItem.COMPNAME,
+                COMREG_NO: dataItem.COMREG_NO,
+                COMREG_DATE: dataItem.COMREG_DATE,
+                COMREG_TYP: dataItem.COMREG_TYP,
+                COMREG_GOV: dataItem.COMREG_GOV,
+                CTY_NB: dataItem.CTY_NB,
+                REG_NB: dataItem.REG_NB,
+                ADDRESS: dataItem.ADDRESS,
+                PHONE1: dataItem.PHONE1,
+                PHONE2: dataItem.PHONE2,
+                MOBILE: dataItem.MOBILE,
+                FAX: dataItem.FAX,
+                NOTE: dataItem.NOTE,
+            }
+            var model = {
+                "model": companyModel
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Destroy", "zCompany")',
+                data: model,
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        wnd.close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
+                }
+            });
+        })
+
+        $("#NoDelete").on('click', function () {
+            wnd.close();
+        })
     }
 
     // when i press "add" from the grid
@@ -720,17 +795,28 @@
                 datatype: "json",
                 cache: false,
                 success: function (response) {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        btnReset_Click();
+                        var wnd = $("#AddDetails").data("kendoWindow");
+                        wnd.center().close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
                 },
-
             });
-            btnReset_Click();
-            var wnd = $("#AddDetails").data("kendoWindow");
-            wnd.center().close();
-            var grid = $('#grid').data('kendoGrid');
-            grid.dataSource.read();
             return true;
         }
         else {
@@ -819,17 +905,29 @@
                 datatype: "json",
                 cache: false,
                 success: function (response) {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        btnUpdateReset_Click();
+                        var wnd = $("#EditDetails").data("kendoWindow");
+                        wnd.center().close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
                 },
 
             });
-            btnReset_Click();
-            var wnd = $("#EditDetails").data("kendoWindow");
-            wnd.center().close();
-            var grid = $('#grid').data('kendoGrid');
-            grid.dataSource.read();
             return true;
         }
         else {

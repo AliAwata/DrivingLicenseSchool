@@ -16,7 +16,6 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
     {
         private DrivingSclEntity db = new DrivingSclEntity();
         private CodesController codes = new CodesController();
-
         public ActionResult Index()
         {
             return View();
@@ -34,7 +33,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         METERS_FOR_STUDENT = c.METERS_FOR_STUDENT,
                         MAX_STUDENTS_PER_HALL = c.MAX_STUDENTS_PER_HALL,
                         NOTE = c.NOTE,
-                    }).ToList();
+                    }).OrderBy(x => x.NB).ToList();
 
             foreach(var item in Data)
             {

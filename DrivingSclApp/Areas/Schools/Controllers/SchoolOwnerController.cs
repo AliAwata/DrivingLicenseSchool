@@ -35,7 +35,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         NOTE = so.NOTE,
                         OwnerName = o.OTNAME,
                         SchoolName = s.SCLNAME
-                    }).ToList();
+                    }).OrderBy(x => x.NB).ToList();
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         [AcceptVerbs(HttpVerbs.Post)]
@@ -143,31 +143,31 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         REG_NAME = r.NAME,
                         STS_NAME = st.STSNAME,
                         STY_NAME = sty.TYPNAME
-                    }).Where(s => s.NB == id).ToList();
+                    }).Where(s => s.NB == id).OrderBy(x => x.NB).ToList();
             ViewData["ID"] = id;
             return PartialView("_SchoolOwner", Data);
         }
-        public ActionResult DeleteSchoolOwner([DataSourceRequest] DataSourceRequest request, int id)
-        {
-            List<SchoolOwnerVM> Data = new List<SchoolOwnerVM>();
-            Data = (from so in db.SCHOOLOWNER
-                    join s in db.SCHOOL
-                    on so.SCL_NB equals s.NB
-                    join o in db.ZOWNERTYP
-                    on so.OT_NB equals o.NB
-                    select new SchoolOwnerVM
-                    {
-                        NB = so.NB,
-                        SCL_NB = so.SCL_NB,
-                        OT_NB = so.OT_NB,
-                        ONR_NB = so.ONR_NB,
-                        NOTE = so.NOTE,
-                        OwnerName = o.OTNAME,
-                        SchoolName = s.SCLNAME
-                    }).Where(x => x.SCL_NB == id).ToList();
-            ViewData["ID"] = id;
-            return View(Data);
-        }
+        //public ActionResult DeleteSchoolOwner([DataSourceRequest] DataSourceRequest request, int id)
+        //{
+        //    List<SchoolOwnerVM> Data = new List<SchoolOwnerVM>();
+        //    Data = (from so in db.SCHOOLOWNER
+        //            join s in db.SCHOOL
+        //            on so.SCL_NB equals s.NB
+        //            join o in db.ZOWNERTYP
+        //            on so.OT_NB equals o.NB
+        //            select new SchoolOwnerVM
+        //            {
+        //                NB = so.NB,
+        //                SCL_NB = so.SCL_NB,
+        //                OT_NB = so.OT_NB,
+        //                ONR_NB = so.ONR_NB,
+        //                NOTE = so.NOTE,
+        //                OwnerName = o.OTNAME,
+        //                SchoolName = s.SCLNAME
+        //            }).Where(x => x.SCL_NB == id).ToList();
+        //    ViewData["ID"] = id;
+        //    return View(Data);
+        //}
         public ActionResult OwnerBySclNb([DataSourceRequest] DataSourceRequest request, int id)
         {
             List<SchoolOwnerVM> Data = new List<SchoolOwnerVM>();
@@ -185,7 +185,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         NOTE = so.NOTE,
                         SchoolName = s.SCLNAME,
                         OwnerTypName = o.OTNAME
-                    }).Where(x => x.SCL_NB == id).ToList();
+                    }).Where(x => x.SCL_NB == id).OrderBy(x => x.NB).ToList();
             foreach(var item in Data)
             {
                 if(item.OT_NB == 1)
@@ -236,7 +236,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         NAT = a.NAT,
                         NationName = b.NATION,
                         PerType = c.TYPNAME
-                    }).ToList();
+                    }).OrderBy(x => x.NB).ToList();
             foreach (var item in Data)
             {
                 if (item.SEX == true)
@@ -300,7 +300,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         GovName = g.NAME,
                         CityName = c.NAME,
                         RegionName = r.NAME
-                    }).ToList();
+                    }).OrderBy(x => x.NB).ToList();
             if (name != "")
             {
                 Data = Data.Where(x => x.COMPNAME == name).ToList();

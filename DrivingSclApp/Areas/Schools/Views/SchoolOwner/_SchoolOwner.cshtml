@@ -19,7 +19,7 @@
 </style>
 
 <!-- Add Owner Button -->
-<div class="container-fluid">
+<div class="container">
     <!-- Hidden TextBoxs -->
     <div id="save-container" class="row hidden">
         <div class="col-sm-3">
@@ -30,7 +30,7 @@
                 @(Html.Kendo().NumericTextBox()
                     .Name("sclNb").Enable(false)
                     .Value(Model.Select(x => x.NB).FirstOrDefault())
-                    .HtmlAttributes(new { placeholder = "ملاحظة", @class = "form-control", style = "width: 100%" })
+                    .HtmlAttributes(new { placeholder = "ملاحظة", style = "width: 100%" })
                     )
             </div>
         </div>
@@ -46,25 +46,95 @@
                     )
             </div>
         </div>
-    </div>
-    <!-- Buttons -->
-    <div class="row">
-        <div class="row" style="margin-top:20px"></div>
-        <div class="buttons">
-            <div class="k-edit-buttons k-state-default">
-                @(Html.Kendo().Button()
-                    .Name("btnAddPerson")
-                    .Content("إضافة شخص طبيعي")
-                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:auto;text-align:center;" })
-                )
-                @(Html.Kendo().Button()
-                    .Name("btnAddCompany")
-                    .Content("إضافة شخص اعتباري")
-                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:auto;text-align:center;" })
+        <div class="col-sm-3">
+            <div class="editor-label">
+                @Html.Label("رمز المالك", htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="editor-field">
+                @(Html.Kendo().NumericTextBox()
+                    .Name("ownerNb").Enable(false)
+                    .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", required = "required", validationmessage = "*", style = "width: 100%" })
                 )
             </div>
         </div>
-        <div class="row" style="margin-top:20px"></div>
+    </div>
+    <!-- The information that the user will fill -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="editor-label">
+                    @Html.Label("المدرسة", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().TextBox()
+                    .Name("sclName").Enable(false)
+                    .Value(Model.Select(x => x.SCLNAME).FirstOrDefault())
+                    .HtmlAttributes(new { @class = "form-control", style = "width: 100%; text-align:center;" })
+                    )
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="editor-label">
+                    @Html.Label("نوع السجل التجاري", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().TextBox()
+                    .Name("sclComreg_typ").Enable(false)
+                    .Value(Model.Select(x => x.COMREG_TYP).FirstOrDefault())
+                    .HtmlAttributes(new { @class = "form-control", style = "width: 100%; text-align:center;" })
+                    )
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="editor-label">
+                    @Html.Label("المالك", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().TextBox()
+                    .Name("sclOwner").Enable(false)
+                    .HtmlAttributes(new { @class = "form-control", style = "width: 100%; text-align:center;" })
+                    )
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="editor-label">
+                    @Html.Label("ملاحظات", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().TextBox()
+                    .Name("sclNote").Enable(true)
+                    .HtmlAttributes(new { placeholder = "ادخل الملاحظة", @class = "form-control", style = "width: 100%; text-align:center;" })
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Buttons -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="row" style="margin-top:20px"></div>
+            <div class="buttons">
+                <div class="k-edit-buttons k-state-default">
+                    @(Html.Kendo().Button()
+                    .Name("btnAddPerson")
+                    .Content("إضافة شخص طبيعي")
+                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:auto;text-align:center;" })
+                )
+                    @(Html.Kendo().Button()
+                    .Name("btnAddCompany")
+                    .Content("إضافة شخص اعتباري")
+                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:auto;text-align:center;" })
+                )
+                    @(Html.Kendo().Button()
+                    .Name("btnSaveInfo")
+                    .Content("حفظ")
+                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:auto;text-align:center;" })
+                    .Events(e => e.Click("SaveOwner"))
+                )
+                </div>
+            </div>
+            <div class="row" style="margin-top:20px"></div>
+        </div>
     </div>
 </div>
 
@@ -76,18 +146,18 @@
             .Name("OwnerGrid")
             .Columns(columns =>
             {
-                columns.Command(command => { command.Destroy().Text("حذف"); }).Title("العمليات").Width(100);
+                columns.Command(command => { command.Custom("حذف").Click("Destroy").HtmlAttributes(new { @class = "btn btn-danger"}); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.NB).Visible(false);
                 columns.Bound(c => c.SCL_NB).Visible(false);
                 columns.Bound(c => c.OT_NB).Visible(false);
                 columns.Bound(c => c.ONR_NB).Visible(false);
-                columns.Bound(c => c.SchoolName);
-                columns.Bound(c => c.OwnerTypName);
-                columns.Bound(c => c.OwnerName);
-                columns.Bound(c => c.NOTE);
+                columns.Bound(c => c.SchoolName).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.OwnerTypName).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.OwnerName).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.NOTE).HtmlAttributes(new { style = "width:auto;" });
             })
             .Scrollable()
-            .HtmlAttributes(new { style = "height: 120px;" })
+            .HtmlAttributes(new { style = "height: auto;" })
             .DataSource(dataSource => dataSource
             .Ajax()
             .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
@@ -118,9 +188,9 @@
                             @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="editor-field">
-                            @(Html.Kendo().TextBox()
+                            @(Html.Kendo().NumericTextBox()
                             .Name("perNatno")
-                            .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", @class = "form-control", style = "width: 100%; text-align: center;" })
+                            .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", style = "width: 100%; text-align: center;" })
                             )
                         </div>
                     </div>
@@ -131,7 +201,7 @@
                         <div class="editor-field">
                             @(Html.Kendo().TextBox()
                             .Name("perFname")
-                            .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", @class = "form-control", style = "width: 100%; text-align: center;" })
+                            .HtmlAttributes(new { placeholder = "أدخل الاسم", @class = "form-control", style = "width: 100%; text-align: center;" })
                             )
                         </div>
                     </div>
@@ -142,7 +212,7 @@
                         <div class="editor-field">
                             @(Html.Kendo().TextBox()
                             .Name("perLname")
-                            .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", @class = "form-control", style = "width: 100%; text-align: center;" })
+                            .HtmlAttributes(new { placeholder = "أدخل الكنية", @class = "form-control", style = "width: 100%; text-align: center;" })
                             )
                         </div>
                     </div>
@@ -155,7 +225,7 @@
                         <div class="editor-field">
                             @(Html.Kendo().TextBox()
                             .Name("perFather")
-                            .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", @class = "form-control", style = "width: 100%; text-align: center;" })
+                            .HtmlAttributes(new { placeholder = "أدخل اسم الاب", @class = "form-control", style = "width: 100%; text-align: center;" })
                             )
                         </div>
                     </div>
@@ -166,7 +236,7 @@
                         <div class="editor-field">
                             @(Html.Kendo().TextBox()
                             .Name("perMother")
-                            .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", @class = "form-control", style = "width: 100%; text-align: center;" })
+                            .HtmlAttributes(new { placeholder = "أدخل اسم الاب", @class = "form-control", style = "width: 100%; text-align: center;" })
                             )
                         </div>
                     </div>
@@ -177,7 +247,7 @@
                         <div class="editor-field">
                             @(Html.Kendo().DatePicker()
                             .Name("perBday")
-                            .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", @class = "form-control", style = "width: 100%; text-align: center;" })
+                            .HtmlAttributes(new { placeholder = "أدخل الميلاد", @class = "form-control", style = "width: 100%; text-align: center;" })
                             )
                         </div>
                     </div>
@@ -188,17 +258,17 @@
                         @(Html.Kendo().Button()
                         .Name("btnPersonSearch")
                         .Content("بحث")
-                        .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;text-align:center;" })
+                        .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;text-align:center;" })
                         )
                         @(Html.Kendo().Button()
                         .Name("btnPersonNew")
                         .Content("جديد")
-                        .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;text-align:center;" })
+                        .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;text-align:center;" })
                         )
                         @(Html.Kendo().Button()
                         .Name("btnPersonSearchReset")
                         .Content("تراجع")
-                        .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
+                        .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
                         )
                     </div>
                 </div>
@@ -211,14 +281,14 @@
                         .Name("personGrid")
                         .Columns(columns =>
                         {
-                            columns.Command(command => { command.Custom("اختيار").Click("ChoosePerson"); }).Title("العمليات").Width(100);
+                            columns.Command(command => { command.Custom("اختيار").Click("ChoosePerson").HtmlAttributes(new { @class = "btn btn-primary" }); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;" });
                             columns.Bound(c => c.NB).Visible(false);
-                            columns.Bound(c => c.NATNO).Width(150);
-                            columns.Bound(c => c.FNAME);
-                            columns.Bound(c => c.LNAME);
-                            columns.Bound(c => c.FATHER);
-                            columns.Bound(c => c.MOTHER);
-                            columns.Bound(c => c.CIVILLOC);
+                            columns.Bound(c => c.NATNO).HtmlAttributes(new { style = "width:auto;" });
+                            columns.Bound(c => c.FNAME).HtmlAttributes(new { style = "width:auto;" });
+                            columns.Bound(c => c.LNAME).HtmlAttributes(new { style = "width:auto;" });
+                            columns.Bound(c => c.FATHER).HtmlAttributes(new { style = "width:auto;" });
+                            columns.Bound(c => c.MOTHER).HtmlAttributes(new { style = "width:auto;" });
+                            columns.Bound(c => c.CIVILLOC).HtmlAttributes(new { style = "width:auto;" });
                             columns.Bound(c => c.ACTADDRESS).Visible(false);
                             columns.Bound(c => c.ADDRESS).Visible(false);
                             columns.Bound(c => c.PHONE).Visible(false);
@@ -226,17 +296,17 @@
                             columns.Bound(c => c.BDATED).Visible(false);
                             columns.Bound(c => c.BDATEM).Visible(false);
                             columns.Bound(c => c.BDATEY).Visible(false);
-                            columns.Bound(c => c.BDATE).ClientTemplate("#= kendo.toString(kendo.parseDate(BDATE), 'yyyy/MM/dd') #");
+                            columns.Bound(c => c.BDATE).ClientTemplate("#= kendo.toString(kendo.parseDate(BDATE), 'yyyy/MM/dd') #").HtmlAttributes(new { style = "width:auto;" });
                             columns.Bound(c => c.IDCARDNO).Visible(false);
                             columns.Bound(c => c.IDCARDDAT).Visible(false);
                             columns.Bound(c => c.BPLACE).Visible(false);
                             columns.Bound(c => c.ALAMANA).Visible(false);
-                            columns.Bound(c => c.SEX_string);
+                            columns.Bound(c => c.SEX_string).HtmlAttributes(new { style = "width:auto;" });
                             columns.Bound(c => c.SEX).Visible(false);
                             columns.Bound(c => c.TYP).Visible(false);
                             columns.Bound(c => c.NAT).Visible(false);
-                            columns.Bound(c => c.NationName);
-                            columns.Bound(c => c.PerType);
+                            columns.Bound(c => c.NationName).HtmlAttributes(new { style = "width:auto;" });
+                            columns.Bound(c => c.PerType).HtmlAttributes(new { style = "width:auto;" });
 
                         })
                         .HtmlAttributes(new { style = "height: auto;" })
@@ -286,7 +356,7 @@
                         <div class="editor-field">
                             @(Html.Kendo().TextBox()
                             .Name("comName")
-                            .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", @class = "form-control", style = "width: 100%; text-align:center;" })
+                            .HtmlAttributes(new { placeholder = "أدخل اسم الشركة", @class = "form-control", style = "width: 100%; text-align:center;" })
                             )
                         </div>
                     </div>
@@ -295,9 +365,9 @@
                             @Html.Label("رقم السجل التجاري", htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="editor-field">
-                            @(Html.Kendo().TextBox()
+                            @(Html.Kendo().NumericTextBox()
                             .Name("comComreg_no")
-                            .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", @class = "form-control", style = "width: 100%; text-align:center;" })
+                            .HtmlAttributes(new { placeholder = "أدخل رقم السجل", style = "width: 100%; text-align:center;" })
                             )
                         </div>
                     </div>
@@ -308,7 +378,7 @@
                         <div class="editor-field">
                             @(Html.Kendo().TextBox()
                             .Name("comComreg_typ")
-                            .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", @class = "form-control", style = "width: 100%; text-align:center;" })
+                            .HtmlAttributes(new { placeholder = "أدخل نوع السجل", @class = "form-control", style = "width: 100%; text-align:center;" })
                             )
                         </div>
                     </div>
@@ -384,17 +454,17 @@
                         @(Html.Kendo().Button()
                         .Name("btnCompanySearch")
                         .Content("بحث")
-                        .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;text-align:center;" })
+                        .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;text-align:center;" })
                         )
                         @(Html.Kendo().Button()
                         .Name("btnCompanyNew")
                         .Content("جديد")
-                        .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;text-align:center;" })
+                        .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;text-align:center;" })
                         )
                         @(Html.Kendo().Button()
                         .Name("btnCompanySearchReset")
                         .Content("تراجع")
-                        .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
+                        .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
                         )
                     </div>
                 </div>
@@ -407,12 +477,12 @@
                     .Name("companyGrid")
                     .Columns(columns =>
                     {
-                        columns.Command(command => { command.Custom("اختيار").Click("ChooseCompany"); }).Title("العمليات").Width(100);
+                        columns.Command(command => { command.Custom("اختيار").Click("ChooseCompany").HtmlAttributes(new { @class = "btn btn-primary" }); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;"});
                         columns.Bound(c => c.NB).Visible(false);
-                        columns.Bound(c => c.COMPNAME).Width(50);
-                        columns.Bound(c => c.COMREG_NO).Width(100);
-                        columns.Bound(c => c.COMREG_DATE).Width(100).ClientTemplate("#= kendo.toString(kendo.parseDate(COMREG_DATE), 'yyyy/MM/dd') #"); ;
-                        columns.Bound(c => c.COMREG_TYP).Width(100);
+                        columns.Bound(c => c.COMPNAME).HtmlAttributes(new { style = "width:auto;" });
+                        columns.Bound(c => c.COMREG_NO).HtmlAttributes(new { style = "width:auto;" });
+                        columns.Bound(c => c.COMREG_DATE).HtmlAttributes(new { style = "width:auto;" }).ClientTemplate("#= kendo.toString(kendo.parseDate(COMREG_DATE), 'yyyy/MM/dd') #"); ;
+                        columns.Bound(c => c.COMREG_TYP).HtmlAttributes(new { style = "width:auto;" });
                         columns.Bound(c => c.COMREG_GOV).Visible(false);
                         columns.Bound(c => c.CTY_NB).Visible(false);
                         columns.Bound(c => c.REG_NB).Visible(false);
@@ -422,9 +492,9 @@
                         columns.Bound(c => c.MOBILE).Visible(false);
                         columns.Bound(c => c.FAX).Visible(false);
                         columns.Bound(c => c.NOTE).Visible(false);
-                        columns.Bound(c => c.GovName).Width(100);
-                        columns.Bound(c => c.CityName).Width(100);
-                        columns.Bound(c => c.RegionName).Width(100);
+                        columns.Bound(c => c.GovName).HtmlAttributes(new { style = "width:auto;" });
+                        columns.Bound(c => c.CityName).HtmlAttributes(new { style = "width:auto;" });
+                        columns.Bound(c => c.RegionName).HtmlAttributes(new { style = "width:auto;" });
                     })
                     .HtmlAttributes(new { style = "height: auto;" })
                     .Sortable()
@@ -466,7 +536,7 @@
         .Content(@<text>
             <div style="width:95%;" id="fieldlist">
                 <form id="Addform">
-                    <div id="save-person-container" @*class="k-edit-form-container"*@>
+                    <div id="save-person-container">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-3">
@@ -474,9 +544,9 @@
                                         @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
+                                        @(Html.Kendo().NumericTextBox()
                                             .Name("txtNatno")
-                                            .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                            .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
                                 </div>
@@ -566,9 +636,9 @@
                                         @Html.Label("الهاتف", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
+                                        @(Html.Kendo().NumericTextBox()
                                             .Name("txtPhone")
-                                            .HtmlAttributes(new { placeholder = "أدخل الهاتف", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                            .HtmlAttributes(new { placeholder = "أدخل الهاتف", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
                                 </div>
@@ -579,9 +649,9 @@
                                         @Html.Label("المحمول", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
+                                        @(Html.Kendo().NumericTextBox()
                                             .Name("txtPrsMobile")
-                                            .HtmlAttributes(new { placeholder = "أدخل المحمول", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                            .HtmlAttributes(new { placeholder = "أدخل المحمول",style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
                                 </div>
@@ -590,9 +660,9 @@
                                         @Html.Label("رقم الهوية", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
+                                        @(Html.Kendo().NumericTextBox()
                                             .Name("txtIdcardno")
-                                            .HtmlAttributes(new { placeholder = "أدخل رقم الهوية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                            .HtmlAttributes(new { placeholder = "أدخل رقم الهوية", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
                                 </div>
@@ -716,14 +786,13 @@
                         @(Html.Kendo().Button()
                             .Name("btnPersonSave")
                             .Content("حفظ")
-                            .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;" })
+                            .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
                         .Events(e => e.Click("SaveNewOwnerPerson"))
                         )
                         @(Html.Kendo().Button()
                             .Name("btnPersonReset")
                             .Content("تراجع")
-                            .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
-                        //.Events(e => e.Click("btnReset_Click"))
+                            .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
                         )
                         </div>
                     </div>
@@ -769,9 +838,9 @@
                                         @Html.Label("رقم السجل التجاري", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
+                                        @(Html.Kendo().NumericTextBox()
                                             .Name("txtComreg_no")
-                                            .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                            .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
                                 </div>
@@ -891,9 +960,9 @@
                                         @Html.Label("الهاتف الأول", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
+                                        @(Html.Kendo().NumericTextBox()
                                             .Name("txtPhone1")
-                                            .HtmlAttributes(new { placeholder = "أدخل الهاتف الأول", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                            .HtmlAttributes(new { placeholder = "أدخل الهاتف الأول", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
                                 </div>
@@ -902,9 +971,9 @@
                                         @Html.Label("الهاتف الثاني", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
+                                        @(Html.Kendo().NumericTextBox()
                                             .Name("txtPhone2")
-                                            .HtmlAttributes(new { placeholder = "أدخل الهاتف الثاني", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                            .HtmlAttributes(new { placeholder = "أدخل الهاتف الثاني", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
                                 </div>
@@ -915,9 +984,9 @@
                                         @Html.Label("المحمول", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
+                                        @(Html.Kendo().NumericTextBox()
                                             .Name("txtComMobile")
-                                            .HtmlAttributes(new { placeholder = "أدخل المحمول", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                            .HtmlAttributes(new { placeholder = "أدخل المحمول", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
                                 </div>
@@ -926,9 +995,9 @@
                                         @Html.Label("الفاكس", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
+                                        @(Html.Kendo().NumericTextBox()
                                             .Name("txtFax")
-                                            .HtmlAttributes(new { placeholder = "أدخل الفاكس", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                            .HtmlAttributes(new { placeholder = "أدخل الفاكس",  style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
                                 </div>
@@ -950,13 +1019,13 @@
                             @(Html.Kendo().Button()
                                 .Name("btnCompanySave")
                                 .Content("حفظ")
-                                .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:100px;" })
+                                .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
                             .Events(e => e.Click("SaveNewOwnerCompany"))
                             )
                             @(Html.Kendo().Button()
                                 .Name("btnCompanyReset")
                                 .Content("تراجع")
-                                .HtmlAttributes(new { type = "button", @class = "k-button k-button-icontext k-grid-cancel", style = "height:35px;width:100px;" })
+                                .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
                             )
                         </div>
                     </div>
@@ -982,13 +1051,11 @@
         @*var owner = '@Model.Select(x => x.COMREG_TYP).FirstOrDefault()';
 
         if (owner == 'افراد') {
-            alert("PersonHere");
             $("#OwnerPersonSearch").data("kendoWindow").center().open();
             $("#btnNew").show();
             //$("#btnPersonSave").kendoButton({}).data("kendoButton").enable(true);
         }
         else if (owner == 'شركات') {
-            alert("CompanyHere");
             $("#OwnerCompanySearch").data("kendoWindow").center().open();
             $("#btnNew").show();
             //$("#btnCompanySave").kendoButton({}).data("kendoButton").enable(true);
@@ -1005,13 +1072,11 @@
         @*var owner = '@Model.Select(x => x.COMREG_TYP).FirstOrDefault()';
 
         if (owner == 'افراد') {
-            alert("PersonHere");
             $("#OwnerPersonSearch").data("kendoWindow").center().open();
             $("#btnNew").show();
             //$("#btnPersonSave").kendoButton({}).data("kendoButton").enable(true);
         }
         else if (owner == 'شركات') {
-            alert("CompanyHere");
             $("#OwnerCompanySearch").data("kendoWindow").center().open();
             $("#btnNew").show();
             //$("#btnCompanySave").kendoButton({}).data("kendoButton").enable(true);

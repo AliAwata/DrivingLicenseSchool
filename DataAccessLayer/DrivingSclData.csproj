@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="DrivingSclEntity\SCHOOL.cs" />
     <Compile Include="DrivingSclEntity\SCHOOLOWNER.cs" />
+    <Compile Include="DrivingSclEntity\SCHOOLTRAINER.cs" />
     <Compile Include="DrivingSclEntity\SCHOOLVEHICLE.cs" />
     <Compile Include="DrivingSclEntity\SCLPHONE.cs" />
     <Compile Include="DrivingSclEntity\ZCATEGORY.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="DrivingSclEntity\ZREGION.cs" />
     <Compile Include="DrivingSclEntity\ZSCLSTATUS.cs" />
     <Compile Include="DrivingSclEntity\ZSCLTYPE.cs" />
+    <Compile Include="DrivingSclEntity\ZTRAINERTYPE.cs" />
     <Compile Include="DrivingSclEntity\ZVEHICLECLASS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

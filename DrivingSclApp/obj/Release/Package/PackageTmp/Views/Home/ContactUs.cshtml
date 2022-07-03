@@ -2,25 +2,37 @@
     ViewBag.Title = "اتصل بنا";
 }
 
-<section id="AboutForm">
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-
-        <h3 style="color:teal; font-weight: bolder;">مكتب ممارسة المهنة<br /></h3>
-        <h3 style="color:teal; font-weight: bolder;">في<br /></h3>
-        <h3 style="color:teal; font-weight: bolder;">جامعة دمشق<br /></h3>
-        <h3 style="color:teal; font-weight: bolder;">كلية الهندسة الميكانيكية والكهربائية<br /></h3>
-        <br />
-        <center>
-            لمزيد من المعلومات اتصل بنا:<br />
-            دمشق - المزة - الفتالة - بناء رقم 15 - طابق أول<br />
-            هاتف: +963-11-2129132<br />
-            فاكس: +963-11-2134154<br />
-            sit@sit.com.sy<br />
-            <a href="http://www.sit.com.sy" title="SIT Website">http://www.sit.com.sy</a><br />
-            <br />
-        </center>
+<style>
+    .contact-us {
+        width: 100%;
+        /*margin-block: 100px;*/
+        border: double;
+        border-block-color: black;
+        border-image-width: 50px;
     }
+</style>
+
+<section id="AboutForm">
+    <div class="container contact-us">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <h3 style="color:teal; font-weight: bolder;">مكتب ممارسة المهنة<br /></h3>
+            <h3 style="color:teal; font-weight: bolder;">في<br /></h3>
+            <h3 style="color:teal; font-weight: bolder;">جامعة دمشق<br /></h3>
+            <h3 style="color:teal; font-weight: bolder;">كلية الهندسة الميكانيكية والكهربائية<br /></h3>
+            <br />
+            <center>
+                لمزيد من المعلومات اتصل بنا:<br />
+                دمشق - المزة - الفتالة - بناء رقم 15 - طابق أول<br />
+                هاتف: +963-11-2129132<br />
+                فاكس: +963-11-2134154<br />
+                sit@sit.com.sy<br />
+                <a href="http://www.sit.com.sy" title="SIT Website">http://www.sit.com.sy</a><br />
+                <br />
+            </center>
+        }
+    </div>
 </section>

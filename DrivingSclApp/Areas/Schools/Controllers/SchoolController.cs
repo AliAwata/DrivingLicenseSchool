@@ -51,7 +51,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         REG_NAME = r.NAME,
                         STS_NAME = st.STSNAME,
                         STY_NAME = sty.TYPNAME
-                    }).Where(x => x.NB == id).ToList();
+                    }).Where(x => x.NB == id).OrderBy(x => x.NB).ToList();
             ViewData["ID"] = id;
             return View(Data);
         }
@@ -89,9 +89,72 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         REG_NAME = r.NAME,
                         STS_NAME = st.STSNAME,
                         STY_NAME = sty.TYPNAME
-                    }).ToList();
+                    }).OrderBy(x => x.NB).ToList();
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult ReadByFilter(string scl_name = "", string scl_code = "", string scl_typ = "",
+            string govern = "", string city = "", string region  = "")
+        {
+            List<SchoolVM> Data = new List<SchoolVM>();
+            Data = (from s in db.SCHOOL
+                    join g in db.ZGOVERN
+                    on s.GOV_NB equals g.NB
+                    join c in db.ZCITY
+                    on s.CTY_NB equals c.NB
+                    join r in db.ZREGION
+                    on s.REG_NB equals r.NB
+                    join st in db.ZSCLSTATUS
+                    on s.STS_NB equals st.NB
+                    join sty in db.ZSCLTYPE
+                    on s.ST_NB equals sty.NB
+                    select new SchoolVM
+                    {
+                        NB = s.NB,
+                        SCL_CODE = s.SCL_CODE,
+                        SCLNAME = s.SCLNAME,
+                        ST_NB = s.ST_NB,
+                        GOV_NB = s.GOV_NB,
+                        COMREG_NO = s.COMREG_NO,
+                        COMREG_DATE = s.COMREG_DATE,
+                        COMREG_TYP = s.COMREG_TYP,
+                        COMREG_GOV = s.COMREG_GOV,
+                        CTY_NB = s.CTY_NB,
+                        REG_NB = s.REG_NB,
+                        ADDRESS = s.ADDRESS,
+                        STS_NB = s.STS_NB,
+                        GOV_NAME = g.NAME,
+                        CTY_NAME = c.NAME,
+                        REG_NAME = r.NAME,
+                        STS_NAME = st.STSNAME,
+                        STY_NAME = sty.TYPNAME
+                    }).OrderBy(x => x.NB).ToList();
+            if(scl_name != "")
+            {
+                Data = Data.Where(x => x.SCLNAME == scl_name).ToList();
+            }
+            if (scl_code != "")
+            {
+                Data = Data.Where(x => x.SCL_CODE == scl_code).ToList();
+            }
+            if (scl_typ != "")
+            {
+                Data = Data.Where(x => x.ST_NB.ToString() == scl_typ).ToList();
+            }
+            if (govern != "")
+            {
+                Data = Data.Where(x => x.GOV_NB.ToString() == govern).ToList();
+            }
+            if (city != "")
+            {
+                Data = Data.Where(x => x.CTY_NB.ToString() == city).ToList();
+            }
+            if (region != "")
+            {
+                Data = Data.Where(x => x.REG_NB.ToString() == region).ToList();
+            }
+            return Json(Data, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult ReadById([DataSourceRequest] DataSourceRequest request, int id)
         {
             List<SchoolVM> Data = new List<SchoolVM>();
@@ -126,7 +189,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                         REG_NAME = r.NAME,
                         STS_NAME = st.STSNAME,
                         STY_NAME = sty.TYPNAME
-                    }).Where(s => s.NB == id).ToList();
+                    }).Where(s => s.NB == id).OrderBy(x => x.NB).ToList();
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         [AcceptVerbs(HttpVerbs.Post)]

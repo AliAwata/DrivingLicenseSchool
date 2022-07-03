@@ -920,7 +920,7 @@
       </DesignerInfoPropertySet>
     </Options>
     <Diagrams >
-      <Diagram DiagramId="30c144e40f2048c7b3d2e2cc61067b5c" Name="Diagram1">
+      <Diagram DiagramId="30c144e40f2048c7b3d2e2cc61067b5c" Name="Diagram1" ZoomLevel="100">
         <EntityTypeShape EntityType="DrivingSclData.SCHOOL" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DrivingSclData.SCLPHONE" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DrivingSclData.ZCITY" Width="1.5" PointX="6" PointY="6.625" IsExpanded="true" />

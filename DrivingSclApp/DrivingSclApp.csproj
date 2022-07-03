@@ -160,8 +160,12 @@
     <Compile Include="Areas\Indexes\IndexesAreaRegistration.cs" />
     <Compile Include="Areas\Schools\Controllers\SchoolController.cs" />
     <Compile Include="Areas\Schools\Controllers\SchoolOwnerController.cs" />
+    <Compile Include="Areas\Schools\Controllers\SchoolTrainerController.cs" />
+    <Compile Include="Areas\Schools\Controllers\SchoolVehiclesController.cs" />
     <Compile Include="Areas\Schools\Controllers\SclPhoneController.cs" />
     <Compile Include="Areas\Schools\Data\SchoolOwnerVM.cs" />
+    <Compile Include="Areas\Schools\Data\SchoolTrainerVM.cs" />
+    <Compile Include="Areas\Schools\Data\SchoolVehiclesVM.cs" />
     <Compile Include="Areas\Schools\Data\SchoolVM.cs" />
     <Compile Include="Areas\Schools\Data\SclPhoneVM.cs" />
     <Compile Include="Areas\Schools\SchoolsAreaRegistration.cs" />
@@ -249,6 +253,8 @@
     <Content Include="Areas\Indexes\Views\zCompany\IndexDetails.cshtml" />
     <Content Include="Areas\Indexes\Views\zCompanyOwner\_CompanyOwner.cshtml" />
     <Content Include="Areas\Schools\Views\SclPhone\_SclPhone.cshtml" />
+    <Content Include="Areas\Schools\Views\SchoolVehicles\_SchoolVehicles.cshtml" />
+    <Content Include="Areas\Schools\Views\SchoolTrainer\_SchoolTrainer.cshtml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
