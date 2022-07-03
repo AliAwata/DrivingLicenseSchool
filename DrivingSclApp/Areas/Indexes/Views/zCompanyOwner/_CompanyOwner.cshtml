@@ -277,7 +277,7 @@
                             columns.Bound(c => c.BDATED).Visible(false);
                             columns.Bound(c => c.BDATEM).Visible(false);
                             columns.Bound(c => c.BDATEY).Visible(false);
-                            columns.Bound(c => c.BDATE).Format("{0:dd/MM/yyyy}").HtmlAttributes(new { style = "width:auto;" });
+                            columns.Bound(c => c.BDATE).ClientTemplate("#= kendo.toString(kendo.parseDate(BDATE), 'yyyy/MM/dd') #").HtmlAttributes(new { style = "width:auto;" });
                             columns.Bound(c => c.IDCARDNO).Visible(false);
                             columns.Bound(c => c.IDCARDDAT).Visible(false);
                             columns.Bound(c => c.BPLACE).Visible(false);
