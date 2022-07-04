@@ -79,10 +79,11 @@
     <div class="row" style="margin:10px"></div>
 </div>
 
-<!-- Grid -->
-<div id="IdivForm">
-    <div class="k-rtl">
-        @(Html.Kendo().Grid<DrivingSclApp.Areas.Schools.Data.SclPhoneVM>()
+<!-- Phones Grid -->
+<div class="container-fluid">
+    <div id="IdivForm">
+        <div class="k-rtl">
+            @(Html.Kendo().Grid<DrivingSclApp.Areas.Schools.Data.SclPhoneVM>()
             .Name("PhonesGrid")
             .Columns(columns =>
             {
@@ -94,9 +95,9 @@
                 columns.Bound(c => c.PHONE_NO).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.PHONE_TYPE).HtmlAttributes(new { style = "width:auto;" });
             })
+            .Scrollable()
             .HtmlAttributes(new { style = "height: auto;" })
             .Sortable()
-            .Filterable()
             .DataSource(dataSource => dataSource
             .Ajax()
             .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
@@ -113,12 +114,14 @@
                 pageable.PageSizes(true);
             })
             )
+        </div>
     </div>
 </div>
 
+
 <script>
     $("#btnPhoneReset").on('click', function () {
-        $("#SclPhone").val("");
+        $("#SclPhone").data("kendoNumericTextBox").value(" ");
         $("#ddlSclPhoneTyp").data("kendoDropDownList").value(-1);
 
         $("#btnPhoneSave").kendoButton({}).data("kendoButton").enable(true);
@@ -128,6 +131,7 @@
         var scl = $("#sclNb").val();
         var phone = $("#SclPhone").val();
         var phonetyp = $("#ddlPhoneTyp").val();
+
         var phone = {
             SCL_NB: scl,
             PHONE_NO: phone,

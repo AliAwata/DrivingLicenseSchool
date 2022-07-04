@@ -51,7 +51,7 @@
                 @Html.Label("رمز المالك", htmlAttributes: new { @class = "control-label" })
             </div>
             <div class="editor-field">
-                @(Html.Kendo().NumericTextBox()
+                @(Html.Kendo().TextBox()
                     .Name("ownerNb").Enable(false)
                     .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", required = "required", validationmessage = "*", style = "width: 100%" })
                 )
@@ -118,17 +118,17 @@
                     @(Html.Kendo().Button()
                     .Name("btnAddPerson")
                     .Content("إضافة شخص طبيعي")
-                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:auto;text-align:center;" })
+                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:auto;text-align:center;" })
                 )
                     @(Html.Kendo().Button()
                     .Name("btnAddCompany")
                     .Content("إضافة شخص اعتباري")
-                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:auto;text-align:center;" })
+                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:auto;text-align:center;" })
                 )
                     @(Html.Kendo().Button()
                     .Name("btnSaveInfo")
                     .Content("حفظ")
-                    .HtmlAttributes(new { type = "button", @class = "k-button k-primary", style = "height:35px;width:auto;text-align:center;" })
+                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:auto;text-align:center;" })
                     .Events(e => e.Click("SaveOwner"))
                 )
                 </div>
@@ -168,6 +168,11 @@
             .Resizable(resize => resize
             .Columns(true)
             )
+            .Pageable(pageable =>
+            {
+                pageable.Refresh(true);
+                pageable.PageSizes(true);
+            })
         )
         </div>
     </div>
@@ -1042,74 +1047,34 @@
 
 <script>
     $("#btnAddPerson").on('click', function () {
-        debugger
-
         $("#OwnerPersonSearch").data("kendoWindow").center().open();
-        $("#btnNew").show();
-        //$("#btnPersonSave").kendoButton({}).data("kendoButton").enable(true);
-
-        @*var owner = '@Model.Select(x => x.COMREG_TYP).FirstOrDefault()';
-
-        if (owner == 'افراد') {
-            $("#OwnerPersonSearch").data("kendoWindow").center().open();
-            $("#btnNew").show();
-            //$("#btnPersonSave").kendoButton({}).data("kendoButton").enable(true);
-        }
-        else if (owner == 'شركات') {
-            $("#OwnerCompanySearch").data("kendoWindow").center().open();
-            $("#btnNew").show();
-            //$("#btnCompanySave").kendoButton({}).data("kendoButton").enable(true);
-        }*@
     });
 
     $("#btnAddCompany").on('click', function () {
-        debugger
-
         $("#OwnerCompanySearch").data("kendoWindow").center().open();
-        $("#btnNew").show();
-        //$("#btnCompanySave").kendoButton({}).data("kendoButton").enable(true);
-
-        @*var owner = '@Model.Select(x => x.COMREG_TYP).FirstOrDefault()';
-
-        if (owner == 'افراد') {
-            $("#OwnerPersonSearch").data("kendoWindow").center().open();
-            $("#btnNew").show();
-            //$("#btnPersonSave").kendoButton({}).data("kendoButton").enable(true);
-        }
-        else if (owner == 'شركات') {
-            $("#OwnerCompanySearch").data("kendoWindow").center().open();
-            $("#btnNew").show();
-            //$("#btnCompanySave").kendoButton({}).data("kendoButton").enable(true);
-        }*@
     });
 
     $("#btnCompanyNew").on('click', function () {
         $("#AddCompany").data("kendoWindow").center().open();
-        $("#btnNew").show();
     })
 
     $("#btnPersonNew").on('click', function(){
         $("#AddPerson").data("kendoWindow").center().open();
-        $("#btnNew").show();
     })
 
     $("#btnPersonReset").on('click', function () {
-        debugger
         $("#txtFname").val("");
         $("#txtLname").val("");
         $("#txtFather").val("");
         $("#txtMother").val("");
-        $("#txtNatno").val("");
+        $("#txtNatno").data("kendoNumericTextBox").value(" ");
         $("#txtCivilloc").val("");
         $("#txtActaddress").val("");
         $("#txtPrsAddress").val("");
-        $("#txtPhone").val("");
-        $("#txtPrsMobile").val("");
-        $("#txtBdated").val("");
-        $("#txtBdatem").val("");
-        $("#txtBdatey").val("");
+        $("#txtPhone").data("kendoNumericTextBox").value(" ");
+        $("#txtPrsMobile").data("kendoNumericTextBox").value(" ");
         $("#dpBdate").val("");
-        $("#txtIdcardno").val("");
+        $("#txtIdcardno").data("kendoNumericTextBox").value(" ");
         $("#dpIdcarddat").val("");
         $("#txtBplace").val("");
         $("#txtAlamana").val("");
@@ -1123,15 +1088,14 @@
     })
 
     $("#btnCompanyReset").on('click', function () {
-        debugger
         $("#txtCompname").val("");
-        $("#txtComreg_no").val("");
+        $("#txtComreg_no").data("kendoNumericTextBox").value(" ");
         $("#dpComreg_date").val("");
         $("#txtComAddress").val("");
-        $("#txtPhone1").val("");
-        $("#txtPhone2").val("");
-        $("#txtComMobile").val("");
-        $("#txtFax").val("");
+        $("#txtPhone1").data("kendoNumericTextBox").value(" ");
+        $("#txtPhone2").data("kendoNumericTextBox").value(" ");
+        $("#txtComMobile").data("kendoNumericTextBox").value(" ");
+        $("#txtFax").data("kendoNumericTextBox").value(" ");
         $("#txtNote").val("");
         $("#ddlComreg_typ").data("kendoDropDownList").value(-1);
         $("#ddlComreg_gov").data("kendoDropDownList").value(-1);
@@ -1144,7 +1108,7 @@
     })
 
     $("#btnPersonSearchReset").on('click', function () {
-        $("#perNatno").val("");
+        $("#perNatno").data("kendoNumericTextBox").value(" ");
         $("#perFname").val("");
         $("#perLname").val("");
         $("#perFather").val("");
@@ -1159,7 +1123,7 @@
 
     $("#btnCompanySearchReset").on('click', function () {
         $("#comName").val("");
-        $("#comComreg_no").val("");
+        $("#comComreg_no").data("kendoNumericTextBox").value(" ");
         $("#comComreg_typ").val("");
         $("#comGover").data("kendoDropDownList").value(-1);
         $("#comCity").data("kendoDropDownList").value(-1);
@@ -1172,7 +1136,6 @@
     })
 
     $("#btnCompanySearch").on('click', function () {
-        debugger
         var comName = $("#comName").val();
         var comComreg_no = $("#comComreg_no").val();
         var comComreg_typ = $("#comComreg_typ").val();
@@ -1219,8 +1182,6 @@
                 });
                 var grid = $("#personGrid").data("kendoGrid");
                 grid.setDataSource(dataSource);
-                //$('#personGrid').data('kendoGrid').dataSource.read();
-                //$('#personGrid').data('kendoGrid').refresh();
             },
         });
     })

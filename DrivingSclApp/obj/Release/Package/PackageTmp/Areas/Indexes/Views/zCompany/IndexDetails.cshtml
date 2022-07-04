@@ -19,7 +19,7 @@
     <div class="panel-heading">
         <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">تفاصيل شركة</a>
     </div>
-    <div id="filter_body" class="collapse">
+    <div id="filter_body" class="toggle">
         <div class="panel-body container-fluid">
             <div class="row">
                 <div class="col-md-3">
@@ -68,7 +68,6 @@
 <!-- Messages -->
 <div id="success_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
-        <a class="close" data-dissmiss="alert" href="#"></a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
             <span style="color:green" class="bf-messages">
@@ -80,7 +79,6 @@
 
 <div id="error_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
-        <a class="close" data-dissmiss="alert" href="#">*</a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
             <span style="color:red" class="bf-messages">
@@ -122,6 +120,7 @@
         @(Html.Kendo().TabStrip()
         .Name("tabstrip")
         .TabPosition(TabStripTabPosition.Top)
+        .HtmlAttributes(new { style = "height: auto;" })
         .Collapsible(true)
         .Navigatable(true)
         .Animation(animation =>
@@ -356,12 +355,7 @@
     }
 
     function SaveNewPerson() {
-        var sex;
-        if ($("#ddlSex").val() == 'ذكر') {
-            sex = true;
-        } else if ($("#ddlSex").val() == 'انثى') {
-            sex = false;
-        }
+        
         var personModel = {
             FNAME: $("#txtFname").val(),
             LNAME: $("#txtLname").val(),
@@ -381,7 +375,7 @@
             IDCARDDAT: $("#dpIdcarddat").val(),
             BPLACE: $("#txtBplace").val(),
             ALAMANA: $("#txtAlamana").val(),
-            SEX: sex,
+            SEX: $("#ddlSex").val(),
             NAT: $("#ddlNation").val(),
             TYP: $("#ddlPertype").val()
         }

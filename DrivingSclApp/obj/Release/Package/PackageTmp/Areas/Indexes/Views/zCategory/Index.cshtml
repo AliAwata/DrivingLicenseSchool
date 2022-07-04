@@ -34,7 +34,6 @@
 <!-- Messages -->
 <div id="success_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
-        <a class="close" data-dissmiss="alert" href="#"></a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
             <span style="color:green" class="bf-messages">
@@ -46,7 +45,6 @@
 
 <div id="error_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
-        <a class="close" data-dissmiss="alert" href="#">*</a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
             <span style="color:red" class="bf-messages">
@@ -506,10 +504,10 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         $("#txtId").val(dataItem.NB);
         $("#txtCategory1").val(dataItem.NAME);
-        $("#txtNum_car1").val(dataItem.STUDENT_PER_CAR);
-        $("#txtNum_moto1").val(dataItem.STUDENT_PER_MOTO);
-        $("#txtSpace_stu1").val(dataItem.METERS_FOR_STUDENT);
-        $("#txtNum_room1").val(dataItem.MAX_STUDENTS_PER_HALL);
+        $("#txtNum_car1").data("kendoNumericTextBox").value(dataItem.STUDENT_PER_CAR);
+        $("#txtNum_moto1").data("kendoNumericTextBox").value(dataItem.STUDENT_PER_MOTO);
+        $("#txtSpace_stu1").data("kendoNumericTextBox").value(dataItem.METERS_FOR_STUDENT);
+        $("#txtNum_room1").data("kendoNumericTextBox").value(dataItem.MAX_STUDENTS_PER_HALL);
         $("#txtNote1").val(dataItem.NOTE);
         $("#ddlPrev_cat1").data("kendoDropDownList").value(dataItem.PREV_CATG);
 
@@ -576,10 +574,10 @@
 
         $("#txtId").val("");
         $("#txtCategory").val("");
-        $("#txtNum_car").val("");
-        $("#txtNum_moto").val("");
-        $("#txtSpace_stu").val("");
-        $("#txtNum_room").val("");
+        $("#txtNum_car").data("kendoNumericTextBox").value(" ");
+        $("#txtNum_moto").data("kendoNumericTextBox").value(" ");
+        $("#txtSpace_stu").data("kendoNumericTextBox").value(" ");
+        $("#txtNum_room").data("kendoNumericTextBox").value(" ");
         $("#txtNote").val("");
         $("#ddlPrev_cat").data("kendoDropDownList").value(-1);
 
@@ -597,10 +595,10 @@
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
 
         $("#txtCategory1").val(dataItem.NAME);
-        $("#txtNum_car1").val(dataItem.STUDENT_PER_CAR);
-        $("#txtNum_moto1").val(dataItem.STUDENT_PER_MOTO);
-        $("#txtSpace_stu1").val(dataItem.METERS_FOR_STUDENT);
-        $("#txtNum_room1").val(dataItem.MAX_STUDENTS_PER_HALL);
+        $("#txtNum_car1").data("kendoNumericTextBox").value(dataItem.STUDENT_PER_CAR);
+        $("#txtNum_moto1").data("kendoNumericTextBox").value(dataItem.STUDENT_PER_MOTO);
+        $("#txtSpace_stu1").data("kendoNumericTextBox").value(dataItem.METERS_FOR_STUDENT);
+        $("#txtNum_room1").data("kendoNumericTextBox").value(dataItem.MAX_STUDENTS_PER_HALL);
         $("#txtNote1").val(dataItem.NOTE);
         $("#ddlPrev_cat1").data("kendoDropDownList").value(dataItem.PREV_CATG);
 

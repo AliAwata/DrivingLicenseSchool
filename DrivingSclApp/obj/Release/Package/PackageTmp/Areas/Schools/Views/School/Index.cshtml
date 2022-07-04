@@ -33,7 +33,6 @@
 <!-- Messages -->
 <div id="success_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
-        <a class="close" data-dissmiss="alert" href="#"></a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
             <span style="color:green" class="bf-messages">
@@ -45,7 +44,6 @@
 
 <div id="error_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
-        <a class="close" data-dissmiss="alert" href="#">*</a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
             <span style="color:red" class="bf-messages">
@@ -80,6 +78,140 @@
     </div>
 </div>
 
+<!-- Search Bars -->
+<div> 
+    <div class="container-fluid">
+        <div class="row" style="text-align:center;">
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("اسم المدرسة", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().TextBox()
+                        .Name("SclnameSearch")
+                        .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("رمز المدرسة", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().NumericTextBox()
+                        .Name("Scl_codeSearch")
+                        .HtmlAttributes(new { placeholder = "أدخل رمز المدرسة", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("نوع المدرسة", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().DropDownList()
+                    .OptionLabel("اختر نوع المدرسة")
+                    .Name("Sty_nameSearch")
+                    .DataTextField("Name")
+                    .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("GetSclType", "Codes", new { area = "Indexes" });
+                        });
+                    })
+                    .HtmlAttributes(new { style = "width: 100%" })
+                    )
+                </div>
+            </div>
+        </div>
+        <div class="row" style="text-align:center;">
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("المحافظة", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().DropDownList()
+                    .OptionLabel("اختر المحافظة")
+                    .Name("Gov_nameSearch")
+                    .DataTextField("Name")
+                    .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("GetGovern", "Codes", new { area = "Indexes" });
+                        });
+                    })
+                    .HtmlAttributes(new { style = "width: 100%" })
+                    .Events(e =>
+                    {
+                        e.Change("CityDataSourceSearch");
+                    })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("المدينة", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().DropDownList()
+                    .OptionLabel("اختر المدينة")
+                    .Name("Cty_nameSearch")
+                    .DataTextField("Name")
+                    .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("GetCity", "Codes", new { area = "Indexes" });
+                        });
+                    })
+                    .HtmlAttributes(new { style = "width: 100%" })
+                    .Events(e =>
+                    {
+                        e.Change("RegionDataSourceSearch");
+                    })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("المنطقة", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().DropDownList()
+                    .OptionLabel("اختر المنطقة")
+                    .Name("Reg_nameSearch")
+                    .DataTextField("Name")
+                    .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("GetRegion", "Codes", new { area = "Indexes" });
+                        });
+                    })
+                    .HtmlAttributes(new { style = "width: 100%" })
+                    )
+                </div>
+            </div>
+        </div>
+        <div style="margin:10px"></div>
+        <div class="row" style="text-align:center;">
+            @(Html.Kendo().Button()
+                .Name("btnSearch")
+                .Content("بحث")
+                .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
+                .Events(e => e.Click("btnSearch_Click"))
+            )
+        </div>
+    </div>
+    <div style="margin:10px"></div>
+</div>
+
 <!-- Kendo -->
 <div id="IdivForm">
     <div class="k-rtl">
@@ -96,7 +228,7 @@
                 columns.Bound(c => c.CTY_NAME).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.REG_NAME).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.COMREG_NO).HtmlAttributes(new { style = "width:auto;" });
-                columns.Bound(c => c.COMREG_DATE).Format("{0:dd/MM/yyyy}").HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.COMREG_DATE).ClientTemplate("#= kendo.toString(kendo.parseDate(COMREG_DATE), 'yyyy/MM/dd') #").HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.COMREG_GOV).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.COMREG_TYP).Visible(false);
                 columns.Bound(c => c.ADDRESS).HtmlAttributes(new { style = "width:auto;" });
@@ -713,7 +845,6 @@
     }
 
     function details(e) {
-        debugger
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location.href = '/Schools/School/IndexDetails?id=' + dataItem.NB;
@@ -721,31 +852,54 @@
 
     // when i press "add" from the grid
     $("#newAdd").click(function (e) {
-        debugger
         e.preventDefault();
         $("#AddDetails").data("kendoWindow").center().open();
         $("#newAdd").show();
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
     });
 
+    function btnSearch_Click() {
+        var scl_name = $("#SclnameSearch").val();
+        var scl_code = $("#Scl_codeSearch").val();
+        var scl_type = $("#Sty_nameSearch").data("kendoDropDownList").value();
+        var govern = $("#Gov_nameSearch").data("kendoDropDownList").value();
+        var city = $("#Cty_nameSearch").data("kendoDropDownList").value();
+        var region = $("#Reg_nameSearch").data("kendoDropDownList").value();
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("ReadByFilter", "School")',
+            data: {
+                scl_name: scl_name, scl_code: scl_code, scl_typ: scl_type,
+                govern:govern, city:city, region:region
+            },
+            dataType: "JSON",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#grid").data("kendoGrid");
+                dropdownlist.setDataSource(dataSource);
+            }
+        });
+    }
+
     // when i press "edit" on a row and to fill the fields of the edit window
     function editDetails(e) {
-        debugger
         e.preventDefault();
         var wnd = $("#EditDetails").data("kendoWindow");
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         $("#txtId").val(dataItem.NB);
-        $("#txtScl_code1").val(dataItem.SCL_CODE);
+        $("#txtScl_code1").data("kendoNumericTextBox").value(dataItem.SCL_CODE);
         $('#txtSclname1').val(dataItem.SCLNAME);
         $('#ddlSty_name1').data("kendoDropDownList").value(dataItem.ST_NB);
         $('#ddlGov_name1').data("kendoDropDownList").value(dataItem.GOV_NB);
-        $('#txtComreg_no1').val(dataItem.COMREG_NO);
+        $('#txtComreg_no1').data("kendoNumericTextBox").value(dataItem.COMREG_NO);
         $('#ddlComreg_typ1').data("kendoDropDownList").value(dataItem.COMREG_TYP)
-        $('#txtComreg_gov1').val(dataItem.COMREG_GOV);
+        $('#txtComreg_gov1').data("kendoNumericTextBox").value(dataItem.COMREG_GOV);
         $('#ddlCty_name1').data("kendoDropDownList").value(dataItem.CTY_NB);
         $('#ddlReg_name1').data("kendoDropDownList").value(dataItem.REG_NB);
         $('#txtAddress1').val(dataItem.ADDRESS);
-        //$('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
         $("#dpComreg_date1").kendoDatePicker({
             format: "dd/MM/yyyy",
             value: dataItem.COMREG_DATE
@@ -757,7 +911,6 @@
 
     // when i click save in add window
     function btnSave_Click() {
-        debugger
         var validator = $("#save-container").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
 
@@ -773,7 +926,6 @@
                 CTY_NB: $('#ddlCty_name').val(),
                 REG_NB: $('#ddlReg_name').val(),
                 ADDRESS: $('#txtAddress').val(),
-                //STS_NB: $('#ddlSts_name').val()
             }
 
             var model = {
@@ -825,21 +977,18 @@
 
     // when i click reset in add window
     function btnReset_Click() {
-        debugger
 
-        $('#txtScl_code').val("");
+        $('#txtScl_code').data("kendoNumericTextBox").value(" ");
         $('#txtSclname').val("");
         $('#ddlSty_name').data("kendoDropDownList").value(-1);
         $('#ddlGov_name').data("kendoDropDownList").value(-1);
-        $('#txtComreg_no').val("");
-        //$('#dpComreg_date').data('kendoDatePicker').text("");
+        $('#txtComreg_no').data("kendoNumericTextBox").value(" ");
         $("#dpComreg_date").val("");
         $('#ddlComreg_typ').data("kendoDropDownList").value(-1)
-        $('#txtComreg_gov').val("");
+        $('#txtComreg_gov').data("kendoNumericTextBox").value(" ");
         $('#ddlCty_name').data("kendoDropDownList").value(-1);
         $('#ddlReg_name').data("kendoDropDownList").value(-1);
         $('#txtAddress').val("");
-        //$('#ddlSts_name').data("kendoDropDownList").value(-1);
 
         $("#dpComreg_date").kendoDatePicker({
             format: "dd/MM/yyyy",
@@ -854,22 +1003,20 @@
 
     // when i press "reset" in edit window
     function btnUpdateReset_Click() {
-        debugger
 
         var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
 
-        $("#txtScl_code1").val(dataItem.SCL_CODE);
+        $("#txtScl_code1").data("kendoNumericTextBox").value(dataItem.SCL_CODE);
         $('#txtSclname1').val(dataItem.SCLNAME);
         $('#ddlSty_name1').data("kendoDropDownList").value(dataItem.ST_NB);
         $('#ddlGov_name1').data("kendoDropDownList").value(dataItem.GOV_NB);
-        $('#txtComreg_no1').val(dataItem.COMREG_NO);
+        $('#txtComreg_no1').data("kendoNumericTextBox").value(dataItem.COMREG_NO);
         $('#ddlComreg_typ1').data("kendoDropDownList").value(dataItem.COMREG_TYP)
-        $('#txtComreg_gov1').val(dataItem.COMREG_GOV);
+        $('#txtComreg_gov1').data("kendoNumericTextBox").value(dataItem.COMREG_GOV);
         $('#ddlCty_name1').data("kendoDropDownList").value(dataItem.CTY_NB);
         $('#ddlReg_name1').data("kendoDropDownList").value(dataItem.REG_NB);
         $('#txtAddress1').val(dataItem.ADDRESS);
-        //$('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
         $("#dpComreg_date1").kendoDatePicker({
             format: "dd/MM/yyyy",
             value: dataItem.COMREG_DATE
@@ -881,7 +1028,6 @@
 
     // when i press "update" in edit window
     function btnUpdate_Click() {
-        debugger
         var validator = $("#Update-container").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
 
@@ -974,6 +1120,52 @@
                     data: response
                 });
                 var dropdownlist = $("#ddlReg_name").data("kendoDropDownList");
+                dropdownlist.setDataSource(dataSource);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function CityDataSourceSearch() {
+        var govern = $("#Gov_nameSearch").val()
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetCityByGovern", "Codes", new { area = "Indexes" })',
+            data: { govern: govern },
+            dataType: "json",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#Cty_nameSearch").data("kendoDropDownList");
+                dropdownlist.setDataSource(dataSource);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function RegionDataSourceSearch() {
+        var city = $("#Cty_nameSearch").val()
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetRegionByCity", "Codes", new { area = "Indexes" })',
+            data: { city: city },
+            dataType: "json",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#Reg_nameSearch").data("kendoDropDownList");
                 dropdownlist.setDataSource(dataSource);
             },
             failure: function (response) {

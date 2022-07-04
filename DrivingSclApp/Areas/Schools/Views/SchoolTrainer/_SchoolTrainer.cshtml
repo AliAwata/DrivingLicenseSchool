@@ -101,6 +101,11 @@
             .Resizable(resize => resize
             .Columns(true)
             )
+            .Pageable(pageable =>
+            {
+                pageable.Refresh(true);
+                pageable.PageSizes(true);
+            })
         )
         </div>
     </div>
@@ -703,7 +708,6 @@
 
     $("#btnTrainerReset").on('click', function () {
         $("#TrainerName").val("");
-        //$("#TrainSclName").val();
         $("#TrainTypName").data("kendoDropDownList").value(-1);
         $("#TrainLicenseNo").data("kendoNumericTextBox").value(" ");
         $("#TrainLicenseDate").data("kendoDatePicker").value(" ");

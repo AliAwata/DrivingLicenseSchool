@@ -45,7 +45,6 @@
 
 <div id="error_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
-        <a class="close" data-dissmiss="alert" href="#">*</a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
             <span style="color:red" class="bf-messages">
@@ -80,6 +79,92 @@
     </div>
 </div>
 
+<!-- Search Bars -->
+<div>
+    <div class="container-fluid">
+        <div class="row" style="text-align:center;">
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().NumericTextBox()
+                        .Name("NatnoSearch")
+                        .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", required = "required", validationmessage = "*", style = "width: 100%;text-align:center;" })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("الاسم", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().TextBox()
+                        .Name("FnameSearch")
+                        .HtmlAttributes(new { placeholder = "أدخل الاسم", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%;text-align:center;" })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("الكنية", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().TextBox()
+                        .Name("LnameSearch")
+                        .HtmlAttributes(new { placeholder = "أدخل الكنية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%;text-align:center;" })
+                    )
+                </div>
+            </div>
+        </div>
+        <div class="row" style="text-align:center;">
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("اسم الاب", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().TextBox()
+                        .Name("FatherSearch")
+                        .HtmlAttributes(new { placeholder = "أدخل اسم الاب", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%;text-align:center;" })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("الام", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().TextBox()
+                        .Name("MotherSearch")
+                        .HtmlAttributes(new { placeholder = "أدخل اسم الام", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%;text-align:center;" })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("الميلاد", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().DatePicker()
+                        .Name("BdateSearch")
+                        .HtmlAttributes(new { placeholder = "أدخل الميلاد", required = "required", validationmessage = "*", style = "width: 100%;text-align:center;" })
+                    )
+                </div>
+            </div>
+        </div>
+        <div style="margin:10px"></div>
+        <div class="row" style="text-align:center;">
+            @(Html.Kendo().Button()
+                .Name("btnSearch")
+                .Content("بحث")
+                .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
+                .Events(e => e.Click("btnSearch_Click"))
+            )
+        </div>
+        <div style="margin:10px"></div>
+    </div>
+</div>
+
 <!-- Kendo -->
 <div id="IdivForm">
     <div class="k-rtl">
@@ -102,9 +187,9 @@
                 columns.Bound(c => c.BDATED).Visible(false);
                 columns.Bound(c => c.BDATEM).Visible(false);
                 columns.Bound(c => c.BDATEY).Visible(false);
-                columns.Bound(c => c.BDATE).Format("{0:dd/MM/yyyy}").HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.BDATE).ClientTemplate("#= kendo.toString(kendo.parseDate(BDATE), 'yyyy/MM/dd') #").HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.IDCARDNO).HtmlAttributes(new { style = "width:auto;" });
-                columns.Bound(c => c.IDCARDDAT).Format("{0:dd/MM/yyyy}").HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.IDCARDDAT).ClientTemplate("#= kendo.toString(kendo.parseDate(IDCARDDAT), 'yyyy/MM/dd') #").HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.BPLACE).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.ALAMANA).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.SEX_string).HtmlAttributes(new { style = "width:auto;" });
@@ -825,9 +910,37 @@
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
     });
 
+    function btnSearch_Click() {
+        alert("btnSearch");
+        var natno = $("#NatnoSearch").val();
+        var fname = $("#FnameSearch").val();
+        var lname = $("#LnameSearch").val();
+        var father = $("#FatherSearch").val();
+        var mother = $("#MotherSearch").val();
+        var bdate = $("#BdateSearch").val();
+        
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("ReadByFilter", "zPerson")',
+            data: {
+                fname: fname, lname: lname, father: father, mother: mother, natno: natno, bdate:bdate
+            },
+            dataType: "JSON",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#grid").data("kendoGrid");
+                dropdownlist.setDataSource(dataSource);
+            },
+            fail: function () {
+                alert("fail");
+            }
+        });
+    }
+
     // when i press "edit" on a row and to fill the fields of the edit window
     function editDetails(e) {
-        debugger
         e.preventDefault();
         var wnd = $("#EditDetails").data("kendoWindow");
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
@@ -836,13 +949,13 @@
         $("#txtLname1").val(dataItem.LNAME);
         $("#txtFather1").val(dataItem.FATHER);
         $("#txtMother1").val(dataItem.MOTHER);
-        $("#txtNatno1").val(dataItem.NATNO);
+        $("#txtNatno1").data("kendoNumericTextBox").value(dataItem.NATNO);
         $("#txtCivilloc1").val(dataItem.CIVILLOC);
         $("#txtActaddress1").val(dataItem.ACTADDRESS);
         $("#txtAddress1").val(dataItem.ADDRESS);
-        $("#txtPhone1").val(dataItem.PHONE);
-        $("#txtMobile1").val(dataItem.MOBILE);
-        $("#txtIdcardno1").val(dataItem.IDCARDNO);
+        $("#txtPhone1").data("kendoNumericTextBox").value(dataItem.PHONE);
+        $("#txtMobile1").data("kendoNumericTextBox").value(dataItem.MOBILE);
+        $("#txtIdcardno1").data("kendoNumericTextBox").value(dataItem.IDCARDNO);
         $("#txtBplace1").val(dataItem.BPLACE);
         $("#txtAlamana1").val(dataItem.ALAMANA);
         $("#ddlSex1").data('kendoDropDownList').value(dataItem.SEX);
@@ -933,19 +1046,18 @@
 
     // when i click reset in add window
     function btnReset_Click() {
-        debugger
         $("#txtFname").val("");
         $("#txtLname").val("");
         $("#txtFather").val("");
         $("#txtMother").val("");
-        $("#txtNatno").val("");
+        $("#txtNatno").data("kendoNumericTextBox").value(" ");
         $("#txtCivilloc").val("");
         $("#txtActaddress").val("");
         $("#txtAddress").val("");
-        $("#txtPhone").val("");
-        $("#txtMobile").val("");
+        $("#txtPhone").data("kendoNumericTextBox").value(" ");
+        $("#txtMobile").data("kendoNumericTextBox").value(" ");
         $("#dpBdate").val("");
-        $("#txtIdcardno").val("");
+        $("#txtIdcardno").data("kendoNumericTextBox").value(" ");
         $("#dpIdcarddat").val("");
         $("#txtBplace").val("");
         $("#txtAlamana").val("");
@@ -961,7 +1073,6 @@
 
     // when i press "reset" in edit window
     function btnUpdateReset_Click() {
-        debugger
 
         var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
@@ -969,13 +1080,13 @@
         $("#txtLname1").val(dataItem.LNAME);
         $("#txtFather1").val(dataItem.FATHER);
         $("#txtMother1").val(dataItem.MOTHER);
-        $("#txtNatno1").val(dataItem.NATNO);
+        $("#txtNatno1").data("kendoNumericTextBox").value(dataItem.NATNO);
         $("#txtCivilloc1").val(dataItem.CIVILLOC);
         $("#txtActaddress1").val(dataItem.ACTADDRESS);
         $("#txtAddress1").val(dataItem.ADDRESS);
-        $("#txtPhone1").val(dataItem.PHONE);
-        $("#txtMobile1").val(dataItem.MOBILE);
-        $("#txtIdcardno1").val(dataItem.IDCARDNO);
+        $("#txtPhone1").data("kendoNumericTextBox").value(dataItem.PHONE);
+        $("#txtMobile1").data("kendoNumericTextBox").value(dataItem.MOBILE);
+        $("#txtIdcardno1").data("kendoNumericTextBox").value(dataItem.IDCARDNO);
         $("#txtBplace1").val(dataItem.BPLACE);
         $("#txtAlamana1").val(dataItem.ALAMANA);
         $("#ddlSex1").data('kendoDropDownList').value(dataItem.SEX);

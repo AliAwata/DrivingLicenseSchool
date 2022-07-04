@@ -865,7 +865,7 @@
 
     function btnSearch_Click() {
         var com_name = $("#CompNameSearch").val();
-        var comreg_no = $("#Comreg_NoSearch").val();
+        var comreg_no = $("#Comreg_NoSearch").data("kendoNumericTextBox").value();
         var comreg_typ = $("#Comreg_TypSearch").data("kendoDropDownList").value();
         var govern = $("#Comreg_GovSearch").data("kendoDropDownList").value();
         var city = $("#Cty_NbSearch").data("kendoDropDownList").value();
@@ -905,16 +905,16 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         $("#txtId").val(dataItem.NB);
         $("#txtCompname1").val(dataItem.COMPNAME);
-        $("#txtComreg_no1").val(dataItem.COMREG_NO);
+        $("#txtComreg_no1").data("kendoNumericTextBox").value(dataItem.COMREG_NO);
         $("#ddlComreg_typ1").data("kendoDropDownList").value(dataItem.COMREG_TYP);
         $("#ddlComreg_gov1").data("kendoDropDownList").value(dataItem.COMREG_GOV);
         $("#ddlCty_nb1").data("kendoDropDownList").value(dataItem.CTY_NB);
         $("#ddlReg_nb1").data("kendoDropDownList").value(dataItem.REG_NB);
         $("#txtAddress1").val(dataItem.ADDRESS);
-        $("#txtPhone1_1").val(dataItem.PHONE1);
-        $("#txtPhone2_1").val(dataItem.PHONE2);
-        $("#txtMobile1").val(dataItem.MOBILE);
-        $("#txtFax1").val(dataItem.FAX);
+        $("#txtPhone1_1").data("kendoNumericTextBox").value(dataItem.PHONE1);
+        $("#txtPhone2_1").data("kendoNumericTextBox").value(dataItem.PHONE2);
+        $("#txtMobile1").data("kendoNumericTextBox").value(dataItem.MOBILE);
+        $("#txtFax1").data("kendoNumericTextBox").value(dataItem.FAX);
         $("#txtNote1").val(dataItem.NOTE);
 
         $("#dpComreg_date1").kendoDatePicker({
@@ -989,17 +989,17 @@
     function btnReset_Click() {
         debugger
         $("#txtCompname").val("");
-        $("#txtComreg_no").val("");
+        $("#txtComreg_no").data("kendoNumericTextBox").value(" ");
         $("#dpComreg_date").val("");
         $("#ddlComreg_typ").data("kendoDropDownList").value(-1);
         $("#ddlComreg_gov").data("kendoDropDownList").value(-1);
         $("#ddlCty_nb").data("kendoDropDownList").value(-1);
         $("#ddlReg_nb").data("kendoDropDownList").value(-1);
         $("#txtAddress").val("");
-        $("#txtPhone1").val("");
-        $("#txtPhone2").val("");
-        $("#txtMobile").val("");
-        $("#txtFax").val("");
+        $("#txtPhone1").data("kendoNumericTextBox").value(" ");
+        $("#txtPhone2").data("kendoNumericTextBox").value(" ");
+        $("#txtMobile").data("kendoNumericTextBox").value(" ");
+        $("#txtFax").data("kendoNumericTextBox").value(" ");
         $("#txtNote").val("");
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
         var wnd = $("#AddDetails").data("kendoWindow");
@@ -1014,16 +1014,16 @@
         var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
         $("#txtCompname1").val(dataItem.COMPNAME);
-        $("#txtComreg_no1").val(dataItem.COMREG_NO);
+        $("#txtComreg_no1").data("kendoNumericTextBox").value(dataItem.COMREG_NO);
         $("#ddlComreg_typ1").data("kendoDropDownList").value(dataItem.COMREG_TYP);
         $("#ddlComreg_gov1").data("kendoDropDownList").value(dataItem.COMREG_GOV);
         $("#ddlCty_nb1").data("kendoDropDownList").value(dataItem.CTY_NB);
         $("#ddlReg_nb1").data("kendoDropDownList").value(dataItem.REG_NB);
         $("#txtAddress1").val(dataItem.ADDRESS);
-        $("#txtPhone1_1").val(dataItem.PHONE1);
-        $("#txtPhone2_1").val(dataItem.PHONE2);
-        $("#txtMobile1").val(dataItem.MOBILE);
-        $("#txtFax1").val(dataItem.FAX);
+        $("#txtPhone1_1").data("kendoNumericTextBox").value(dataItem.PHONE1);
+        $("#txtPhone2_1").data("kendoNumericTextBox").value(dataItem.PHONE2);
+        $("#txtMobile1").data("kendoNumericTextBox").value(dataItem.MOBILE);
+        $("#txtFax1").data("kendoNumericTextBox").value(dataItem.FAX);
         $("#txtNote1").val(dataItem.NOTE);
 
         $("#dpComreg_date1").kendoDatePicker({

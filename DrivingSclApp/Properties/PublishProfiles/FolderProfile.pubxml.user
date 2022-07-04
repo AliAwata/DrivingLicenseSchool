@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\Development\SIT\DriverLicensesSchools\Projects\Publishes\DrivingLicensesSchools</_PublishTargetUrl>
-    <History>True|2022-06-29T13:40:04.8780356Z;True|2022-06-28T16:59:43.1021232+03:00;True|2022-06-27T22:37:58.0036962+03:00;True|2022-06-26T13:53:45.2224482+03:00;</History>
+    <History>True|2022-07-04T10:50:07.9013301Z;True|2022-07-04T10:38:34.3519391+03:00;True|2022-07-03T21:40:36.3807480+03:00;True|2022-07-03T21:35:44.5898052+03:00;True|2022-06-29T16:40:04.8780356+03:00;True|2022-06-28T16:59:43.1021232+03:00;True|2022-06-27T22:37:58.0036962+03:00;True|2022-06-26T13:53:45.2224482+03:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/Courses/Views/web.config">
@@ -33,64 +33,70 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/23/2022 13:32:39</publishTime>
     </File>
     <File Include="Areas/Indexes/Views/zCategory/Index.cshtml">
-      <publishTime>06/29/2022 16:19:00</publishTime>
+      <publishTime>07/04/2022 13:26:28</publishTime>
     </File>
     <File Include="Areas/Indexes/Views/zCity/Index.cshtml">
-      <publishTime>06/29/2022 15:45:47</publishTime>
+      <publishTime>07/03/2022 18:42:40</publishTime>
     </File>
     <File Include="Areas/Indexes/Views/zCompany/index.cshtml">
-      <publishTime>06/29/2022 16:29:31</publishTime>
+      <publishTime>07/04/2022 13:26:39</publishTime>
     </File>
     <File Include="Areas/Indexes/Views/zCompany/IndexDetails.cshtml">
-      <publishTime>06/29/2022 16:38:01</publishTime>
+      <publishTime>07/04/2022 13:44:22</publishTime>
     </File>
     <File Include="Areas/Indexes/Views/zCompanyOwner/_CompanyOwner.cshtml">
-      <publishTime>06/29/2022 16:31:19</publishTime>
+      <publishTime>07/04/2022 13:33:21</publishTime>
     </File>
     <File Include="Areas/Indexes/Views/zGovern/index.cshtml">
-      <publishTime>06/29/2022 15:23:50</publishTime>
+      <publishTime>07/03/2022 18:42:06</publishTime>
     </File>
     <File Include="Areas/Indexes/Views/zNation/Index.cshtml">
-      <publishTime>06/29/2022 15:21:46</publishTime>
+      <publishTime>07/03/2022 18:41:56</publishTime>
     </File>
     <File Include="Areas/Indexes/Views/zPerson/index.cshtml">
-      <publishTime>06/29/2022 16:37:06</publishTime>
+      <publishTime>07/04/2022 13:28:51</publishTime>
     </File>
     <File Include="Areas/Indexes/Views/zRegion/index.cshtml">
-      <publishTime>06/29/2022 15:19:38</publishTime>
+      <publishTime>07/03/2022 18:41:46</publishTime>
     </File>
     <File Include="Areas/Indexes/Views/_ViewStart.cshtml">
       <publishTime>06/23/2022 13:32:39</publishTime>
     </File>
     <File Include="Areas/Schools/Views/School/Index.cshtml">
-      <publishTime>06/29/2022 16:39:21</publishTime>
+      <publishTime>07/04/2022 13:24:15</publishTime>
     </File>
     <File Include="Areas/Schools/Views/School/IndexDetails.cshtml">
-      <publishTime>06/29/2022 15:57:51</publishTime>
+      <publishTime>07/04/2022 13:41:54</publishTime>
     </File>
     <File Include="Areas/Schools/Views/SchoolOwner/_SchoolOwner.cshtml">
-      <publishTime>06/29/2022 16:38:49</publishTime>
+      <publishTime>07/04/2022 13:32:43</publishTime>
+    </File>
+    <File Include="Areas/Schools/Views/SchoolTrainer/_SchoolTrainer.cshtml">
+      <publishTime>07/04/2022 13:32:50</publishTime>
+    </File>
+    <File Include="Areas/Schools/Views/SchoolVehicles/_SchoolVehicles.cshtml">
+      <publishTime>07/04/2022 13:32:54</publishTime>
     </File>
     <File Include="Areas/Schools/Views/SclPhone/_SclPhone.cshtml">
-      <publishTime>06/29/2022 16:23:20</publishTime>
+      <publishTime>07/04/2022 13:40:48</publishTime>
     </File>
     <File Include="Areas/Schools/Views/web.config">
       <publishTime>06/23/2022 13:32:40</publishTime>
     </File>
     <File Include="bin/DrivingSclApp.dll">
-      <publishTime>06/29/2022 16:40:04</publishTime>
+      <publishTime>07/04/2022 13:50:07</publishTime>
     </File>
     <File Include="bin/DrivingSclApp.pdb">
-      <publishTime>06/29/2022 16:40:04</publishTime>
+      <publishTime>07/04/2022 13:50:07</publishTime>
     </File>
     <File Include="bin/DrivingSclData.dll">
-      <publishTime>06/26/2022 13:53:43</publishTime>
+      <publishTime>07/03/2022 21:35:43</publishTime>
     </File>
     <File Include="bin/DrivingSclData.dll.config">
-      <publishTime>05/21/2022 16:07:31</publishTime>
+      <publishTime>07/03/2022 21:14:34</publishTime>
     </File>
     <File Include="bin/DrivingSclData.pdb">
-      <publishTime>06/26/2022 13:53:43</publishTime>
+      <publishTime>07/03/2022 21:35:43</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>06/23/2022 13:33:30</publishTime>
@@ -1131,7 +1137,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/23/2022 13:33:17</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/26/2022 13:53:44</publishTime>
+      <publishTime>07/03/2022 21:35:44</publishTime>
     </File>
   </ItemGroup>
 </Project>

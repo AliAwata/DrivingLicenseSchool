@@ -278,6 +278,7 @@ D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSc
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\DrivingSclApp.pdb
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\DrivingSclData.dll
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\EntityFramework.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\EntityFramework.SqlServer.dll
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\Kendo.Mvc.dll
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\Microsoft.AspNet.Identity.Core.dll
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\Microsoft.AspNet.Identity.Owin.dll
@@ -301,7 +302,9 @@ D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSc
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\System.Web.WebPages.dll
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\System.Web.WebPages.Deployment.dll
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\DrivingSclData.pdb
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\DrivingSclData.dll.config
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\EntityFramework.xml
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\EntityFramework.SqlServer.xml
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\Kendo.Mvc.xml
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\Microsoft.AspNet.Identity.Core.xml
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\Microsoft.AspNet.Identity.Owin.xml
@@ -320,10 +323,10 @@ D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSc
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\System.Web.WebPages.xml
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\System.Web.WebPages.Deployment.xml
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\es-ES\Kendo.Mvc.resources.dll
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\obj\Debug\DrivingSclApp.csproj.AssemblyReference.cache
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\obj\Debug\DrivingSclApp.Resource.resources
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\obj\Debug\DrivingSclApp.csproj.GenerateResource.cache
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\obj\Debug\DrivingSclApp.csproj.CoreCompileInputs.cache
+D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\obj\Debug\DrivingSclApp.csproj.CopyComplete
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\obj\Debug\DrivingSclApp.dll
 D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\obj\Debug\DrivingSclApp.pdb
-D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\EntityFramework.SqlServer.dll
-D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\bin\EntityFramework.SqlServer.xml
-D:\Development\SIT\DriverLicensesSchools\Projects\DrivingLicenseSchool\DrivingSclApp\obj\Debug\DrivingSclApp.csprojResolveAssemblyReference.cache

@@ -149,6 +149,11 @@
             .Resizable(resize => resize
             .Columns(true)
             )
+            .Pageable(pageable =>
+            {
+                pageable.Refresh(true);
+                pageable.PageSizes(true);
+            })
         )
         </div>
     </div>
@@ -645,7 +650,7 @@
     })
 
     $("#btnPersonSearchReset").on('click', function () {
-        $("#perNatno").val("");
+        $("#perNatno").data("kendoNumericTextBox").value(" ");
         $("#perFname").val("");
         $("#perLname").val("");
         $("#perFather").val("");

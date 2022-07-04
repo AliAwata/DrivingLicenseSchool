@@ -114,6 +114,7 @@
         @(Html.Kendo().TabStrip()
         .Name("tabstrip")
         .TabPosition(TabStripTabPosition.Top)
+        .HtmlAttributes(new { style = "height: auto;" })
         .Collapsible(true)
         .Navigatable(true)
         .Animation(animation =>
@@ -298,7 +299,7 @@
         $("#VehGovDetail").val(dataItem.GOV_NAME);
         $("#VehClsDetail").val(dataItem.CLS_NAME);
         $("#VehBoardnoDetail").val(dataItem.BOARDNO);
-        $("#VehVinDetail").val(dataItem.VIN);
+        $("#VehVinDetail").val(dataItem.VIN);s
         $("#VehEnginenoDetail").val(dataItem.ENGINENO);
         $("#VehColorDetail").val(dataItem.COLOR);
         $("#VehEnginesizeDetail").val(dataItem.ENGINESIZE);
@@ -544,48 +545,6 @@
         wnd.center().close();
         var grid = $('#OwnerGrid').data('kendoGrid');
         grid.dataSource.read();
-        @*var scl = $("#sclNb").val();
-        var own = 2;
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var schoolOwner = {
-            SCL_NB: scl,
-            OT_NB: own,
-            ONR_NB: dataItem.NB,
-        }
-
-        var model = {
-            "model": schoolOwner
-        }
-
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("Create", "SchoolOwner")',
-            data: model,
-            datatype: "json",
-            cache: false,
-            success: function (response) {
-                if (response.success == true) {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
-                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
-                        $("#success_msg").slideUp(500);
-                    });
-                    var wnd = $("#OwnerCompanySearch").data("kendoWindow");
-                    wnd.center().close();
-                    var grid = $('#OwnerGrid').data('kendoGrid');
-                    grid.dataSource.read();
-                } else {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
-                    $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
-                        $("#success_msg").slideUp(500);
-                    });
-                }
-            }
-        });*@
     }
 
     function ChoosePerson(e) {
@@ -599,48 +558,6 @@
         wnd.center().close();
         var grid = $('#OwnerGrid').data('kendoGrid');
         grid.dataSource.read();
-        @*var scl = $("#sclNb").val();
-        var own = 1;
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var schoolOwner = {
-            SCL_NB: scl,
-            OT_NB: own,
-            ONR_NB: dataItem.NB,
-        }
-
-        var model = {
-            "model": schoolOwner
-        }
-
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("Create", "SchoolOwner")',
-            data: model,
-            datatype: "json",
-            cache: false,
-            success: function (response) {
-                if (response.success == true) {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
-                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
-                        $("#success_msg").slideUp(500);
-                    });
-                    var wnd = $("#OwnerPersonSearch").data("kendoWindow");
-                    wnd.center().close();
-                    var grid = $('#OwnerGrid').data('kendoGrid');
-                    grid.dataSource.read();
-                } else {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
-                    $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
-                        $("#success_msg").slideUp(500);
-                    });
-                }
-            }
-        });*@
     }
 
     // When i want to add a new owner
@@ -653,50 +570,6 @@
             wnd1.center().close();
             var wnd2 = $("#OwnerCompanySearch").data("kendoWindow");
             wnd2.center().close();
-            //    var scl = $("#sclNb").val();
-            //    var person_nb = s1;
-            //    var own_type = 2;
-
-            //    var schoolOwner = {
-            //        SCL_NB: scl,
-            //        OT_NB: own_type,
-            //        ONR_NB: person_nb,
-            //    }
-
-            //    var model = {
-            //        "model": schoolOwner
-            //    }
-
-            //    $.ajax({
-            //        type: 'POST',
-            //        url: '/SchoolOwner/Create', data: model,
-            //        datatype: "json",
-            //        cache: false,
-            //        success: function (response) {
-            //            if (response.success == true) {
-            //                $('#success_msg').show();
-            //                $('#error_msg').hide();
-            //                $('#labelIdd').text(response.responseText);
-            //                $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
-            //                    $("#success_msg").slideUp(500);
-            //                });
-            //                var wnd1 = $("#AddCompany").data("kendoWindow");
-            //                wnd1.center().close();
-            //                var wnd2 = $("#OwnerCompanySearch").data("kendoWindow");
-            //                wnd2.center().close();
-            //                var grid = $('#OwnerGrid').data('kendoGrid');
-            //                grid.dataSource.read();
-            //            } else {
-            //                $('#success_msg').show();
-            //                $('#error_msg').hide();
-            //                $('#labelIdd').text(response.responseText);
-            //                $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
-            //                    $("#success_msg").slideUp(500);
-            //                });
-            //            }
-            //        }
-            //    });
-            //});
         });
     }
 
@@ -786,12 +659,6 @@
     }
 
     function SaveNewPerson() {
-        var sex;
-        if ($("#ddlSex").val() == 'ذكر') {
-            sex = true;
-        } else if ($("#ddlSex").val() == 'انثى') {
-            sex = false;
-        }
         var personModel = {
             FNAME: $("#txtFname").val(),
             LNAME: $("#txtLname").val(),
@@ -811,7 +678,7 @@
             IDCARDDAT: $("#dpIdcarddat").val(),
             BPLACE: $("#txtBplace").val(),
             ALAMANA: $("#txtAlamana").val(),
-            SEX: sex,
+            SEX: $("#ddlSex").val(),
             NAT: $("#ddlNation").val(),
             TYP: $("#ddlPertype").val()
         }

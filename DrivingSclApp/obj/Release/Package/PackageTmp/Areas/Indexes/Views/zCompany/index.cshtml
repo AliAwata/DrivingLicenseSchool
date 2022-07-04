@@ -33,7 +33,6 @@
 <!-- Messages -->
 <div id="success_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
-        <a class="close" data-dissmiss="alert" href="#"></a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
             <span style="color:green" class="bf-messages">
@@ -45,7 +44,6 @@
 
 <div id="error_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
-        <a class="close" data-dissmiss="alert" href="#">*</a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
             <span style="color:red" class="bf-messages">
@@ -77,6 +75,142 @@
         .Width(300)  //Set width of the window
         .Height(150)
         )
+    </div>
+</div>
+
+<!-- Search bars -->
+<div>
+    <div class="container-fluid">
+        <div class="row" style="text-align:center">
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("اسم الشركة", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().TextBox()
+                    .Name("CompNameSearch")
+                    .HtmlAttributes(new { placeholder = "أدخل الشركة", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("رقم السجل التجاري", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().NumericTextBox()
+                    .Name("Comreg_NoSearch")
+                    .HtmlAttributes(new { placeholder = "أدخل رقم السجل التجاري", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("نوع السجل", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().DropDownList()
+                    .OptionLabel("اختر نوع السجل")
+                    .Name("Comreg_TypSearch")
+                    .DataTextField("Text")
+                    .DataValueField("Value").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("GetComreg_Typ", "Codes");
+                        });
+                    })
+                    .HtmlAttributes(new { style = "width: 100%; text-align:center;" })
+                    )
+                </div>
+            </div>
+        </div>
+        <div class="row" style="text-align:center">
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("المحافظة :", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().DropDownList()
+                    .OptionLabel("اختر المحافظة")
+                    .Name("Comreg_GovSearch")
+                    .DataTextField("Name")
+                    .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("GetGovern", "Codes");
+                        });
+                    })
+                    .HtmlAttributes(new { style = "width: 100%; text-align:center;" })
+                    .Events(e =>
+                    {
+                        e.Change("CityDataSourceSearch");
+                    })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("المدينة :", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().DropDownList()
+                    .OptionLabel("اختر المدينة")
+                    .Name("Cty_NbSearch")
+                    .DataTextField("Name")
+                    .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("GetCity", "Codes");
+                        });
+                    })
+                    .HtmlAttributes(new { style = "width: 100%; text-align:center;" })
+                    .Events(e =>
+                    {
+                        e.Change("RegionDataSourceSearch");
+                    })
+                    )
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="editor-label">
+                    @Html.Label("المنطقة :", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().DropDownList()
+                    .OptionLabel("اختر المنطقة")
+                    .Name("Reg_NbSearch")
+                    .DataTextField("Name")
+                    .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("GetRegion", "Codes");
+                        }).ServerFiltering(true);
+                    })
+                    .HtmlAttributes(new { style = "width: 100%; text-align:center;" })
+                    )
+                </div>
+            </div>
+        </div>
+        <div style="margin:10px"></div>
+        <div class="row">
+            <div class="col-md" style="text-align:center">
+                @(Html.Kendo().Button()
+                    .Name("btnSearch")
+                    .Content("بحث")
+                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
+                    .Events(e => e.Click("btnSearch_Click"))
+                )
+            </div>
+        </div>
+        <div style="margin:10px"></div>
     </div>
 </div>
 
@@ -729,6 +863,33 @@
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
     });
 
+    function btnSearch_Click() {
+        var com_name = $("#CompNameSearch").val();
+        var comreg_no = $("#Comreg_NoSearch").data("kendoNumericTextBox").value();
+        var comreg_typ = $("#Comreg_TypSearch").data("kendoDropDownList").value();
+        var govern = $("#Comreg_GovSearch").data("kendoDropDownList").value();
+        var city = $("#Cty_NbSearch").data("kendoDropDownList").value();
+        var region = $("#Reg_NbSearch").data("kendoDropDownList").value();
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("ReadByFilter","zCompany")',
+            data: {
+                comp_name: com_name, comreg_no: comreg_no, comreg_typ: comreg_typ,
+                govern: govern, city: city, region:region
+            },
+            dataType: "JSON",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#grid").data("kendoGrid");
+                dropdownlist.setDataSource(dataSource);
+            }
+        });
+
+    }
+
     function details(e) {
         debugger
         e.preventDefault();
@@ -744,16 +905,16 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         $("#txtId").val(dataItem.NB);
         $("#txtCompname1").val(dataItem.COMPNAME);
-        $("#txtComreg_no1").val(dataItem.COMREG_NO);
+        $("#txtComreg_no1").data("kendoNumericTextBox").value(dataItem.COMREG_NO);
         $("#ddlComreg_typ1").data("kendoDropDownList").value(dataItem.COMREG_TYP);
         $("#ddlComreg_gov1").data("kendoDropDownList").value(dataItem.COMREG_GOV);
         $("#ddlCty_nb1").data("kendoDropDownList").value(dataItem.CTY_NB);
         $("#ddlReg_nb1").data("kendoDropDownList").value(dataItem.REG_NB);
         $("#txtAddress1").val(dataItem.ADDRESS);
-        $("#txtPhone1_1").val(dataItem.PHONE1);
-        $("#txtPhone2_1").val(dataItem.PHONE2);
-        $("#txtMobile1").val(dataItem.MOBILE);
-        $("#txtFax1").val(dataItem.FAX);
+        $("#txtPhone1_1").data("kendoNumericTextBox").value(dataItem.PHONE1);
+        $("#txtPhone2_1").data("kendoNumericTextBox").value(dataItem.PHONE2);
+        $("#txtMobile1").data("kendoNumericTextBox").value(dataItem.MOBILE);
+        $("#txtFax1").data("kendoNumericTextBox").value(dataItem.FAX);
         $("#txtNote1").val(dataItem.NOTE);
 
         $("#dpComreg_date1").kendoDatePicker({
@@ -828,17 +989,17 @@
     function btnReset_Click() {
         debugger
         $("#txtCompname").val("");
-        $("#txtComreg_no").val("");
+        $("#txtComreg_no").data("kendoNumericTextBox").value(" ");
         $("#dpComreg_date").val("");
         $("#ddlComreg_typ").data("kendoDropDownList").value(-1);
         $("#ddlComreg_gov").data("kendoDropDownList").value(-1);
         $("#ddlCty_nb").data("kendoDropDownList").value(-1);
         $("#ddlReg_nb").data("kendoDropDownList").value(-1);
         $("#txtAddress").val("");
-        $("#txtPhone1").val("");
-        $("#txtPhone2").val("");
-        $("#txtMobile").val("");
-        $("#txtFax").val("");
+        $("#txtPhone1").data("kendoNumericTextBox").value(" ");
+        $("#txtPhone2").data("kendoNumericTextBox").value(" ");
+        $("#txtMobile").data("kendoNumericTextBox").value(" ");
+        $("#txtFax").data("kendoNumericTextBox").value(" ");
         $("#txtNote").val("");
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
         var wnd = $("#AddDetails").data("kendoWindow");
@@ -853,16 +1014,16 @@
         var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
         $("#txtCompname1").val(dataItem.COMPNAME);
-        $("#txtComreg_no1").val(dataItem.COMREG_NO);
+        $("#txtComreg_no1").data("kendoNumericTextBox").value(dataItem.COMREG_NO);
         $("#ddlComreg_typ1").data("kendoDropDownList").value(dataItem.COMREG_TYP);
         $("#ddlComreg_gov1").data("kendoDropDownList").value(dataItem.COMREG_GOV);
         $("#ddlCty_nb1").data("kendoDropDownList").value(dataItem.CTY_NB);
         $("#ddlReg_nb1").data("kendoDropDownList").value(dataItem.REG_NB);
         $("#txtAddress1").val(dataItem.ADDRESS);
-        $("#txtPhone1_1").val(dataItem.PHONE1);
-        $("#txtPhone2_1").val(dataItem.PHONE2);
-        $("#txtMobile1").val(dataItem.MOBILE);
-        $("#txtFax1").val(dataItem.FAX);
+        $("#txtPhone1_1").data("kendoNumericTextBox").value(dataItem.PHONE1);
+        $("#txtPhone2_1").data("kendoNumericTextBox").value(dataItem.PHONE2);
+        $("#txtMobile1").data("kendoNumericTextBox").value(dataItem.MOBILE);
+        $("#txtFax1").data("kendoNumericTextBox").value(dataItem.FAX);
         $("#txtNote1").val(dataItem.NOTE);
 
         $("#dpComreg_date1").kendoDatePicker({
@@ -970,6 +1131,52 @@
                     data: response
                 });
                 var dropdownlist = $("#ddlReg_nb").data("kendoDropDownList");
+                dropdownlist.setDataSource(dataSource);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function CityDataSourceSearch() {
+        var govern = $("#Comreg_GovSearch").val()
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetCityByGovern", "Codes")',
+            data: { govern: govern },
+            dataType: "json",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#Cty_NbSearch").data("kendoDropDownList");
+                dropdownlist.setDataSource(dataSource);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function RegionDataSourceSearch() {
+        var city = $("#Cty_NbSearch").val()
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetRegionByCity", "Codes")',
+            data: { city: city },
+            dataType: "json",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#Reg_NbSearch").data("kendoDropDownList");
                 dropdownlist.setDataSource(dataSource);
             },
             failure: function (response) {

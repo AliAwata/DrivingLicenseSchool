@@ -18,7 +18,7 @@
     <div class="panel-heading">
         <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">تفاصيل مدرسة</a>
     </div>
-    <div id="filter_body" class="collapse">
+    <div id="filter_body" class="toggle">
         <div class="panel-body container-fluid">
             <div class="row">
                 <div class="col-md-4">
@@ -63,7 +63,6 @@
 <!-- Messages -->
 <div id="success_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
-        <a class="close" data-dissmiss="alert" href="#"></a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
             <span style="color:green" class="bf-messages">
@@ -75,7 +74,6 @@
 
 <div id="error_msg" class="modal alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
-        <a class="close" data-dissmiss="alert" href="#">*</a>
         <span class="bf-messages">
             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
             <span style="color:red" class="bf-messages">
@@ -116,6 +114,7 @@
         @(Html.Kendo().TabStrip()
         .Name("tabstrip")
         .TabPosition(TabStripTabPosition.Top)
+        .HtmlAttributes(new { style = "height: auto;" })
         .Collapsible(true)
         .Navigatable(true)
         .Animation(animation =>
@@ -129,6 +128,8 @@
         {
             items.Add().Text("مالكين").LoadContentFrom("Owner", "SchoolOwner", new { id = ViewData["ID"] }).Selected(true);
             items.Add().Text("هواتف").LoadContentFrom("Phones", "SclPhone", new { id = ViewData["ID"] });
+            items.Add().Text("مركبات").LoadContentFrom("Vehicles", "SchoolVehicles", new { id = ViewData["ID"] });
+            items.Add().Text("مدربين").LoadContentFrom("Trainers", "SchoolTrainer", new { id = ViewData["ID"] });
         })
         )
     </div>
@@ -173,6 +174,262 @@
         }
     }
 
+    //------------------ SchoolTrainer Region
+    function DestroyTrainer(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#DeleteWindow").data("kendoWindow");
+        wnd.center().open();
+        alert(dataItem.NB);
+        alert(dataItem.LICENSEDATE);
+
+        $("#YesDelete").on('click', function () {
+            var trainer = {
+                NB: dataItem.NB,
+                PRS_NB: dataItem.PRS_NB,
+                SCL_NB: dataItem.SCL_NB,
+                TYP_NB: dataItem.TYP_NB,
+                DIPLOM: dataItem.DIPLOM,
+                LICENSENO: dataItem.LICENSENO,
+                LICENSEDATE: dataItem.LICENSEDATE,
+                LICENSEFROM: dataItem.LICENSEFROM
+            }
+
+            var model = { "model": trainer }
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Destroy","SchoolTrainer")',
+                data: model,
+                dataType: "JSON",
+                success: function (response) {
+                    wnd.close();
+                    var grid = $("#TrainerGrid").data("kendoGrid");
+                    grid.dataSource.read();
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                        $("#success_msg").slideUp(500);
+                    });
+                }
+            });
+        })
+
+        $("#NoDelete").on('click', function () {
+            wnd.close();
+        })
+
+    }
+
+    function ChooseTrainPerson(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        $("#TrainPrsNb").val(dataItem.NB);
+        $("#TrainerName").val(dataItem.FNAME + " " + dataItem.LNAME);
+        var wnd = $("#TainPersonSearch").data("kendoWindow");
+        wnd.close();
+    }
+    //------------------ End of SchoolTrainer Region
+
+    //------------------ SchoolVehicles Region
+    function DestroyVehicle(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#DeleteWindow").data("kendoWindow");
+        wnd.center().open();
+
+        $("#YesDelete").on('click', function () {
+            var vehicle = {
+                NB: dataItem.NB,
+                SCL_NB: dataItem.SCL_NB,
+                GOV_NB: dataItem.GOV_NB,
+                BOARDNO: dataItem.BOARDNO,
+                VIN: dataItem.VIN,
+                ENGINENO: dataItem.ENGINENO,
+                CLS_NB: dataItem.CLS_NB,
+                COLOR: dataItem.COLOR,
+                WIDTH: dataItem.WIDTH,
+                LENG: dataItem.LENG,
+                ENGINESIZE: dataItem.ENGINESIZE,
+                PRODYEAR: dataItem.PRODYEAR,
+                REGYEAR: dataItem.REGYEAR,
+                BRAND: dataItem.BRAND,
+                MODELNO: dataItem.MODELNO,
+                SEATS: dataItem.SEATS,
+                PRS_NB: dataItem.PRS_NB,
+                LICENSEEXPIRYDATE: dataItem.LICENSEEXPIRYDATE
+            };
+            var model = {
+                "model": vehicle
+            };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Destroy", "SchoolVehicles")',
+                data: model,
+                dataType: "JSON",
+                success: function (response) {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                        $("#success_msg").slideUp(500);
+                    });
+                    wnd.close();
+                    //var wnd2 = $("#SearchForVehicles").data("kendoWindow");
+                    //wnd2.close();
+                    var grid = $('#VehiclesGrid').data('kendoGrid');
+                    grid.dataSource.read();
+                }
+            });
+        })
+
+        $("#NoDelete").on('click', function () {
+            wnd.close();
+        })
+
+
+    }
+
+    function VehicleDetails(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        $("#VehSclNameDetail").val(dataItem.SCL_NAME);
+        $("#VehPrsDetail").val(dataItem.PRS_NAME);
+        $("#VehGovDetail").val(dataItem.GOV_NAME);
+        $("#VehClsDetail").val(dataItem.CLS_NAME);
+        $("#VehBoardnoDetail").val(dataItem.BOARDNO);
+        $("#VehVinDetail").val(dataItem.VIN);s
+        $("#VehEnginenoDetail").val(dataItem.ENGINENO);
+        $("#VehColorDetail").val(dataItem.COLOR);
+        $("#VehEnginesizeDetail").val(dataItem.ENGINESIZE);
+        $("#VehWidthDetail").val(dataItem.WIDTH);
+        $("#VehLengDetail").val(dataItem.LENG);
+        $("#VehProdyearDetail").val(dataItem.PRODYEAR);
+        $("#VehRegyearDetail").val(dataItem.REGYEAR);
+        $("#VehBrandDetail").val(dataItem.BRAND);
+        $("#VehModelDetail").val(dataItem.MODELNO);
+        $("#VehSeatsDetail").val(dataItem.SEATS);
+        $("#VehLicenseDetail").kendoDatePicker({
+            format: "dd/MM/yyyy",
+            value: dataItem.LICENSEEXPIRYDATE
+        });
+
+        var wnd = $("#VehicleDetails").data("kendoWindow");
+        wnd.center().open();
+    }
+
+    function PrsChoose(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#VehiclePersonSearchWindow").data("kendoWindow");
+        $("#VehPrsNb").val(dataItem.NB);
+        $("#VehPrsAdd").val(dataItem.FNAME + " " + dataItem.LNAME);
+        wnd.close();
+
+    }
+
+    function CityDataSource() {
+        var govern = $("#ddlVehSclGov_name").val()
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetCityByGovern", "Codes", new { area = "Indexes" })',
+            data: { govern: govern },
+            dataType: "json",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#ddlVehSclCty_name").data("kendoDropDownList");
+                dropdownlist.setDataSource(dataSource);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function RegionDataSource() {
+        var city = $("#ddlVehSclCty_name").val()
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetRegionByCity", "Codes", new { area = "Indexes" })',
+            data: { city: city },
+            dataType: "json",
+            success: function (response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response
+                });
+                var dropdownlist = $("#ddlVehSclReg_name").data("kendoDropDownList");
+                dropdownlist.setDataSource(dataSource);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+    //------------------------ End of SchoolVehicles Region
+
+    //------------------------ SchoolPhone Region
+    function DestroyPhone(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#DeleteWindow").data("kendoWindow");
+        wnd.center().open();
+
+        $("#YesDelete").on('click', function () {
+
+            var phone = {
+                NB: dataItem.NB,
+                SCL_NB: dataItem.SCL_NB,
+                PHONE_NO: dataItem.PHONE_NO,
+                PHONE_TYP: dataItem.PHONE_TYP
+            };
+
+            var model = { "model": phone };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Destroy", "SclPhone")',
+                data: model,
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        wnd.close();
+                        var grid = $('#PhonesGrid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
+                }
+            });
+        })
+
+        $("#NoDelete").on('click', function () {
+            wnd.close();
+        })
+    }
+    //------------------------ End of SchoolPhone Region
+
+    //------------------------ SchoolOwner Region
+    // Delete School Owner
     function Destroy(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
@@ -208,56 +465,6 @@
                         });
                         wnd.close();
                         var grid = $('#OwnerGrid').data('kendoGrid');
-                        grid.dataSource.read();
-                    } else {
-                        $('#success_msg').show();
-                        $('#error_msg').hide();
-                        $('#labelIdd').text(response.responseText);
-                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
-                            $("#success_msg").slideUp(500);
-                        });
-                    }
-                }
-            });
-        })
-
-        $("#NoDelete").on('click', function () {
-            wnd.close();
-        })
-    }
-
-    function DestroyPhone(e) {
-        e.preventDefault();
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var wnd = $("#DeleteWindow").data("kendoWindow");
-        wnd.center().open();
-
-        $("#YesDelete").on('click', function () {
-
-            var phone = {
-                NB: dataItem.NB,
-                SCL_NB: dataItem.SCL_NB,
-                PHONE_NO: dataItem.PHONE_NO,
-                PHONE_TYP: dataItem.PHONE_TYP
-            };
-
-            var model = { "model": phone };
-
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("Destroy", "SclPhone")',
-                data: model,
-                dataType: "JSON",
-                success: function (response) {
-                    if (response.success == true) {
-                        $('#success_msg').show();
-                        $('#error_msg').hide();
-                        $('#labelIdd').text(response.responseText);
-                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
-                            $("#success_msg").slideUp(500);
-                        });
-                        wnd.close();
-                        var grid = $('#PhonesGrid').data('kendoGrid');
                         grid.dataSource.read();
                     } else {
                         $('#success_msg').show();
@@ -338,48 +545,6 @@
         wnd.center().close();
         var grid = $('#OwnerGrid').data('kendoGrid');
         grid.dataSource.read();
-        @*var scl = $("#sclNb").val();
-        var own = 2;
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var schoolOwner = {
-            SCL_NB: scl,
-            OT_NB: own,
-            ONR_NB: dataItem.NB,
-        }
-
-        var model = {
-            "model": schoolOwner
-        }
-
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("Create", "SchoolOwner")',
-            data: model,
-            datatype: "json",
-            cache: false,
-            success: function (response) {
-                if (response.success == true) {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
-                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
-                        $("#success_msg").slideUp(500);
-                    });
-                    var wnd = $("#OwnerCompanySearch").data("kendoWindow");
-                    wnd.center().close();
-                    var grid = $('#OwnerGrid').data('kendoGrid');
-                    grid.dataSource.read();
-                } else {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
-                    $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
-                        $("#success_msg").slideUp(500);
-                    });
-                }
-            }
-        });*@
     }
 
     function ChoosePerson(e) {
@@ -393,48 +558,6 @@
         wnd.center().close();
         var grid = $('#OwnerGrid').data('kendoGrid');
         grid.dataSource.read();
-        @*var scl = $("#sclNb").val();
-        var own = 1;
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var schoolOwner = {
-            SCL_NB: scl,
-            OT_NB: own,
-            ONR_NB: dataItem.NB,
-        }
-
-        var model = {
-            "model": schoolOwner
-        }
-
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("Create", "SchoolOwner")',
-            data: model,
-            datatype: "json",
-            cache: false,
-            success: function (response) {
-                if (response.success == true) {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
-                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
-                        $("#success_msg").slideUp(500);
-                    });
-                    var wnd = $("#OwnerPersonSearch").data("kendoWindow");
-                    wnd.center().close();
-                    var grid = $('#OwnerGrid').data('kendoGrid');
-                    grid.dataSource.read();
-                } else {
-                    $('#success_msg').show();
-                    $('#error_msg').hide();
-                    $('#labelIdd').text(response.responseText);
-                    $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
-                        $("#success_msg").slideUp(500);
-                    });
-                }
-            }
-        });*@
     }
 
     // When i want to add a new owner
@@ -447,50 +570,6 @@
             wnd1.center().close();
             var wnd2 = $("#OwnerCompanySearch").data("kendoWindow");
             wnd2.center().close();
-            //    var scl = $("#sclNb").val();
-            //    var person_nb = s1;
-            //    var own_type = 2;
-
-            //    var schoolOwner = {
-            //        SCL_NB: scl,
-            //        OT_NB: own_type,
-            //        ONR_NB: person_nb,
-            //    }
-
-            //    var model = {
-            //        "model": schoolOwner
-            //    }
-
-            //    $.ajax({
-            //        type: 'POST',
-            //        url: '/SchoolOwner/Create', data: model,
-            //        datatype: "json",
-            //        cache: false,
-            //        success: function (response) {
-            //            if (response.success == true) {
-            //                $('#success_msg').show();
-            //                $('#error_msg').hide();
-            //                $('#labelIdd').text(response.responseText);
-            //                $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
-            //                    $("#success_msg").slideUp(500);
-            //                });
-            //                var wnd1 = $("#AddCompany").data("kendoWindow");
-            //                wnd1.center().close();
-            //                var wnd2 = $("#OwnerCompanySearch").data("kendoWindow");
-            //                wnd2.center().close();
-            //                var grid = $('#OwnerGrid').data('kendoGrid');
-            //                grid.dataSource.read();
-            //            } else {
-            //                $('#success_msg').show();
-            //                $('#error_msg').hide();
-            //                $('#labelIdd').text(response.responseText);
-            //                $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
-            //                    $("#success_msg").slideUp(500);
-            //                });
-            //            }
-            //        }
-            //    });
-            //});
         });
     }
 
@@ -580,12 +659,6 @@
     }
 
     function SaveNewPerson() {
-        var sex;
-        if ($("#ddlSex").val() == 'ذكر') {
-            sex = true;
-        } else if ($("#ddlSex").val() == 'انثى') {
-            sex = false;
-        }
         var personModel = {
             FNAME: $("#txtFname").val(),
             LNAME: $("#txtLname").val(),
@@ -605,7 +678,7 @@
             IDCARDDAT: $("#dpIdcarddat").val(),
             BPLACE: $("#txtBplace").val(),
             ALAMANA: $("#txtAlamana").val(),
-            SEX: sex,
+            SEX: $("#ddlSex").val(),
             NAT: $("#ddlNation").val(),
             TYP: $("#ddlPertype").val()
         }

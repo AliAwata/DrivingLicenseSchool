@@ -120,6 +120,7 @@
         @(Html.Kendo().TabStrip()
         .Name("tabstrip")
         .TabPosition(TabStripTabPosition.Top)
+        .HtmlAttributes(new { style = "height: auto;" })
         .Collapsible(true)
         .Navigatable(true)
         .Animation(animation =>
@@ -354,12 +355,7 @@
     }
 
     function SaveNewPerson() {
-        var sex;
-        if ($("#ddlSex").val() == 'ذكر') {
-            sex = true;
-        } else if ($("#ddlSex").val() == 'انثى') {
-            sex = false;
-        }
+        
         var personModel = {
             FNAME: $("#txtFname").val(),
             LNAME: $("#txtLname").val(),
@@ -379,7 +375,7 @@
             IDCARDDAT: $("#dpIdcarddat").val(),
             BPLACE: $("#txtBplace").val(),
             ALAMANA: $("#txtAlamana").val(),
-            SEX: sex,
+            SEX: $("#ddlSex").val(),
             NAT: $("#ddlNation").val(),
             TYP: $("#ddlPertype").val()
         }

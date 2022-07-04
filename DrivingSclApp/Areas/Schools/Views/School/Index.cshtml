@@ -845,7 +845,6 @@
     }
 
     function details(e) {
-        debugger
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location.href = '/Schools/School/IndexDetails?id=' + dataItem.NB;
@@ -853,7 +852,6 @@
 
     // when i press "add" from the grid
     $("#newAdd").click(function (e) {
-        debugger
         e.preventDefault();
         $("#AddDetails").data("kendoWindow").center().open();
         $("#newAdd").show();
@@ -888,22 +886,20 @@
 
     // when i press "edit" on a row and to fill the fields of the edit window
     function editDetails(e) {
-        debugger
         e.preventDefault();
         var wnd = $("#EditDetails").data("kendoWindow");
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         $("#txtId").val(dataItem.NB);
-        $("#txtScl_code1").val(dataItem.SCL_CODE);
+        $("#txtScl_code1").data("kendoNumericTextBox").value(dataItem.SCL_CODE);
         $('#txtSclname1').val(dataItem.SCLNAME);
         $('#ddlSty_name1').data("kendoDropDownList").value(dataItem.ST_NB);
         $('#ddlGov_name1').data("kendoDropDownList").value(dataItem.GOV_NB);
-        $('#txtComreg_no1').val(dataItem.COMREG_NO);
+        $('#txtComreg_no1').data("kendoNumericTextBox").value(dataItem.COMREG_NO);
         $('#ddlComreg_typ1').data("kendoDropDownList").value(dataItem.COMREG_TYP)
-        $('#txtComreg_gov1').val(dataItem.COMREG_GOV);
+        $('#txtComreg_gov1').data("kendoNumericTextBox").value(dataItem.COMREG_GOV);
         $('#ddlCty_name1').data("kendoDropDownList").value(dataItem.CTY_NB);
         $('#ddlReg_name1').data("kendoDropDownList").value(dataItem.REG_NB);
         $('#txtAddress1').val(dataItem.ADDRESS);
-        //$('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
         $("#dpComreg_date1").kendoDatePicker({
             format: "dd/MM/yyyy",
             value: dataItem.COMREG_DATE
@@ -915,7 +911,6 @@
 
     // when i click save in add window
     function btnSave_Click() {
-        debugger
         var validator = $("#save-container").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
 
@@ -931,7 +926,6 @@
                 CTY_NB: $('#ddlCty_name').val(),
                 REG_NB: $('#ddlReg_name').val(),
                 ADDRESS: $('#txtAddress').val(),
-                //STS_NB: $('#ddlSts_name').val()
             }
 
             var model = {
@@ -983,21 +977,18 @@
 
     // when i click reset in add window
     function btnReset_Click() {
-        debugger
 
-        $('#txtScl_code').val("");
+        $('#txtScl_code').data("kendoNumericTextBox").value(" ");
         $('#txtSclname').val("");
         $('#ddlSty_name').data("kendoDropDownList").value(-1);
         $('#ddlGov_name').data("kendoDropDownList").value(-1);
-        $('#txtComreg_no').val("");
-        //$('#dpComreg_date').data('kendoDatePicker').text("");
+        $('#txtComreg_no').data("kendoNumericTextBox").value(" ");
         $("#dpComreg_date").val("");
         $('#ddlComreg_typ').data("kendoDropDownList").value(-1)
-        $('#txtComreg_gov').val("");
+        $('#txtComreg_gov').data("kendoNumericTextBox").value(" ");
         $('#ddlCty_name').data("kendoDropDownList").value(-1);
         $('#ddlReg_name').data("kendoDropDownList").value(-1);
         $('#txtAddress').val("");
-        //$('#ddlSts_name').data("kendoDropDownList").value(-1);
 
         $("#dpComreg_date").kendoDatePicker({
             format: "dd/MM/yyyy",
@@ -1012,22 +1003,20 @@
 
     // when i press "reset" in edit window
     function btnUpdateReset_Click() {
-        debugger
 
         var Id = $("#txtId").val();
         var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
 
-        $("#txtScl_code1").val(dataItem.SCL_CODE);
+        $("#txtScl_code1").data("kendoNumericTextBox").value(dataItem.SCL_CODE);
         $('#txtSclname1').val(dataItem.SCLNAME);
         $('#ddlSty_name1').data("kendoDropDownList").value(dataItem.ST_NB);
         $('#ddlGov_name1').data("kendoDropDownList").value(dataItem.GOV_NB);
-        $('#txtComreg_no1').val(dataItem.COMREG_NO);
+        $('#txtComreg_no1').data("kendoNumericTextBox").value(dataItem.COMREG_NO);
         $('#ddlComreg_typ1').data("kendoDropDownList").value(dataItem.COMREG_TYP)
-        $('#txtComreg_gov1').val(dataItem.COMREG_GOV);
+        $('#txtComreg_gov1').data("kendoNumericTextBox").value(dataItem.COMREG_GOV);
         $('#ddlCty_name1').data("kendoDropDownList").value(dataItem.CTY_NB);
         $('#ddlReg_name1').data("kendoDropDownList").value(dataItem.REG_NB);
         $('#txtAddress1').val(dataItem.ADDRESS);
-        //$('#ddlSts_name1').data("kendoDropDownList").value(dataItem.STS_NB);
         $("#dpComreg_date1").kendoDatePicker({
             format: "dd/MM/yyyy",
             value: dataItem.COMREG_DATE
@@ -1039,7 +1028,6 @@
 
     // when i press "update" in edit window
     function btnUpdate_Click() {
-        debugger
         var validator = $("#Update-container").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
 
