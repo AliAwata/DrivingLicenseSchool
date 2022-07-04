@@ -247,12 +247,12 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="editor-label">
-                            @Html.Label("الميلاد", htmlAttributes: new { @class = "control-label" })
+                            @Html.Label("سنة الميلاد", htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="editor-field">
-                            @(Html.Kendo().DatePicker()
+                            @(Html.Kendo().NumericTextBox()
                             .Name("perBday")
-                            .HtmlAttributes(new { placeholder = "أدخل الميلاد", @class = "form-control", style = "width: 100%; text-align: center;" })
+                            .HtmlAttributes(new { placeholder = "أدخل الميلاد", style = "width: 100%; text-align: center;" })
                             )
                         </div>
                     </div>
@@ -1113,7 +1113,7 @@
         $("#perLname").val("");
         $("#perFather").val("");
         $("#perMother").val("");
-        $("#perBday").val("");
+        $("#perBday").data("kendoNumericTextBox").value(" ");
 
         $("#btnPersonSearch").kendoButton({}).data("kendoButton").enable(true);
         $("#btnPersonNew").kendoButton({}).data("kendoButton").enable(true);
@@ -1174,7 +1174,7 @@
             url: '@Url.Action("PersonFilter", "SchoolOwner")',
             data: {
                 fname: perFname, lname: perLname, natno: perNatno,
-                father: perFather, mother: perMother, bday: perBday
+                father: perFather, mother: perMother, bdatey: perBday
             },
             success: function (response) {
                 var dataSource = new kendo.data.DataSource({

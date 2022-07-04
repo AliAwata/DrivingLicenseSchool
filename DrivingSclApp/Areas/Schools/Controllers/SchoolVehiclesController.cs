@@ -303,7 +303,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                     }).OrderBy(x => x.NB).ToList();
             if(scl_name != "")
             {
-                Data = Data.Where(x => x.SCLNAME == scl_name).ToList();
+                Data = Data.Where(x => x.SCLNAME.Contains(scl_name)).ToList();
             }
             if (scl_code != "")
             {
@@ -327,7 +327,5 @@ namespace DrivingSclApp.Areas.Schools.Controllers
             }
             return Json(Data, JsonRequestBehavior.AllowGet);
         }
-
-
     }
 }

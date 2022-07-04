@@ -312,12 +312,12 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="editor-label">
-                            @Html.Label("الميلاد", htmlAttributes: new { @class = "control-label" })
+                            @Html.Label("سنة الميلاد", htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="editor-field">
-                            @(Html.Kendo().DatePicker()
+                            @(Html.Kendo().NumericTextBox()
                             .Name("TainPerBday")
-                            .HtmlAttributes(new { placeholder = "أدخل الميلاد", @class = "form-control", style = "width: 100%; text-align: center;" })
+                            .HtmlAttributes(new { placeholder = "أدخل الميلاد", style = "width: 100%; text-align: center;" })
                             )
                         </div>
                     </div>
@@ -721,7 +721,7 @@
         $("#TainPerLname").val("");
         $("#TainPerFather").val("");
         $("#TainPerMother").val("");
-        $("#TainPerBday").data("kendoDatePicker").value(" ");
+        $("#TainPerBday").data("kendoNumericTextBox").value(" ");
     })
 
     $("#btnTainPersonReset").on('click', function () {
@@ -802,7 +802,7 @@
             url: '@Url.Action("PersonFilter", "SchoolOwner")',
             data: {
                 fname: perFname, lname: perLname, natno: perNatno,
-                father: perFather, mother: perMother, bday: perBday
+                father: perFather, mother: perMother, bdatey: perBday
             },
             success: function (response) {
                 var dataSource = new kendo.data.DataSource({

@@ -142,10 +142,10 @@
             </div>
             <div class="col-md-3">
                 <div class="editor-label">
-                    @Html.Label("الميلاد", htmlAttributes: new { @class = "control-label" })
+                    @Html.Label("سنة الميلاد", htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="editor-field">
-                    @(Html.Kendo().DatePicker()
+                    @(Html.Kendo().NumericTextBox()
                         .Name("BdateSearch")
                         .HtmlAttributes(new { placeholder = "أدخل الميلاد", required = "required", validationmessage = "*", style = "width: 100%;text-align:center;" })
                     )
@@ -159,6 +159,12 @@
                 .Content("بحث")
                 .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
                 .Events(e => e.Click("btnSearch_Click"))
+            )
+            @(Html.Kendo().Button()
+                .Name("btnSearchReset")
+                .Content("تراجع")
+                .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
+                .Events(e => e.Click("btnSearchReset_Click"))
             )
         </div>
         <div style="margin:10px"></div>
@@ -911,19 +917,19 @@
     });
 
     function btnSearch_Click() {
-        alert("btnSearch");
         var natno = $("#NatnoSearch").val();
         var fname = $("#FnameSearch").val();
         var lname = $("#LnameSearch").val();
         var father = $("#FatherSearch").val();
         var mother = $("#MotherSearch").val();
         var bdate = $("#BdateSearch").val();
+        //var bdate = $("#BdateSearch").data("kendoNumericTextBox").value();
         
         $.ajax({
             type: "GET",
             url: '@Url.Action("ReadByFilter", "zPerson")',
             data: {
-                fname: fname, lname: lname, father: father, mother: mother, natno: natno, bdate:bdate
+                bdatey: bdate, natno: natno, fname: fname, lname: lname, father: father, mother: mother
             },
             dataType: "JSON",
             success: function (response) {
@@ -937,6 +943,15 @@
                 alert("fail");
             }
         });
+    }
+
+    function btnSearchReset_Click() {
+        $("#NatnoSearch").data("kendoNumericTextBox").value(" ");
+        $("#FnameSearch").val("");
+        $("#LnameSearch").val("");
+        $("#FatherSearch").val("");
+        $("#MotherSearch").val("");
+        $("#BdateSearch").val("");
     }
 
     // when i press "edit" on a row and to fill the fields of the edit window

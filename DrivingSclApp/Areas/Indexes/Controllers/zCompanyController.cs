@@ -117,7 +117,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                     }).OrderBy(x => x.NB).ToList();
             if(comp_name != "")
             {
-                Data = Data.Where(x => x.COMPNAME == comp_name).ToList();
+                Data = Data.Where(x => x.COMPNAME.Contains(comp_name)).ToList();
             }
             if (comreg_no != "")
             {

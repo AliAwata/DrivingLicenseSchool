@@ -63,7 +63,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         public ActionResult ReadByFilter(
-             DateTime? bdate, string natno = "", string fname = "", string lname = "",
+             string bdatey = "", string natno = "", string fname = "", string lname = "",
             string father = "", string mother = "")
         {
             List<PersonVM> Data = new List<PersonVM>();
@@ -109,26 +109,26 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             if(natno != "")
             {
                 Data = Data.Where(x => x.NATNO == natno).ToList();
-            }
+            } 
             if (fname != "")
             {
-                Data = Data.Where(x => x.FNAME == fname).ToList();
+                Data = Data.Where(x => x.FNAME.Contains(fname)).ToList();
             }
             if (lname != "")
             {
-                Data = Data.Where(x => x.LNAME == lname).ToList();
+                Data = Data.Where(x => x.LNAME.Contains(lname)).ToList();
             }
             if (father != "")
             {
-                Data = Data.Where(x => x.FATHER == father).ToList();
+                Data = Data.Where(x => x.FATHER.Contains(father)).ToList();
             }
             if (mother != "")
             {
-                Data = Data.Where(x => x.MOTHER == mother).ToList();
+                Data = Data.Where(x => x.MOTHER.Contains(mother)).ToList();
             }
-            if (bdate != null)
+            if (bdatey != "")
             {
-                Data = Data.Where(x => x.BDATE == bdate).ToList();
+                Data = Data.Where(x => x.BDATEY.ToString() == bdatey).ToList();
             }
             return Json(Data, JsonRequestBehavior.AllowGet);
         }

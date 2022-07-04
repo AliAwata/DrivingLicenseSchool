@@ -201,8 +201,8 @@ namespace DrivingSclApp.Areas.Schools.Controllers
             ViewData["ID"] = id;
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-        public ActionResult PersonFilter(string fname, string lname, string natno,
-            string father, string mother, DateTime? bday)
+        public ActionResult PersonFilter(string fname = "", string lname = "", string natno = "",
+            string father = "", string mother = "", string bdatey = "")
         {
             List<PersonVM> Data = new List<PersonVM>();
             Data = (from a in db.ZPERSON
@@ -246,11 +246,11 @@ namespace DrivingSclApp.Areas.Schools.Controllers
             }
             if (fname != "")
             {
-                Data = Data.Where(x => x.FNAME == fname).ToList();
+                Data = Data.Where(x => x.FNAME.Contains(fname)).ToList();
             }
             if (lname != "")
             {
-                Data = Data.Where(x => x.LNAME == lname).ToList();
+                Data = Data.Where(x => x.LNAME.Contains(lname)).ToList();
             }
             if (natno != "")
             {
@@ -258,20 +258,20 @@ namespace DrivingSclApp.Areas.Schools.Controllers
             }
             if (father != "")
             {
-                Data = Data.Where(x => x.FATHER == father).ToList();
+                Data = Data.Where(x => x.FATHER.Contains(father)).ToList();
             }
             if (mother != "")
             {
-                Data = Data.Where(x => x.MOTHER == mother).ToList();
+                Data = Data.Where(x => x.MOTHER.Contains(mother)).ToList();
             }
-            if (bday != null)
+            if (bdatey != "")
             {
-                Data = Data.Where(x => x.BDATE == bday).ToList();
+                Data = Data.Where(x => x.BDATEY.ToString() == bdatey).ToList();
             }
             return Json(Data, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult CompanyFilter(string name, string comreg_no, string comreg_typ,
-            string city, string region)
+        public ActionResult CompanyFilter(string name = "", string comreg_no = "", string comreg_typ = "",
+            string city = "", string region = "")
         {
             List<CompanyVM> Data = new List<CompanyVM>();
             Data = (from a in db.ZCOMPANY
@@ -303,7 +303,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                     }).OrderBy(x => x.NB).ToList();
             if (name != "")
             {
-                Data = Data.Where(x => x.COMPNAME == name).ToList();
+                Data = Data.Where(x => x.COMPNAME.Contains(name)).ToList();
             }
             if (comreg_no != "")
             {
