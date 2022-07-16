@@ -66,6 +66,8 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                 {
                     try
                     {
+                        model.VIN = model.VIN.ToUpper();
+                        model.ENGINENO = model.ENGINENO.ToUpper();
                         model.NB = MyDataBase.GetSeqValue("GetIndexID");
                         db.SCHOOLVEHICLE.Add(model);
                         db.SaveChanges();
@@ -91,6 +93,8 @@ namespace DrivingSclApp.Areas.Schools.Controllers
                 {
                     try
                     {
+                        model.VIN = model.VIN.ToUpper();
+                        model.ENGINENO = model.ENGINENO.ToUpper();
                         db.SCHOOLVEHICLE.Attach(model);
                         db.Entry(model).State = EntityState.Modified;
                         db.SaveChanges();

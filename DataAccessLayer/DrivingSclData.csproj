@@ -68,6 +68,7 @@
       <DependentUpon>DrivingSclEntity.edmx</DependentUpon>
     </Compile>
     <Compile Include="DrivingSclEntity\SCHOOL.cs" />
+    <Compile Include="DrivingSclEntity\SCHOOLDOC.cs" />
     <Compile Include="DrivingSclEntity\SCHOOLOWNER.cs" />
     <Compile Include="DrivingSclEntity\SCHOOLTRAINER.cs" />
     <Compile Include="DrivingSclEntity\SCHOOLVEHICLE.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="DrivingSclEntity\ZCATEGORY.cs" />
     <Compile Include="DrivingSclEntity\ZCITY.cs" />
     <Compile Include="DrivingSclEntity\ZCOMPANY.cs" />
+    <Compile Include="DrivingSclEntity\ZDOCTYPE.cs" />
+    <Compile Include="DrivingSclEntity\ZDOCUSAGE.cs" />
     <Compile Include="DrivingSclEntity\ZGOVERN.cs" />
     <Compile Include="DrivingSclEntity\ZNATION.cs" />
     <Compile Include="DrivingSclEntity\ZOWNERTYP.cs" />

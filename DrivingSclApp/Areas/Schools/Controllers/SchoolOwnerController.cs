@@ -1,4 +1,5 @@
-﻿using DrivingSclApp.Areas.Indexes.Data;
+﻿using DrivingSclApp.Areas.Indexes.Controllers;
+using DrivingSclApp.Areas.Indexes.Data;
 using DrivingSclApp.Areas.Schools.Data;
 using DrivingSclData;
 using Kendo.Mvc.Extensions;
@@ -14,6 +15,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
     public class SchoolOwnerController : Controller
     {
         private DrivingSclEntity db = new DrivingSclEntity();
+        private CodesController codes = new CodesController();
         public ActionResult Index()
         {
             return View();
@@ -147,27 +149,6 @@ namespace DrivingSclApp.Areas.Schools.Controllers
             ViewData["ID"] = id;
             return PartialView("_SchoolOwner", Data);
         }
-        //public ActionResult DeleteSchoolOwner([DataSourceRequest] DataSourceRequest request, int id)
-        //{
-        //    List<SchoolOwnerVM> Data = new List<SchoolOwnerVM>();
-        //    Data = (from so in db.SCHOOLOWNER
-        //            join s in db.SCHOOL
-        //            on so.SCL_NB equals s.NB
-        //            join o in db.ZOWNERTYP
-        //            on so.OT_NB equals o.NB
-        //            select new SchoolOwnerVM
-        //            {
-        //                NB = so.NB,
-        //                SCL_NB = so.SCL_NB,
-        //                OT_NB = so.OT_NB,
-        //                ONR_NB = so.ONR_NB,
-        //                NOTE = so.NOTE,
-        //                OwnerName = o.OTNAME,
-        //                SchoolName = s.SCLNAME
-        //            }).Where(x => x.SCL_NB == id).ToList();
-        //    ViewData["ID"] = id;
-        //    return View(Data);
-        //}
         public ActionResult OwnerBySclNb([DataSourceRequest] DataSourceRequest request, int id)
         {
             List<SchoolOwnerVM> Data = new List<SchoolOwnerVM>();
@@ -190,8 +171,7 @@ namespace DrivingSclApp.Areas.Schools.Controllers
             {
                 if(item.OT_NB == 1)
                 {
-                    var person = db.ZPERSON.Find(item.ONR_NB);
-                    item.OwnerName = person.FNAME + " " + person.LNAME + " بن " + person.FATHER;
+                    item.OwnerName = codes.GetPrsFullName(item.ONR_NB);
                 } else if (item.OT_NB == 2)
                 {
                     var company = db.ZCOMPANY.Find(item.ONR_NB);

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DrivingSclApp.Areas.Schools.Data.SchoolVM>
 
 <!-- Header -->
-<div class="container-fluid" style="text-align:center;">
+<div class="container" style="text-align:center;">
     <!-- Hidden Fields -->
     <div class="hidden">
         <div class="editor-label">
@@ -16,36 +16,25 @@
         </div>
     </div>
     <!-- the info that the user will fill -->
-    <div class="row">
-        <div class="col-md-3">
-            <div class="editor-label">
-                @Html.Label("اسم المدرسة", htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="editor-field">
-                @(Html.Kendo().TextBox()
-                .Name("SclName").Enable(false)
-                .Value(Model.Select(x => x.SCLNAME).FirstOrDefault())
-                .HtmlAttributes(new { @class = "form-control", style = "width: 100%; text-align:center;" })
-                )
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="editor-label">
-                @Html.Label("رقم الهاتف", htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="editor-field">
-                @(Html.Kendo().NumericTextBox()
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="editor-label">
+                    @Html.Label("رقم الهاتف", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().TextBox()
                 .Name("SclPhone")
                 .HtmlAttributes(new { placeholder = "أدخل رقم الهاتف", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
                 )
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="editor-label">
-                @Html.Label("نوع الهاتف", htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="editor-field">
-                @(Html.Kendo().DropDownList()
+            <div class="col-md-4">
+                <div class="editor-label">
+                    @Html.Label("نوع الهاتف", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="editor-field">
+                    @(Html.Kendo().DropDownList()
                 .OptionLabel("اختر نوع الهاتف")
                 .Name("ddlPhoneTyp")
                 .DataTextField("Text")
@@ -59,24 +48,25 @@
                 })
                 .HtmlAttributes(new { style = "width: 100%; text-align:cetner;" })
                 )
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row" style="margin:10px;"></div>
-    <!-- Buttons -->
-    <div class="row" style="text-align:center;">
-        @(Html.Kendo().Button()
+        <div class="row" style="margin:10px;"></div>
+        <!-- Buttons -->
+        <div class="row" style="text-align:center;">
+            @(Html.Kendo().Button()
             .Name("btnPhoneSave")
             .Content("حفظ")
             .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
         )
-        @(Html.Kendo().Button()
+            @(Html.Kendo().Button()
             .Name("btnPhoneReset")
             .Content("تراجع")
             .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
         )
+        </div>
+        <div class="row" style="margin:10px;"></div>
     </div>
-    <div class="row" style="margin:10px"></div>
 </div>
 
 <!-- Phones Grid -->
@@ -87,15 +77,14 @@
             .Name("PhonesGrid")
             .Columns(columns =>
             {
-                columns.Command(command => { command.Custom("حذف").Click("DestroyPhone").HtmlAttributes(new { @class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;" });
+                columns.Command(command => { command.Custom("حذف").Click("DestroyPhone").HtmlAttributes(new { @class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:75px;" });
                 columns.Bound(c => c.NB).Visible(false);
                 columns.Bound(c => c.SCL_NB).Visible(false);
                 columns.Bound(c => c.PHONE_TYP).Visible(false);
-                columns.Bound(c => c.SCL_NAME).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.SCL_NAME).Visible(false).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.PHONE_NO).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.PHONE_TYPE).HtmlAttributes(new { style = "width:auto;" });
             })
-            .Scrollable()
             .HtmlAttributes(new { style = "height: auto;" })
             .Sortable()
             .DataSource(dataSource => dataSource
@@ -118,11 +107,10 @@
     </div>
 </div>
 
-
 <script>
     $("#btnPhoneReset").on('click', function () {
-        $("#SclPhone").data("kendoNumericTextBox").value(" ");
-        $("#ddlSclPhoneTyp").data("kendoDropDownList").value(-1);
+        $("#SclPhone").val("");
+        $("#ddlPhoneTyp").data("kendoDropDownList").value(-1);
 
         $("#btnPhoneSave").kendoButton({}).data("kendoButton").enable(true);
     })
@@ -151,6 +139,10 @@
                 $('#success_msg').show();
                 $('#error_msg').hide();
                 $('#labelIdd').text(response.responseText);
+                $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#success_msg").slideUp(500);
+                });
+                ResetAllPhones();
             },
         });
     })

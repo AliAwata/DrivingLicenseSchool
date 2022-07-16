@@ -9,6 +9,7 @@
 
 namespace DrivingSclData
 {
+    
     using System.Data.Entity;
 
     public partial class DrivingSclEntity : DbContext
@@ -48,6 +49,13 @@ namespace DrivingSclData
               .HasForeignKey(e => e.SCL_NB)
               .WillCascadeOnDelete(true);
 
+            modelBuilder.Entity<SCHOOL>()
+              .HasMany(e => e.SCHOOLDOCs)
+              .WithRequired(e => e.SCHOOL)
+              .HasForeignKey(e => e.SCL_NB)
+              .WillCascadeOnDelete(true);
+
+            // -----          SCHOOLDOC
             // ------         SCHOOLOWNER
             // ------         SCLPHONE
             // ------         SCHOOLTrainer
@@ -85,6 +93,18 @@ namespace DrivingSclData
                 .HasForeignKey(e => e.COMP_NB)
                 .WillCascadeOnDelete(true);
 
+            // ------         ZDOCTYPE
+            modelBuilder.Entity<ZDOCTYPE>()
+               .HasMany(e => e.SCHOOLDOCs)
+               .WithRequired(e => e.ZDOCTYPE)
+               .HasForeignKey(e => e.TYPE_NB)
+               .WillCascadeOnDelete(true);
+            // ------         ZDOCUSAGE
+            modelBuilder.Entity<ZDOCUSAGE>()
+                .HasMany(e => e.SCHOOLDOCs)
+               .WithRequired(e => e.ZDOCUSAGE)
+               .HasForeignKey(e => e.USAGE_NB)
+               .WillCascadeOnDelete(true);
             // ------         ZGOVERN
             modelBuilder.Entity<ZGOVERN>()
                .HasMany(e => e.ZCOMPANY)
@@ -143,11 +163,6 @@ namespace DrivingSclData
                .HasForeignKey(e => e.PRS_NB)
                .WillCascadeOnDelete(true);
 
-            //modelBuilder.Entity<ZPERSON>()
-            //    .HasRequired(r => r.SCHOOLTRAINERs)
-            //    .WithMany(p => p.ZPERSON)
-            //    .HasForeignKey(p => p.PRS_NB);
-
             // ------         ZPRSTYPE
             modelBuilder.Entity<ZPRSTYPE>()
                .HasMany(e => e.ZPERSON)
@@ -203,11 +218,14 @@ namespace DrivingSclData
         }
 
         public virtual DbSet<SCHOOL> SCHOOL { get; set; }
+        public virtual DbSet<SCHOOLDOC> SCHOOLDOC { get; set; }
         public virtual DbSet<SCHOOLOWNER> SCHOOLOWNER { get; set; }
         public virtual DbSet<SCLPHONE> SCLPHONE { get; set; }
         public virtual DbSet<ZCATEGORY> ZCATEGORY { get; set; }
         public virtual DbSet<ZCITY> ZCITY { get; set; }
         public virtual DbSet<ZCOMPANY> ZCOMPANY { get; set; }
+        public virtual DbSet<ZDOCTYPE> ZDOCTYPE { get; set; }
+        public virtual DbSet<ZDOCUSAGE> ZDOCUSAGE { get; set; }
         public virtual DbSet<ZGOVERN> ZGOVERN { get; set; }
         public virtual DbSet<ZNATION> ZNATION { get; set; }
         public virtual DbSet<ZOWNERTYP> ZOWNERTYP { get; set; }

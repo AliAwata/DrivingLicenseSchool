@@ -7,7 +7,7 @@
 
 <style>
     #grid {
-        width: 2000px;
+        width: 1600px;
     }
 
     .alert-message {
@@ -19,7 +19,7 @@
 </style>
 
 <!-- Header -->
-<div class="panel panel-default panel-search" style="width:2000px">
+<div class="panel panel-default panel-search" style="width:1600px;">
     <div class="panel-heading">
         <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">الشركات</a>
     </div>
@@ -100,6 +100,8 @@
                 <div class="editor-field">
                     @(Html.Kendo().NumericTextBox()
                     .Name("Comreg_NoSearch")
+                    .Min(0)
+                    .Format("0")
                     .HtmlAttributes(new { placeholder = "أدخل رقم السجل التجاري", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
                     )
                 </div>
@@ -208,6 +210,12 @@
                     .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
                     .Events(e => e.Click("btnSearch_Click"))
                 )
+                @(Html.Kendo().Button()
+                    .Name("btnSearchReset")
+                    .Content("تراجع")
+                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
+                    .Events(e => e.Click("btnSearchReset_Click"))
+                )
             </div>
         </div>
         <div style="margin:10px"></div>
@@ -221,7 +229,7 @@
         .Name("grid")
         .Columns(columns =>
         {
-            columns.Command(command => { command.Custom("تفاصيل").Click("details").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new { @class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;" });
+            columns.Command(command => { command.Custom("تفاصيل").Click("details").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new { @class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:220px;" });
             columns.Bound(c => c.NB).Visible(false);
             columns.Bound(c => c.COMPNAME).HtmlAttributes(new { style = "width:auto;" });
             columns.Bound(c => c.COMREG_NO).HtmlAttributes(new { style = "width:auto;" });
@@ -302,6 +310,8 @@
                                         <div class="editor-field">
                                             @(Html.Kendo().NumericTextBox()
                                                 .Name("txtComreg_no")
+                                                .Min(0)
+                                                .Format("0")
                                                 .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
@@ -430,7 +440,7 @@
                                             @Html.Label("الهاتف الأول", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().NumericTextBox()
+                                            @(Html.Kendo().TextBox()
                                                 .Name("txtPhone1")
                                                 .HtmlAttributes(new { placeholder = "أدخل الهاتف الأول", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
@@ -441,7 +451,7 @@
                                             @Html.Label("الهاتف الثاني", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().NumericTextBox()
+                                            @(Html.Kendo().TextBox()
                                                 .Name("txtPhone2")
                                                 .HtmlAttributes(new { placeholder = "أدخل الهاتف الثاني", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
@@ -454,7 +464,7 @@
                                             @Html.Label("المحمول", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().NumericTextBox()
+                                            @(Html.Kendo().TextBox()
                                                 .Name("txtMobile")
                                                 .HtmlAttributes(new { placeholder = "أدخل المحمول", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
@@ -465,7 +475,7 @@
                                             @Html.Label("الفاكس", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().NumericTextBox()
+                                            @(Html.Kendo().TextBox()
                                                 .Name("txtFax")
                                                 .HtmlAttributes(new { placeholder = "أدخل الفاكس", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
@@ -545,6 +555,8 @@
                                         <div class="editor-field">
                                             @(Html.Kendo().NumericTextBox()
                                                 .Name("txtComreg_no1")
+                                                .Min(0)
+                                                .Format("0")
                                                 .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
@@ -672,7 +684,7 @@
                                             @Html.Label("الهاتف الأول", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().NumericTextBox()
+                                            @(Html.Kendo().TextBox()
                                                 .Name("txtPhone1_1")
                                                 .HtmlAttributes(new { placeholder = "أدخل الهاتف الأول", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
@@ -683,7 +695,7 @@
                                             @Html.Label("الهاتف الثاني", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().NumericTextBox()
+                                            @(Html.Kendo().TextBox()
                                                 .Name("txtPhone2_1")
                                                 .HtmlAttributes(new { placeholder = "أدخل الهاتف الثاني", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
@@ -696,7 +708,7 @@
                                             @Html.Label("المحمول", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().NumericTextBox()
+                                            @(Html.Kendo().TextBox()
                                                 .Name("txtMobile1")
                                                 .HtmlAttributes(new { placeholder = "أدخل المحمول", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
@@ -707,7 +719,7 @@
                                             @Html.Label("الفاكس", htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="editor-field">
-                                            @(Html.Kendo().NumericTextBox()
+                                            @(Html.Kendo().TextBox()
                                                 .Name("txtFax1")
                                                 .HtmlAttributes(new { placeholder = "أدخل الفاكس", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
@@ -890,6 +902,15 @@
 
     }
 
+    function btnSearchReset_Click() {
+        $("#CompNameSearch").val("");
+        $("#Comreg_NoSearch").data("kendoNumericTextBox").value(" ");
+        $("#Comreg_TypSearch").data("kendoDropDownList").value(-1);
+        $("#Comreg_GovSearch").data("kendoDropDownList").value(-1);
+        $("#Cty_NbSearch").data("kendoDropDownList").value(-1);
+        $("#Reg_NbSearch").data("kendoDropDownList").value(-1);
+    }
+
     function details(e) {
         debugger
         e.preventDefault();
@@ -911,10 +932,10 @@
         $("#ddlCty_nb1").data("kendoDropDownList").value(dataItem.CTY_NB);
         $("#ddlReg_nb1").data("kendoDropDownList").value(dataItem.REG_NB);
         $("#txtAddress1").val(dataItem.ADDRESS);
-        $("#txtPhone1_1").data("kendoNumericTextBox").value(dataItem.PHONE1);
-        $("#txtPhone2_1").data("kendoNumericTextBox").value(dataItem.PHONE2);
-        $("#txtMobile1").data("kendoNumericTextBox").value(dataItem.MOBILE);
-        $("#txtFax1").data("kendoNumericTextBox").value(dataItem.FAX);
+        $("#txtPhone1_1").val(dataItem.PHONE1);
+        $("#txtPhone2_1").val(dataItem.PHONE2);
+        $("#txtMobile1").val(dataItem.MOBILE);
+        $("#txtFax1").val(dataItem.FAX);
         $("#txtNote1").val(dataItem.NOTE);
 
         $("#dpComreg_date1").kendoDatePicker({
@@ -964,6 +985,7 @@
                             $("#success_msg").slideUp(500);
                         });
                         btnReset_Click();
+                        btnSearchReset_Click();
                         var wnd = $("#AddDetails").data("kendoWindow");
                         wnd.center().close();
                         var grid = $('#grid').data('kendoGrid');
@@ -996,10 +1018,10 @@
         $("#ddlCty_nb").data("kendoDropDownList").value(-1);
         $("#ddlReg_nb").data("kendoDropDownList").value(-1);
         $("#txtAddress").val("");
-        $("#txtPhone1").data("kendoNumericTextBox").value(" ");
-        $("#txtPhone2").data("kendoNumericTextBox").value(" ");
-        $("#txtMobile").data("kendoNumericTextBox").value(" ");
-        $("#txtFax").data("kendoNumericTextBox").value(" ");
+        $("#txtPhone1").val("");
+        $("#txtPhone2").val("");
+        $("#txtMobile").val("");
+        $("#txtFax").val("");
         $("#txtNote").val("");
         $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
         var wnd = $("#AddDetails").data("kendoWindow");
@@ -1020,10 +1042,10 @@
         $("#ddlCty_nb1").data("kendoDropDownList").value(dataItem.CTY_NB);
         $("#ddlReg_nb1").data("kendoDropDownList").value(dataItem.REG_NB);
         $("#txtAddress1").val(dataItem.ADDRESS);
-        $("#txtPhone1_1").data("kendoNumericTextBox").value(dataItem.PHONE1);
-        $("#txtPhone2_1").data("kendoNumericTextBox").value(dataItem.PHONE2);
-        $("#txtMobile1").data("kendoNumericTextBox").value(dataItem.MOBILE);
-        $("#txtFax1").data("kendoNumericTextBox").value(dataItem.FAX);
+        $("#txtPhone1_1").val(dataItem.PHONE1);
+        $("#txtPhone2_1").val(dataItem.PHONE2);
+        $("#txtMobile1").val(dataItem.MOBILE);
+        $("#txtFax1").val(dataItem.FAX);
         $("#txtNote1").val(dataItem.NOTE);
 
         $("#dpComreg_date1").kendoDatePicker({
@@ -1074,6 +1096,7 @@
                             $("#success_msg").slideUp(500);
                         });
                         btnUpdateReset_Click();
+                        btnSearchReset_Click();
                         var wnd = $("#EditDetails").data("kendoWindow");
                         wnd.center().close();
                         var grid = $('#grid').data('kendoGrid');

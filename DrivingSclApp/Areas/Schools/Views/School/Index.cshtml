@@ -100,6 +100,8 @@
                 <div class="editor-field">
                     @(Html.Kendo().NumericTextBox()
                         .Name("Scl_codeSearch")
+                        .Min(0)
+                        .Format("0")
                         .HtmlAttributes(new { placeholder = "أدخل رمز المدرسة", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
                     )
                 </div>
@@ -207,6 +209,12 @@
                 .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
                 .Events(e => e.Click("btnSearch_Click"))
             )
+            @(Html.Kendo().Button()
+                .Name("btnSearchReset")
+                .Content("تراجع")
+                .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
+                .Events(e => e.Click("btnSearchReset_Click"))
+            )
         </div>
     </div>
     <div style="margin:10px"></div>
@@ -239,7 +247,7 @@
                 columns.Bound(c => c.ST_NB).Visible(false);
                 columns.Bound(c => c.GOV_NB).Visible(false);
             })
-            .HtmlAttributes(new { style = "height: 550px;" })
+            .HtmlAttributes(new { style = "height: auto;" })
             .Sortable()
             .Filterable()
             .DataSource(dataSource => dataSource
@@ -298,6 +306,8 @@
                                     <div class="editor-field">
                                         @(Html.Kendo().NumericTextBox()
                                             .Name("txtScl_code")
+                                            .Min(0)
+                                            .Format("0")
                                             .HtmlAttributes(new { placeholder = "أدخل رمز المدرسة", required = "required", validationmessage = "*", style = "width: 100%" })
                                         )
                                     </div>
@@ -405,6 +415,8 @@
                                     <div class="editor-field">
                                         @(Html.Kendo().NumericTextBox()
                                             .Name("txtComreg_no")
+                                            .Min(0)
+                                            .Format("0")
                                             .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", style = "width: 100%" })
                                         )
                                     </div>
@@ -427,6 +439,8 @@
                                     <div class="editor-field">
                                         @(Html.Kendo().NumericTextBox()
                                             .Name("txtComreg_gov")
+                                            .Min(0)
+                                            .Format("0")
                                             .HtmlAttributes(new { placeholder = "رمز مصدر السجل", required = "required", validationmessage = "*", style = "width: 100%" })
                                         )
                                     </div>
@@ -465,27 +479,6 @@
                                         )
                                     </div>
                                 </div>
-                                @*<div class="col-sm-3">
-                                    <div class="editor-label">
-                                        @Html.Label("حالة المدرسة", htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="editor-field">
-                                        @(Html.Kendo().DropDownList()
-                                        .OptionLabel("اختر حالة المدرسة")
-                                        .Name("ddlSts_name")
-                                        .DataTextField("Name")
-                                        .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*" })
-                                        .DataSource(source =>
-                                        {
-                                            source.Read(read =>
-                                            {
-                                                read.Action("GetSclStatus", "Codes", new { area = "Indexes" });
-                                            });
-                                        })
-                                        .HtmlAttributes(new { style = "width: 100%" })
-                                        )
-                                    </div>
-                                </div>*@
                             </div>
                         </div>
                         <div class="row" style="margin-top:20px"></div>
@@ -548,6 +541,8 @@
                                         <div class="editor-field">
                                             @(Html.Kendo().NumericTextBox()
                                                 .Name("txtScl_code1")
+                                                .Min(0)
+                                                .Format("0")
                                                 .HtmlAttributes(new { placeholder = "أدخل رمز المدرسة", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
@@ -655,6 +650,8 @@
                                         <div class="editor-field">
                                             @(Html.Kendo().NumericTextBox()
                                                 .Name("txtComreg_no1")
+                                                .Min(0)
+                                                .Format("0")
                                                 .HtmlAttributes(new { placeholder = "أدخل رقم السجل", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
@@ -666,6 +663,8 @@
                                         <div class="editor-field">
                                             @(Html.Kendo().NumericTextBox()
                                                 .Name("txtComreg_gov1")
+                                                .Min(0)
+                                                .Format("0")
                                                 .HtmlAttributes(new { placeholder = "رمز مصدر السجل", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
@@ -884,6 +883,15 @@
         });
     }
 
+    function btnSearchReset_Click() {
+        $("#SclnameSearch").val("");
+        $("#Scl_codeSearch").data("kendoNumericTextBox").value(" ");
+        $("#Sty_nameSearch").data("kendoDropDownList").value(-1);
+        $("#Gov_nameSearch").data("kendoDropDownList").value(-1);
+        $("#Cty_nameSearch").data("kendoDropDownList").value(-1);
+        $("#Reg_nameSearch").data("kendoDropDownList").value(-1);
+    }
+
     // when i press "edit" on a row and to fill the fields of the edit window
     function editDetails(e) {
         e.preventDefault();
@@ -946,6 +954,7 @@
                             $("#success_msg").slideUp(500);
                         });
                         btnReset_Click();
+                        btnSearchReset_Click();
                         var wnd = $("#AddDetails").data("kendoWindow");
                         wnd.center().close();
                         var grid = $('#grid').data('kendoGrid');
@@ -1063,6 +1072,7 @@
                             $("#success_msg").slideUp(500);
                         });
                         btnUpdateReset_Click();
+                        btnSearchReset_Click();
                         var wnd = $("#EditDetails").data("kendoWindow");
                         wnd.center().close();
                         var grid = $('#grid').data('kendoGrid');

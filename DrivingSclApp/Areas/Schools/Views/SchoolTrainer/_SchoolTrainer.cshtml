@@ -76,20 +76,19 @@
             .Name("TrainerGrid")
             .Columns(columns =>
             {
-                columns.Command(command => { command.Custom("حذف").Click("DestroyTrainer").HtmlAttributes(new { @class = "btn btn-danger"}); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;" });
+                columns.Command(command => { command.Custom("حذف").Click("DestroyTrainer").HtmlAttributes(new { @class = "btn btn-danger"}); }).Title("العمليات").HtmlAttributes(new { style = "width:75px;" });
                 columns.Bound(c => c.NB).Visible(false);
                 columns.Bound(c => c.PRS_NB).Visible(false);
                 columns.Bound(c => c.SCL_NB).Visible(false);
                 columns.Bound(c => c.TYP_NB).Visible(false);
                 columns.Bound(c => c.PRS_NAME).HtmlAttributes(new { style = "width:auto;" });
-                columns.Bound(c => c.SCL_NAME).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.SCL_NAME).Visible(false).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.TYP_NAME).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.DIPLOM).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.LICENSENO).HtmlAttributes(new { style = "width:auto;" });
-                columns.Bound(c => c.LICENSEDATE).ClientTemplate("#= kendo.toString(kendo.parseDate(LICENSEDATE), 'yyyy/MM/dd') #").HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.LICENSEDATE).Format("{0:dd/MM/yyyy}").HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.LICENSEFROM).HtmlAttributes(new { style = "width:auto;" });
             })
-            .Scrollable()
             .HtmlAttributes(new { style = "height: auto;" })
             .DataSource(dataSource => dataSource
             .Ajax()
@@ -137,18 +136,6 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="editor-label">
-                                        @Html.Label("المدرسة", htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="editor-field">
-                                        @(Html.Kendo().TextBox()
-                                            .Name("TrainSclName")
-                                            .Value(Model.Select(x => x.SCLNAME).FirstOrDefault())
-                                            .HtmlAttributes(new { placeholder = "المدرسة", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
-                                        )
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="editor-label">
                                         @Html.Label("الإختصاص", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
@@ -168,8 +155,6 @@
                                         )
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="editor-label">
                                         @Html.Label("رفم إجازة التدريب", htmlAttributes: new { @class = "control-label" })
@@ -177,10 +162,14 @@
                                     <div class="editor-field">
                                         @(Html.Kendo().NumericTextBox()
                                             .Name("TrainLicenseNo")
+                                            .Min(0)
+                                            .Format("0")
                                             .HtmlAttributes(new { placeholder = "رقم الإجازة", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="editor-label">
                                         @Html.Label("تاريخ إجازة التدريب", htmlAttributes: new { @class = "control-label" })
@@ -203,8 +192,6 @@
                                         )
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="editor-label">
                                         @Html.Label("الشهادة العلمية", htmlAttributes: new { @class = "control-label" })
@@ -238,7 +225,7 @@
         .Draggable(true) //Enable dragging of the window
         .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
             .Width(800)     //Set width of the window
-            .Height(300)
+            .Height(250)
         )
     </div>
 </div>
@@ -258,7 +245,7 @@
                             @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="editor-field">
-                            @(Html.Kendo().NumericTextBox()
+                            @(Html.Kendo().TextBox()
                             .Name("TainPerNatno")
                             .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", style = "width: 100%; text-align: center;" })
                             )
@@ -317,6 +304,8 @@
                         <div class="editor-field">
                             @(Html.Kendo().NumericTextBox()
                             .Name("TainPerBday")
+                            .Min(0)
+                            .Format("0")
                             .HtmlAttributes(new { placeholder = "أدخل الميلاد", style = "width: 100%; text-align: center;" })
                             )
                         </div>
@@ -427,7 +416,7 @@
                                         @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().NumericTextBox()
+                                        @(Html.Kendo().TextBox()
                                             .Name("TaintxtNatno")
                                             .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
                                         )
@@ -519,7 +508,7 @@
                                         @Html.Label("الهاتف", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().NumericTextBox()
+                                        @(Html.Kendo().TextBox()
                                             .Name("TaintxtPhone")
                                             .HtmlAttributes(new { placeholder = "أدخل الهاتف", style = "width: 100%; text-align:center;" })
                                         )
@@ -532,7 +521,7 @@
                                         @Html.Label("المحمول", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().NumericTextBox()
+                                        @(Html.Kendo().TextBox()
                                             .Name("TaintxtPrsMobile")
                                             .HtmlAttributes(new { placeholder = "أدخل المحمول",style = "width: 100%; text-align:center;" })
                                         )
@@ -545,6 +534,8 @@
                                     <div class="editor-field">
                                         @(Html.Kendo().NumericTextBox()
                                             .Name("TaintxtIdcardno")
+                                            .Min(0)
+                                            .Format("0")
                                             .HtmlAttributes(new { placeholder = "أدخل رقم الهوية", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
                                         )
                                     </div>
@@ -692,6 +683,7 @@
 
 <script>
     $("#btnAddTrainer").on('click', function () {
+        $("#TainPersonGrid").data("kendoGrid").dataSource.data([]);
         var wnd = $("#AddTrainer").data("kendoWindow");
         wnd.center().open();
     })
@@ -716,16 +708,18 @@
     })
 
     $("#btnTainPersonSearchReset").on('click', function () {
-        $("#TainPerNatno").data("kendoNumericTextBox").value(" ");
+        $("#TainPerNatno").val("");
         $("#TainPerFname").val("");
         $("#TainPerLname").val("");
         $("#TainPerFather").val("");
         $("#TainPerMother").val("");
         $("#TainPerBday").data("kendoNumericTextBox").value(" ");
+
+        $("#TainPersonGrid").data("kendoGrid").dataSource.data([]);
     })
 
     $("#btnTainPersonReset").on('click', function () {
-        $("#TaintxtNatno").data("kendoNumericTextBox").value(" ");
+        $("#TaintxtNatno").val("");
         $("#TaintxtFname").val("");
         $("#TaintxtLname").val("");
         $("#TaintxtFather").val("");
@@ -733,8 +727,8 @@
         $("#TaintxtCivilloc").val("");
         $("#TaintxtActaddress").val("");
         $("#TaintxtPrsAddress").val("");
-        $("#TaintxtPhone").data("kendoNumericTextBox").value(" ");
-        $("#TaintxtPrsMobile").data("kendoNumericTextBox").value(" ");
+        $("#TaintxtPhone").val("");
+        $("#TaintxtPrsMobile").val("");
         $("#TaintxtIdcardno").data("kendoNumericTextBox").value(" ");
         $("#TaindpIdcarddat").data("kendoDatePicker").value(" ");
         $("#TaindpBdate").data("kendoDatePicker").value(" ");
@@ -843,6 +837,7 @@
                 wnd.close();
                 var grid = $("#TrainerGrid").data("kendoGrid");
                 grid.dataSource.read();
+                ResetAllTrainer();
             },
         });
     })

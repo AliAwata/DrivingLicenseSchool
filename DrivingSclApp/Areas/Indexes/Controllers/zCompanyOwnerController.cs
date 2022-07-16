@@ -14,6 +14,7 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
     public class zCompanyOwnerController : Controller
     {
         private DrivingSclEntity db = new DrivingSclEntity();
+        private CodesController codes = new CodesController();
         public ActionResult Index()
         {
             return View();
@@ -158,8 +159,16 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                         JOBTITLE = co.JOBTITLE,
                         NOTE = co.NOTE,
                         COMP_NAME = c.COMPNAME,
-                        PRS_NAME = p.FNAME
+                        NATNO = p.NATNO,
+                        FATHER = p.FATHER,
+                        MOTHER = p.MOTHER,
+                        CIVILLOC = p.CIVILLOC,
+                        BDATE = p.BDATE,
                     }).Where(x => x.COMP_NB == id).OrderBy(x => x.NB).ToList();
+            foreach(var item in Data)
+            {
+                item.PRS_NAME = codes.GetPrsFullName(item.PRS_NB);
+            }
             ViewData["ID"] = id;
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }

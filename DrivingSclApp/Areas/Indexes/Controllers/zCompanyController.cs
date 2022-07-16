@@ -173,6 +173,11 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
                     }).Where(x => x.NB == id).OrderBy(x => x.NB).ToList();
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult ComById(int id)
+        {
+            var Data = db.ZCOMPANY.Find(id);
+            return Json(Data, JsonRequestBehavior.AllowGet);
+        }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request, ZCOMPANY model)
         {

@@ -58,27 +58,26 @@
 </div>
 
 <!-- VehiclesGrid -->
-<div>
+<div class="container-fluid">
     <div calss="k_rtl">
         @(Html.Kendo().Grid<DrivingSclApp.Areas.Schools.Data.SchoolVehiclesVM>()
             .Name("VehiclesGrid")
             .Columns(columns =>
             {
-                columns.Command(command => { command.Custom("تفاصيل").Click("VehicleDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("DestroyVehicle").HtmlAttributes(new { @class = "btn btn-danger"}); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;" });
+                columns.Command(command => { command.Custom("تفاصيل").Click("VehicleDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("DestroyVehicle").HtmlAttributes(new { @class = "btn btn-danger"}); }).Title("العمليات").HtmlAttributes(new { style = "width:150px;" });
                 columns.Bound(c => c.NB).Visible(false);
                 columns.Bound(c => c.SCL_NB).Visible(false);
                 columns.Bound(c => c.PRS_NB).Visible(false);
                 columns.Bound(c => c.CLS_NB).Visible(false);
                 columns.Bound(c => c.GOV_NB).Visible(false);
                 columns.Bound(c => c.CLS_NAME).HtmlAttributes(new { style = "width:auto;" });
-                columns.Bound(c => c.SCL_NAME).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.SCL_NAME).Visible(false).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.PRS_NAME).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.GOV_NAME).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.BOARDNO).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.COLOR).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.LICENSEEXPIRYDATE).Format("{0:dd/MM/yyyy}").HtmlAttributes(new { style = "width:auto;" });
             })
-            .Scrollable()
             .HtmlAttributes(new { style = "height: auto;" })
             .DataSource(dataSource => dataSource
             .Ajax()
@@ -173,6 +172,8 @@
                         <div class="editor-field">
                             @(Html.Kendo().NumericTextBox()
                             .Name("VehPerBday")
+                            .Min(0)
+                            .Format("0")
                             .HtmlAttributes(new { placeholder = "أدخل الميلاد", style = "width: 100%; text-align: center;" })
                             )
                         </div>
@@ -278,19 +279,6 @@
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="editor-label">
-                                    @Html.Label("المدرسة", htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="editor-field">
-                                    @(Html.Kendo().TextBox()
-                                        .Name("VehSclnameAdd")
-                                        .Enable(false)
-                                        .Value(Model.Select(x => x.SCLNAME).FirstOrDefault())
-                                        .HtmlAttributes(new { placeholder = "أدخل المدرسة", @class = "form-control", style = "width: 100%; text-align:center;" })
-                                    )
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="editor-label">
                                     @Html.Label("المالك", htmlAttributes: new { @class = "control-label" })
                                 </div>
                                 <div class="editor-field">
@@ -321,8 +309,6 @@
                                     )
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-sm-3">
                                 <div class="editor-label">
                                     @Html.Label("الصف :", htmlAttributes: new { @class = "control-label" })
@@ -344,12 +330,14 @@
                                     )
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-3">
                                 <div class="editor-label">
                                     @Html.Label("رقم اللوحة", htmlAttributes: new { @class = "control-label" })
                                 </div>
                                 <div class="editor-field">
-                                    @(Html.Kendo().NumericTextBox()
+                                    @(Html.Kendo().TextBox()
                                         .Name("VehBoardnoAdd")
                                         .HtmlAttributes(new { placeholder = "أدخل رقم اللوحة", style = "width: 100%; text-align:center;" })
                                     )
@@ -360,25 +348,25 @@
                                     @Html.Label("رقم الهيكل", htmlAttributes: new { @class = "control-label" })
                                 </div>
                                 <div class="editor-field">
-                                    @(Html.Kendo().NumericTextBox()
+                                    @(Html.Kendo().TextBox()
                                         .Name("VehVinAdd")
                                         .HtmlAttributes(new { placeholder = "أدخل رقم الهيكل", style = "width: 100%; text-align:center;" })
                                     )
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-sm-3">
                                 <div class="editor-label">
                                     @Html.Label("رقم المحرك", htmlAttributes: new { @class = "control-label" })
                                 </div>
                                 <div class="editor-field">
-                                    @(Html.Kendo().NumericTextBox()
+                                    @(Html.Kendo().TextBox()
                                         .Name("VehEnginenoAdd")
                                         .HtmlAttributes(new { placeholder = "أدخل رقم المحرك", style = "width: 100%; text-align:center;" })
                                     )
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-3">
                                 <div class="editor-label">
                                     @Html.Label("اللون", htmlAttributes: new { @class = "control-label" })
@@ -397,66 +385,9 @@
                                 <div class="editor-field">
                                     @(Html.Kendo().NumericTextBox()
                                         .Name("VehEnginesizeAdd")
+                                        .Min(0)
+                                        .Format("0")
                                         .HtmlAttributes(new { placeholder = "أدخل سعة المحرك", style = "width: 100%; text-align:center;" })
-                                    )
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="editor-label">
-                                    @Html.Label("العرض", htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="editor-field">
-                                    @(Html.Kendo().NumericTextBox()
-                                        .Name("VehWidthAdd")
-                                        .HtmlAttributes(new { placeholder = "أدخل العرض", style = "width: 100%; text-align:center;" })
-                                    )
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="editor-label">
-                                    @Html.Label("الطول", htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="editor-field">
-                                    @(Html.Kendo().NumericTextBox()
-                                        .Name("VehLengAdd")
-                                        .HtmlAttributes(new { placeholder = "أدخل الطول", style = "width: 100%; text-align:center;" })
-                                    )
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="editor-label">
-                                    @Html.Label("سنة الصنع", htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="editor-field">
-                                    @(Html.Kendo().NumericTextBox()
-                                        .Name("VehProdyearAdd")
-                                        .HtmlAttributes(new { placeholder = "أدخل سنة الصنع", style = "width: 100%; text-align:center;" })
-                                    )
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="editor-label">
-                                    @Html.Label("سنة التصنيع", htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="editor-field">
-                                    @(Html.Kendo().NumericTextBox()
-                                        .Name("VehRegyearAdd")
-                                        .HtmlAttributes(new { placeholder = "أدخل سنة التصنيع", style = "width: 100%; text-align:center;" })
-                                    )
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="editor-label">
-                                    @Html.Label("الصانع", htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="editor-field">
-                                    @(Html.Kendo().TextBox()
-                                        .Name("VehBrandAdd")
-                                        .HtmlAttributes(new { placeholder = "أدخل الصانع", @class = "form-control", style = "width: 100%; text-align:center;" })
                                     )
                                 </div>
                             </div>
@@ -475,15 +406,84 @@
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="editor-label">
+                                    @Html.Label("العرض", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().NumericTextBox()
+                                        .Name("VehWidthAdd")
+                                        .Min(0)
+                                        .Format("0")
+                                        .HtmlAttributes(new { placeholder = "أدخل العرض", style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="editor-label">
+                                    @Html.Label("الطول", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().NumericTextBox()
+                                        .Name("VehLengAdd")
+                                        .Min(0)
+                                        .Format("0")
+                                        .HtmlAttributes(new { placeholder = "أدخل الطول", style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="editor-label">
+                                    @Html.Label("سنة الصنع", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().NumericTextBox()
+                                        .Name("VehProdyearAdd")
+                                        .Min(0)
+                                        .Format("0")
+                                        .HtmlAttributes(new { placeholder = "أدخل سنة الصنع", style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="editor-label">
+                                    @Html.Label("سنة التصنيع", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().NumericTextBox()
+                                        .Name("VehRegyearAdd")
+                                        .Min(0)
+                                        .Format("0")
+                                        .HtmlAttributes(new { placeholder = "أدخل سنة التصنيع", style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="editor-label">
+                                    @Html.Label("الصانع", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().TextBox()
+                                        .Name("VehBrandAdd")
+                                        .HtmlAttributes(new { placeholder = "أدخل الصانع", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="editor-label">
                                     @Html.Label("عدد المقاعد", htmlAttributes: new { @class = "control-label" })
                                 </div>
                                 <div class="editor-field">
                                     @(Html.Kendo().NumericTextBox()
                                         .Name("VehSeatsAdd")
+                                        .Min(0)
+                                        .Format("0")
                                         .HtmlAttributes(new { placeholder = "أدخل عدد المقاعد", style = "width: 100%; text-align:center;" })
                                     )
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-3">
                                 <div class="editor-label">
                                     @Html.Label("تاريخ انتهاء الرخصة", htmlAttributes: new { @class = "control-label" })
@@ -538,7 +538,7 @@
                                         @Html.Label("الرقم الوطني", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().NumericTextBox()
+                                        @(Html.Kendo().TextBox()
                                             .Name("txtVehPrsNatno")
                                             .HtmlAttributes(new { placeholder = "أدخل الرقم الوطني", required = "required", validationmessage = "*", style = "width: 100%" })
                                         )
@@ -630,7 +630,7 @@
                                         @Html.Label("الهاتف", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().NumericTextBox()
+                                        @(Html.Kendo().TextBox()
                                             .Name("txtVehPrsPhone")
                                             .HtmlAttributes(new { placeholder = "أدخل الهاتف", validationmessage = "*", style = "width: 100%" })
                                         )
@@ -643,7 +643,7 @@
                                         @Html.Label("المحمول", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="editor-field">
-                                        @(Html.Kendo().NumericTextBox()
+                                        @(Html.Kendo().TextBox()
                                             .Name("txtVehPrsMobile")
                                             .HtmlAttributes(new { placeholder = "أدخل المحمول", validationmessage = "*", style = "width: 100%" })
                                         )
@@ -656,6 +656,8 @@
                                     <div class="editor-field">
                                         @(Html.Kendo().NumericTextBox()
                                             .Name("txtVehPrsIdcardno")
+                                            .Min(0)
+                                            .Format("0")
                                             .HtmlAttributes(new { placeholder = "أدخل رقم الهوية", required = "required", validationmessage = "*", style = "width: 100%" })
                                         )
                                     </div>
@@ -1018,7 +1020,7 @@
                                     @Html.Label("تاريخ انتهاء الرخصة", htmlAttributes: new { @class = "control-label" })
                                 </div>
                                 <div class="editor-field">
-                                    @(Html.Kendo().TextBox()
+                                    @(Html.Kendo().DatePicker()
                                         .Name("VehLicenseDetail")
                                         .Enable(false)
                                         .HtmlAttributes(new { placeholder = "أدخل العنوان", style = "width: 100%; text-align:center;" })
@@ -1055,8 +1057,8 @@
         $("#VehPrsAdd").val("");
         $("#ddlVehGovAdd").data("kendoDropDownList").value(-1);
         $("#VehBoardnoAdd").data("kendoNumericTextBox").value(" ");
-        $("#VehVinAdd").data("kendoNumericTextBox").value(" ");
-        $("#VehEnginenoAdd").data("kendoNumericTextBox").value(" ");
+        $("#VehVinAdd").val("");
+        $("#VehEnginenoAdd").val("");
         $("#ddlVehClsAdd").data("kendoDropDownList").value(-1);
         $("#VehColorAdd").val("");
         $("#VehWidthAdd").data("kendoNumericTextBox").value(" ");
@@ -1102,9 +1104,9 @@
     $("#btnVehicleReset").on('click', function () {
         $("#VehPrsAdd").val("");
         $("#ddlVehGovAdd").data("kendoDropDownList").value(-1);
-        $("#VehBoardnoAdd").data("kendoNumericTextBox").value(" ");
-        $("#VehVinAdd").data("kendoNumericTextBox").value(" ");
-        $("#VehEnginenoAdd").data("kendoNumericTextBox").value(" ");
+        $("#VehBoardnoAdd").val("");
+        $("#VehVinAdd").val("");
+        $("#VehEnginenoAdd").val("");
         $("#ddlVehClsAdd").data("kendoDropDownList").value(-1);
         $("#VehColorAdd").val("");
         $("#VehWidthAdd").data("kendoNumericTextBox").value(" ");
@@ -1119,6 +1121,7 @@
     })
 
     $("#VehPrsAdd").on('click', function () {
+        $("#VehPersonGrid").data("kendoGrid").dataSource.data([]);
         var wnd = $("#VehiclePersonSearchWindow").data("kendoWindow");
         wnd.center().open();
     })
@@ -1169,6 +1172,8 @@
         $("#VehPerFather").val("");
         $("#VehPerMother").val("");
         $("#VehPerBday").data("kendoNumericTextBox").value(" ");
+
+        $("#VehPersonGrid").data("kendoGrid").dataSource.data([]);
 
         $("#btnPersonSearch").kendoButton({}).data("kendoButton").enable(true);
         $("#btnPersonNew").kendoButton({}).data("kendoButton").enable(true);
@@ -1229,12 +1234,12 @@
         $("#txtVehPrsLname").val("");
         $("#txtVehPrsFather").val("");
         $("#txtVehPrsMother").val("");
-        $("#txtVehPrsNatno").data("kendoNumericTextBox").value(" ");
+        $("#txtVehPrsNatno").val("");
         $("#txtVehPrsCivilloc").val("");
         $("#txtVehPrsActaddress").val("");
         $("#txtVehPrsAddress").val("");
-        $("#txtVehPrsPhone").data("kendoNumericTextBox").value(" ");
-        $("#txtVehPrsMobile").data("kendoNumericTextBox").value(" ");
+        $("#txtVehPrsPhone").val("");
+        $("#txtVehPrsMobile").val("");
         $("#dpVehPrsBdate").data("kendoDatePicker").value("");
         $("#txtVehPrsIdcardno").data("kendoNumericTextBox").value(" ");
         $("#dpVehPrsIdcarddat").data("kendoDatePicker").value("");
@@ -1282,10 +1287,9 @@
                 });
                 var wnd1 = $("#AddVehicle").data("kendoWindow");
                 wnd1.close();
-                //var wnd2 = $("#SearchForVehicles").data("kendoWindow");
-                //wnd2.close();
                 var grid = $('#VehiclesGrid').data('kendoGrid');
                 grid.dataSource.read();
+                ResetAllVehicles();
             }
         });
 

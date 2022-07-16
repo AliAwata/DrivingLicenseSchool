@@ -25,5 +25,17 @@ namespace DrivingSclApp.Areas.Indexes.Data
         public string COMP_NAME { get; set; }
         [DisplayName("اسم المالك")]
         public string PRS_NAME { get; set; }
+        [DisplayName("الرقم الوطني")]
+        public string NATNO { get; set; }
+        [DisplayName("اسم الاب")]
+        public string FATHER { get; set; }
+        [DisplayName("اسم الام")]
+        public string MOTHER { get; set; }
+        [DisplayName("القيد المدني")]
+        public string CIVILLOC { get; set; }
+        [DisplayName("الميلاد")]
+        public DateTime? BDATE { get; set; }
+        //[DisplayName("الجنس")]
+        //public string SEX_string { get; set; }
     }
 }

@@ -12,15 +12,75 @@
         width: fit-content;
         
     }
+    .box {
+        width: fit-content;
+        border: 1px solid red;
+        background-color: rgba(109, 139, 255, 1);
+        margin:auto;
+    }
 </style>
 
 <!-- Header with the info of company-->
-<div class="panel panel-default panel-search" style="width:1500px">
+<div class="panel panel-default panel-search" style="width:auto">
     <div class="panel-heading">
         <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">تفاصيل شركة</a>
     </div>
     <div id="filter_body" class="toggle">
-        <div class="panel-body container-fluid">
+        <div class="container-fluid">
+            @*<div class="row" style="margin:auto;">
+                <div class="col-md-3" style="margin:auto;">
+                    <dl class="dl-horizontal d-inline box">
+                        <dt>اسم الشركة :</dt>
+                        <dd>@Model.Select(x => x.COMPNAME).FirstOrDefault()</dd>
+                        <dt>رقم السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_NO).FirstOrDefault()</dd>
+                        <dt>تاريخ السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_DATE).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+                <div class="col-md-3" style="margin:auto;">
+                    <dl class="dl-horizontal d-inline box">
+                        <dt>نوع السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_TYP).FirstOrDefault()</dd>
+                        <dt>رمز مصدر السجل التجاري :</dt>
+                        <dd>@Model.Select(x => x.COMREG_TYP).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+                <div class="col-md-3">
+                    <dl class="dl-horizontal d-inline box">
+                        <dt>المدينة :</dt>
+                        <dd>@Model.Select(x => x.CityName).FirstOrDefault()</dd>
+                        <dt>المنطقة :</dt>
+                        <dd>@Model.Select(x => x.RegionName).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <dl class="dl-horizontal d-inline box">
+                        <dt>العنوان :</dt>
+                        <dd>@Model.Select(x => x.ADDRESS).FirstOrDefault()</dd>
+                        <dt>ملاحظات :</dt>
+                        <dd>@Model.Select(x => x.NOTE).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+                <div class="col-md-3">
+                    <dl class="dl-horizontal d-inline box">
+                        <dt>الهاتف الاول :</dt>
+                        <dd>@Model.Select(x => x.PHONE1).FirstOrDefault()</dd>
+                        <dt>الهاتف الثاني :</dt>
+                        <dd>@Model.Select(x => x.PHONE2).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+                <div class="col-md-3">
+                    <dl class="dl-horizontal d-inline box">
+                        <dt>المحمول :</dt>
+                        <dd>@Model.Select(x => x.MOBILE).FirstOrDefault()</dd>
+                        <dt>فاكس :</dt>
+                        <dd>@Model.Select(x => x.FAX).FirstOrDefault()</dd>
+                    </dl>
+                </div>
+            </div>*@
             <div class="row">
                 <div class="col-md-3">
                     <dl class="dl-horizontal d-inline">
@@ -230,6 +290,45 @@
         })
     }
 
+    function OwnerDetails(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("PrsById", "zPerson", new { area = "Indexes" })',
+            data: { id: dataItem.PRS_NB },
+            dataType: "json",
+            success: function (response) {
+                $("#txtDetailsFname").val(response.FNAME);
+                $("#txtDetailsLname").val(response.LNAME);
+                $("#txtDetailsFather").val(response.FATHER);
+                $("#txtDetailsMother").val(response.MOTHER);
+                $("#txtDetailsNatno").val(response.NATNO);
+                $("#txtDetailsCivilloc").val(response.CIVILLOC);
+                $("#txtDetailsActaddress").val(response.ACTADDRESS);
+                $("#txtDetailsAddress").val(response.ADDRESS);
+                $("#txtDetailsPhone").val(response.PHONE);
+                $("#txtDetailsMobile").val(response.MOBILE);
+                $("#txtDetailsIdcardno").val(response.IDCARDNO);
+                $("#txtDetailsBplace").val(response.BPLACE);
+                $("#txtDetailsAlamana").val(response.ALAMANA);
+                $("#ddlDetailsSex").data("kendoDropDownList").value(response.SEX)
+                $("#ddlDetailsNation").data("kendoDropDownList").value(response.NAT);
+                $("#ddlDetailsPertype").data("kendoDropDownList").value(response.TYP);
+                $("#dpDetailsBdate").kendoDatePicker({
+                    format: "dd/MM/yyyy",
+                    value: response.BDATE
+                })
+                $("#dpDetailsIdcarddat").kendoDatePicker({
+                    format: "dd/MM/yyyy",
+                    value: response.IDCARDDAT
+                })
+            },
+        });
+        var wnd = $("#OwnerDetails").data("kendoWindow");
+        wnd.center().open();
+    }
+
     // When i choose an owner from the search grid
     function FillPerson(e) {
         e.preventDefault();
@@ -302,6 +401,43 @@
         });
     }
 
+    function ResetAll() {
+        $("#txtFname").val("");
+        $("#txtLname").val("");
+        $("#txtFather").val("");
+        $("#txtMother").val("");
+        $("#txtNatno").val("");
+        $("#txtCivilloc").val("");
+        $("#txtActaddress").val("");
+        $("#txtAddress").val("");
+        $("#txtPhone").val("");
+        $("#txtMobile").val("");
+        $("#txtBdated").val("");
+        $("#txtBdatem").val("");
+        $("#txtBdatey").val("");
+        $("#dpBdate").val("");
+        $("#txtIdcardno").val("");
+        $("#dpIdcarddat").val("");
+        $("#txtBplace").val("");
+        $("#txtAlamana").val("");
+        $("#ddlSex").data('kendoDropDownList').value(-1);
+        $("#ddlNation").data('kendoDropDownList').value(-1);
+        $("#ddlPertype").data('kendoDropDownList').value(-1);
+
+        $("#perNatno").data("kendoNumericTextBox").value(" ");
+        $("#perFname").val("");
+        $("#perLname").val("");
+        $("#perFather").val("");
+        $("#perMother").val("");
+        $("#perBday").val("");
+
+        $("#comOwnper").val("");
+        $("#comJobtitle").val("");
+        $("#comNote").val("");
+
+        $("#personGrid").data("kendoGrid").dataSource.data([]);
+    }
+
     // When i want to add a new owner
     function SaveNewOwner() {
 
@@ -337,9 +473,9 @@
                 $("#comJobtitle").val("");
                 var grid = $('#OwnerGrid').data('kendoGrid');
                 grid.dataSource.read();
+                ResetAll();
             }
         });
-
     }
 
     function SaveNewOwnerPerson() {

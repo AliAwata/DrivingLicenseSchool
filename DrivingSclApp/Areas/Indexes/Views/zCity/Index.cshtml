@@ -4,6 +4,7 @@
     ViewBag.Title = "المدن";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <style>
     .alert-message {
         position: fixed;
@@ -80,7 +81,7 @@
             .Name("grid")
             .Columns(columns =>
             {
-                columns.Command(command => { command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new {@class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;" });
+                columns.Command(command => { command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new {@class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:150px;" });
                 columns.Bound(c => c.NB).Visible(false);
                 columns.Bound(c => c.NAME).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.GOV_NB).Visible(false);

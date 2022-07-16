@@ -23,13 +23,9 @@ namespace DrivingSclApp.Areas.Schools.Data
         public string NOTE { get; set; }
         [DisplayName("اسم المالك")]
         public string OwnerName { get; set; }
-        [DisplayName("كنية المالك")]
-        public string OwnerLname { get; set; }
         [DisplayName("نوع المالك")]
         public string OwnerTypName { get; set; }
         [DisplayName("اسم المدرسة")]
         public string SchoolName { get; set; }
-        public virtual ZOWNERTYP ZOWNERTYP { get; set; }
-        public virtual SCHOOL SCHOOL { get; set; }
     }
 }

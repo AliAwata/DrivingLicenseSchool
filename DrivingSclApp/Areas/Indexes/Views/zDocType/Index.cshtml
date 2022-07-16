@@ -1,0 +1,439 @@
+﻿@model IEnumerable<DrivingSclData.ZDOCTYPE>
+
+@{
+    ViewBag.Title = "أنواع الوثائق";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .alert-message {
+        position: fixed;
+        top: 30px;
+        right: 16px;
+        width: fit-content;
+    }
+</style>
+
+<!-- Header -->
+<div class="panel panel-default panel-search">
+    <div class="panel-heading">
+        <a class="h4" aria-expanded="false" aria-controls="filter_body" href="#filter_body" data-toggle="collapse">أنواع الوثائق</a>
+    </div>
+</div>
+
+<!-- Messages -->
+<div id="success_msg" class="modal alert-message" role="alert" style="display:none">
+    <div class="alert fadein alert-success" style="padding:15px;margin-top:10px;">
+        <span class="bf-messages">
+            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+            <span style="color:green" class="bf-messages">
+                <label id="labelIdd"></label>
+            </span>
+        </span>
+    </div>
+</div>
+
+<div id="error_msg" class="modal alert-message" role="alert" style="display:none">
+    <div class="alert fadein alert-danger" style="padding:15px;margin-top:10px;">
+        <span class="bf-messages">
+            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+            <span style="color:red" class="bf-messages">
+                <label id="errlabelIdd"></label>
+            </span>
+        </span>
+    </div>
+</div>
+
+<div id="deleteWindow">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("DeleteWindow")
+        .Title("تأكيد حذف")
+        .Visible(false)
+        .Modal(true)
+        .HtmlAttributes(new { style = "text-align:center;" })
+        .Content(@<text>
+            <div class="container-fluid" style="text-align:center;">
+                <h3>هل أنت متأكد من الحذف؟</h3>
+                <div class="row">
+                    <button id="YesDelete" class="btn btn-default" style="width:100px;">نعم</button>
+                    <button id="NoDelete" class="btn btn-default" style="width:100px;">لا</button>
+                </div>
+                <span id="validationRFC" class="k-label alert-danger"></span>
+            </div>
+        </text>)
+        .Draggable(true) //Enable dragging of the window
+        .Resizable() //Enable resizing of the window
+        .Width(300)  //Set width of the window
+        .Height(150)
+        )
+    </div>
+</div>
+
+<!-- Kendo -->
+<div id="IdivForm">
+    <div class="k-rtl">
+        @(Html.Kendo().Grid<DrivingSclData.ZDOCTYPE>()
+            .Name("grid")
+            .Columns(columns =>
+            {
+                columns.Command(command => { command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new {@class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:150px;" });
+                columns.Bound(c => c.NB).Visible(false);
+                columns.Bound(c => c.DOCTYPE).HtmlAttributes(new { style = "width:auto;" });
+            })
+            .HtmlAttributes(new { style = "height: auto;" })
+            .Sortable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
+            .PageSize(15)
+            .Model(model => model.Id(p => p.NB))
+            .Create(update => update.Action("Create", "zDocType"))
+            .Read(read => read.Action("Read", "zDocType"))
+            .Update(update => update.Action("Update", "zDocType"))
+            .Destroy(update => update.Action("Destroy", "zDocType")))
+            .Resizable(resize => resize
+            .Columns(true)
+            )
+            .ToolBar(toolbar =>
+            {
+                toolbar.Custom().Name("newAdd").Text(" جديد ").Url("#").HtmlAttributes(new { id = "newAdd", @class = "btn btn-primary" });
+            })
+                .Pageable(pageable =>
+                {
+                    pageable.Refresh(true);
+                    pageable.PageSizes(true);
+                })
+)
+    </div>
+</div>
+
+<!-- Add -->
+<div id="AddDiv">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("AddDetails")
+        .Title("إضافة نوع وثيقة")
+        .Visible(false)
+        .Modal(true)
+        .Content(@<text>
+            <div style="width:100%;" id="fieldlist">
+                <form id="Addform">
+                        <div id="save-container" class="k-edit-form-container">
+                            <div class="editor-label">
+                                @Html.Label("نوع الوثيقة", htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="editor-field">
+                                @(Html.Kendo().TextBox()
+                                    .Name("txtDoctype")
+                                    .HtmlAttributes(new { placeholder = "أدخل نوع الوثيقة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                )
+                            </div>
+                            <div class="row" style="margin-top:20px"></div>
+                            <div class="k-edit-buttons k-state-default">
+                            @(Html.Kendo().Button()
+                                .Name("btnSave")
+                                .Content("حفظ")
+                                .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
+                                .Events(e => e.Click("btnSave_Click"))
+                            )
+                            @(Html.Kendo().Button()
+                                .Name("btnReset")
+                                .Content("تراجع")
+                                .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
+                                .Events(e => e.Click("btnReset_Click"))
+                            )
+                            </div>
+                         </div>
+                </form>
+            </div>
+        </text>)
+        .Draggable(true) //Enable dragging of the window
+        .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
+            .Width(450)     //Set width of the window
+            .Height(200)
+        )
+    </div>
+</div>
+
+<!-- Edit -->
+<div id="EditDiv">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("EditDetails")
+        .Title("تعديل نوع وثيقة")
+        .Visible(false)
+        .Modal(true)
+        .Content(@<text>
+            <div style="width:95%;" id="fieldlist">
+                <form id="Editform">
+                    <div id="Update-container" class="k-edit-form-container">
+                        <div class="col-md-12">
+                            @Html.Hidden("txtId")
+                            <div class="editor-label">
+                                @Html.Label("نوع الوثيقة", htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="editor-field">
+                                @(Html.Kendo().TextBox()
+                                    .Name("txtDoctype1")
+                                    .HtmlAttributes(new { placeholder = "ادخل نوع الوثيقة", required = "required", validationmessage = "*", maxlength = "50", @class = "form-control", style = "width: 100%", })
+                                )
+                            </div>
+                            <div class="row" style="margin-top:20px"></div>
+                            <div class="k-edit-buttons k-state-default">
+                                @(Html.Kendo().Button()
+                                    .Name("btnUpdate")
+                                    .Content("حفظ")
+                                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:70px;" })
+                                    .Events(e => e.Click("btnUpdate_Click"))
+                                )
+                                @(Html.Kendo().Button()
+                                    .Name("btnUpdateReset")
+                                    .Content("تراجع")
+                                    .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:70px;" })
+                                    .Events(e => e.Click("btnUpdateReset_Click"))
+                                )
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </text>)
+    .Draggable(true) //Enable dragging of the window
+    .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
+    .Width(450)     //Set width of the window
+    .Height(200)
+    )
+    </div>
+</div>
+
+<script>
+    // Messages
+    function OnRequestEnd(e) {
+        if (e.type == "update" && e.response != null && e.response.success && !e.response.Errors) {
+            $('#success_msg').show();
+            $('#error_msg').hide();
+            $('#labelIdd').text(e.response.responseText);
+        }
+        if (e.type == "destroy" && e.response != null && e.response.success && !e.response.Errors) {
+            $('#success_msg').show();
+            $('#error_msg').hide();
+            $('#labelIdd').text(e.response.responseText);
+        }
+        if (e.response != null && !e.response.success && e.response.responseText != null) {
+            $('#success_msg').hide();
+            $('#error_msg').show();
+            $('#errlabelIdd').text(e.response.responseText);
+        }
+    }
+
+    function sync_handler(e) {
+        this.read();
+    }
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            $(".errorMessage").text(message);
+            alert(message);
+        }
+    }
+
+    function Destroy(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#DeleteWindow").data("kendoWindow");
+        wnd.center().open();
+
+        $("#YesDelete").on('click', function () {
+
+            var doctypeModel = {
+                NB: dataItem.NB,
+                DOCTYPE: dataItem.DOCTYPE,
+            }
+            var model = {
+                "model": doctypeModel
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Destroy", "zDocType")',
+                data: model,
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        btnReset_Click();
+                        wnd.close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
+                }
+            });
+        })
+
+        $("#NoDelete").on('click', function () {
+            wnd.close();
+        })
+    }
+
+    // when i press "add" from the grid
+    $("#newAdd").click(function (e) {
+        debugger
+        e.preventDefault();
+        $("#AddDetails").data("kendoWindow").center().open();
+        $("#newAdd").show();
+        $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
+    });
+
+    // when i press "edit" on a row and to fill the fields of the edit window
+    function editDetails(e) {
+        debugger
+        e.preventDefault();
+        var wnd = $("#EditDetails").data("kendoWindow");
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        $("#txtId").val(dataItem.NB);
+        $("#txtDoctype1").val(dataItem.DOCTYPE);
+
+        $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
+        wnd.center().open();
+    }
+
+    // when i click save in add window
+    function btnSave_Click() {
+        debugger
+        var validator = $("#save-container").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+
+            var doctypeModel = {
+                DOCTYPE: $('#txtDoctype').val(),
+            }
+            var model = {
+                "model": doctypeModel
+            }
+            $.ajax({
+                type: "POST",
+                url: '/zDocType/Create', data: model,
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        btnReset_Click();
+                        var wnd = $("#AddDetails").data("kendoWindow");
+                        wnd.center().close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
+                },
+
+            });
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    // when i click reset in add window
+    function btnReset_Click() {
+        debugger
+        $("#txtDoctype").val("")
+
+        $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
+        var wnd = $("#AddDetails").data("kendoWindow");
+        wnd.element.find("span.k-tooltip-validation").hide();
+        return;
+    }
+
+    // when i press "reset" in edit window
+    function btnUpdateReset_Click() {
+        debugger
+        var Id = $("#txtId").val();
+        var dataItem = $("#grid").data("kendoGrid").dataSource.get(Id);
+        $("#txtDoctype1").val(dataItem.DOCTYPE)
+
+        $("#btnUpdate").kendoButton({}).data("kendoButton").enable(true);
+        return;
+    }
+
+    // when i press "update" in edit window
+    function btnUpdate_Click() {
+        debugger
+        var validator = $("#Update-container").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+
+            var doctypeModel = {
+                NB: $("#txtId").val(),
+                DOCTYPE: $('#txtDoctype1').val(),
+            }
+            var model = {
+                "model": doctypeModel
+            }
+            $.ajax({
+                type: "POST",
+                url: '/zDocType/Update', data: model,
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    if (response.success == true) {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                        btnUpdateReset_Click();
+                        var wnd = $("#EditDetails").data("kendoWindow");
+                        wnd.center().close();
+                        var grid = $('#grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    } else {
+                        $('#success_msg').show();
+                        $('#error_msg').hide();
+                        $('#labelIdd').text(response.responseText);
+                        $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                            $("#success_msg").slideUp(500);
+                        });
+                    }
+                },
+
+            });
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+
+

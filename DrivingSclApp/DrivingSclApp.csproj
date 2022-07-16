@@ -147,6 +147,7 @@
     <Compile Include="Areas\Indexes\Controllers\zCityController.cs" />
     <Compile Include="Areas\Indexes\Controllers\zCompanyController.cs" />
     <Compile Include="Areas\Indexes\Controllers\zCompanyOwnerController.cs" />
+    <Compile Include="Areas\Indexes\Controllers\zDocTypeController.cs" />
     <Compile Include="Areas\Indexes\Controllers\zGovernController.cs" />
     <Compile Include="Areas\Indexes\Controllers\zNationController.cs" />
     <Compile Include="Areas\Indexes\Controllers\zPersonController.cs" />
@@ -159,10 +160,12 @@
     <Compile Include="Areas\Indexes\Data\RegionVM.cs" />
     <Compile Include="Areas\Indexes\IndexesAreaRegistration.cs" />
     <Compile Include="Areas\Schools\Controllers\SchoolController.cs" />
+    <Compile Include="Areas\Schools\Controllers\SchoolDocController.cs" />
     <Compile Include="Areas\Schools\Controllers\SchoolOwnerController.cs" />
     <Compile Include="Areas\Schools\Controllers\SchoolTrainerController.cs" />
     <Compile Include="Areas\Schools\Controllers\SchoolVehiclesController.cs" />
     <Compile Include="Areas\Schools\Controllers\SclPhoneController.cs" />
+    <Compile Include="Areas\Schools\Data\SchoolDocVm.cs" />
     <Compile Include="Areas\Schools\Data\SchoolOwnerVM.cs" />
     <Compile Include="Areas\Schools\Data\SchoolTrainerVM.cs" />
     <Compile Include="Areas\Schools\Data\SchoolVehiclesVM.cs" />
@@ -255,6 +258,8 @@
     <Content Include="Areas\Schools\Views\SclPhone\_SclPhone.cshtml" />
     <Content Include="Areas\Schools\Views\SchoolVehicles\_SchoolVehicles.cshtml" />
     <Content Include="Areas\Schools\Views\SchoolTrainer\_SchoolTrainer.cshtml" />
+    <Content Include="Areas\Indexes\Views\zDocType\Index.cshtml" />
+    <Content Include="Areas\Schools\Views\SchoolDoc\_SchoolDoc.cshtml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -586,6 +591,7 @@
     <Folder Include="Areas\Schools\Views\SchoolCodes\" />
     <Folder Include="Areas\Schools\Views\SchoolDetails\" />
     <Folder Include="Areas\Schools\Views\Shared\" />
+    <Folder Include="Documents\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HandleExceptions\Views\_ViewStart.cshtml" />

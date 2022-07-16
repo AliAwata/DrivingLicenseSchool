@@ -176,6 +176,11 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             }
             return Json(Data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult PrsById(int id)
+        {
+            var Data = db.ZPERSON.Find(id);
+            return Json(Data, JsonRequestBehavior.AllowGet);
+        }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request, ZPERSON model)
         {

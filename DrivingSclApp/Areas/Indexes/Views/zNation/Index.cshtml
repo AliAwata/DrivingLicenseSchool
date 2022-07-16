@@ -26,7 +26,7 @@
 </div>
 
 <!-- Messages -->
-<div id="success_msg" class="modal alert-message" role="alert" style="display:none">
+<div id="success_msg" class="modal-dialog modal-dialog-centered alert-message" role="alert" style="display:none">
     <div class="alert fadein alert-success"  style="padding:15px;margin-top:10px;">
         <span class="bf-messages">
             <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
@@ -80,7 +80,7 @@
             .Name("grid")
             .Columns(columns =>
             {
-                columns.Command(command => { command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new {  @class = "btn btn-danger"}); }).Title("العمليات").HtmlAttributes(new {  style = "width:auto;"});
+                columns.Command(command => { command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new {  @class = "btn btn-danger"}); }).Title("العمليات").HtmlAttributes(new {  style = "width:150px;"});
                 columns.Bound(c => c.NB).Visible(false);
                 columns.Bound(c => c.NATION).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.CNTRYNAME).HtmlAttributes(new { style = "width:auto;" });
@@ -130,7 +130,7 @@
                             <div class="editor-field">
                                 @(Html.Kendo().TextBox()
                                     .Name("txtNation")
-                                    .HtmlAttributes(new { placeholder = "أدخل الجنسية", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                                    .HtmlAttributes(new { placeholder = "أدخل الجنسية",/* required = "required", validationmessage = "*",*/ @class = "form-control", style = "width: 100%" })
                                 )
                             </div>
                             <div class="editor-field">
@@ -227,6 +227,7 @@
 </div>
 
 <script>
+
     // messages
     function OnRequestEnd(e) {
         if (e.type == "update" && e.response != null && e.response.success && !e.response.Errors) {
@@ -320,8 +321,8 @@
         debugger
         e.preventDefault();
         $("#AddDetails").data("kendoWindow").center().open();
-        $("#newAdd").show();
-        $("#btnSave").kendoButton({}).data("kendoButton").enable(true);
+        //$("#newAdd").show();
+        //$("#btnSave").kendoButton({}).data("kendoButton").enable(true);
     });
 
     // when i press "edit" on a row and to fill the fields of the edit window

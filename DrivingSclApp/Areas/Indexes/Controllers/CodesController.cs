@@ -227,5 +227,25 @@ namespace DrivingSclApp.Areas.Indexes.Controllers
             name = prs.Select(x => x.FNAME).FirstOrDefault() + " " + prs.Select(x => x.LNAME).FirstOrDefault();
             return name;
         }
+    
+        public ActionResult GetDocUsage()
+        {
+            var res = db.ZDOCUSAGE.Select(x => new
+            {
+                Id = x.NB,
+                Name = x.USAGETYPE
+            }).OrderBy(x => x.Id);
+            return Json(res, JsonRequestBehavior.AllowGet);    
+        }
+    
+        public ActionResult GetDocType()
+        {
+            var res = db.ZDOCTYPE.Select(x => new
+            {
+                Id = x.NB,
+                Name = x.DOCTYPE
+            }).OrderBy(x => x.Id);
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
     }
 }

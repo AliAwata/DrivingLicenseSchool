@@ -86,7 +86,7 @@
             .Name("grid")
             .Columns(columns =>
             {
-                columns.Command(command => { command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new { @class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:auto;" });
+                columns.Command(command => { command.Custom("تعديل").Click("editDetails").HtmlAttributes(new { @class = "btn btn-primary" }); command.Custom("حذف").Click("Destroy").HtmlAttributes(new { @class = "btn btn-danger" }); }).Title("العمليات").HtmlAttributes(new { style = "width:150px;" });
                 columns.Bound(c => c.NB).Visible(false);
                 columns.Bound(c => c.NAME).HtmlAttributes(new { style = "width:auto;" });
                 columns.Bound(c => c.PREV_CATG).HtmlAttributes(new { style = "width:auto;" }).Visible(false);
@@ -179,6 +179,8 @@
                                         <div class="editor-field">
                                             @(Html.Kendo().NumericTextBox()
                                                 .Name("txtNum_car")
+                                                .Min(0)
+                                                .Format("0")
                                                 .HtmlAttributes(new { placeholder = "ادخل عدد الطلاب" ,required = "required", validationmessage = "*", /*@class = "form-control",*/ style = "width: 100%" })
                                             )
                                         </div>
@@ -190,6 +192,8 @@
                                         <div class="editor-field">
                                             @(Html.Kendo().NumericTextBox()
                                                 .Name("txtNum_moto")
+                                                .Min(0)
+                                                .Format("0")
                                                 .HtmlAttributes(new { placeholder = "أدخل العدد", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
@@ -203,6 +207,8 @@
                                         <div class="editor-field">
                                             @(Html.Kendo().NumericTextBox()
                                                 .Name("txtSpace_stu")
+                                                .Min(0)
+                                                .Format("0")
                                                 .HtmlAttributes(new { placeholder = "أدخل المساحة", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
@@ -214,6 +220,8 @@
                                         <div class="editor-field">
                                             @(Html.Kendo().NumericTextBox()
                                                 .Name("txtNum_room")
+                                                .Min(0)
+                                                .Format("0")
                                                 .HtmlAttributes(new { placeholder = "أدخل العدد", required = "required", validationmessage = "*", style = "width: 100%" })
                                             )
                                         </div>
@@ -313,6 +321,8 @@
                                     <div class="editor-field">
                                         @(Html.Kendo().NumericTextBox()
                                             .Name("txtNum_car1")
+                                            .Min(0)
+                                            .Format("0")
                                             .HtmlAttributes(new { placeholder = "أدخل العدد", required = "required", validationmessage = "*", style = "width: 100%" })
                                         )
                                     </div>
@@ -324,6 +334,8 @@
                                     <div class="editor-field">
                                         @(Html.Kendo().NumericTextBox()
                                             .Name("txtNum_moto1")
+                                            .Min(0)
+                                            .Format("0")
                                             .HtmlAttributes(new { placeholder = "أدخل العدد", required = "required", validationmessage = "*", style = "width: 100%" })
                                         )
                                     </div>
@@ -337,6 +349,8 @@
                                     <div class="editor-field">
                                         @(Html.Kendo().NumericTextBox()
                                             .Name("txtSpace_stu1")
+                                            .Min(0)
+                                            .Format("0")
                                             .HtmlAttributes(new { placeholder = "أدخل المساحة", required = "required", validationmessage = "*", style = "width: 100%" })
                                         )
                                     </div>
@@ -348,6 +362,8 @@
                                     <div class="editor-field">
                                         @(Html.Kendo().NumericTextBox()
                                             .Name("txtNum_room1")
+                                            .Min(0)
+                                            .Format("0")
                                             .HtmlAttributes(new { placeholder = "أدخل العدد", required = "required", validationmessage = "*", style = "width: 100%" })
                                         )
                                     </div>

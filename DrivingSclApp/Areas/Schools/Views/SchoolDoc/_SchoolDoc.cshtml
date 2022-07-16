@@ -1,0 +1,487 @@
+﻿@model IEnumerable<DrivingSclApp.Areas.Schools.Data.SchoolVM>
+
+<style>
+    .buttons {
+        text-align: center;
+    }
+
+    personGrid {
+        width: 1400px;
+    }
+
+    sclName {
+        visibility: hidden;
+    }
+
+    .search-bars {
+        text-align: center;
+    }
+</style>
+
+<!-- Add Owner Button -->
+<div class="container">
+    <!-- Hidden TextBoxs -->
+    <div id="save-container" class="row hidden">
+        <div class="col-sm-3">
+            <div class="editor-label">
+                @Html.Label("اسم المدرسة", htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="editor-field">
+                @(Html.Kendo().NumericTextBox()
+                    .Name("DocSclNb").Enable(false)
+                    .Value(Model.Select(x => x.NB).FirstOrDefault())
+                    .HtmlAttributes(new { placeholder = "ملاحظة", style = "width: 100%" })
+                    )
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="editor-label">
+                @Html.Label("نوع المالك", htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="editor-field">
+                @(Html.Kendo().TextBox()
+                    .Name("DocTypNb").Enable(false)
+                    .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%" })
+                    )
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="editor-label">
+                @Html.Label("رمز المالك", htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="editor-field">
+                @(Html.Kendo().TextBox()
+                    .Name("DocUsgNb").Enable(false)
+                    .HtmlAttributes(new { placeholder = "أدخل اسم المدرسة", required = "required", validationmessage = "*", style = "width: 100%" })
+                )
+            </div>
+        </div>
+    </div>
+    <!-- The information that the user will fill -->
+    <div class="container-fluid">
+
+    </div>
+    <!-- Buttons -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="row" style="margin-top:20px"></div>
+            <div class="buttons">
+                <div class="k-edit-buttons k-state-default">
+                    @(Html.Kendo().Button()
+                    .Name("btnAddDocument")
+                    .Content("إضافة وثيقة")
+                    .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:auto;text-align:center;" })
+                )
+                </div>
+            </div>
+            <div class="row" style="margin-top:20px"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Documents Table -->
+<div class="container-fluid">
+    <div id="IdivForm">
+        <div calss="k_rtl">
+            @(Html.Kendo().Grid<DrivingSclApp.Areas.Schools.Data.SchoolDocVm>()
+            .Name("DocumentsGrid")
+            .Columns(columns =>
+            {
+                columns.Command(command => {
+                    command.Custom("تفاصيل").Click("DocumentDetails").HtmlAttributes(new { @class = "btn btn-primary" });
+                    command.Custom("حذف").Click("DestroyDocument").HtmlAttributes(new { @class = "btn btn-danger" }); })
+                    .Title("العمليات").HtmlAttributes(new { style = "width:150px;" });
+                columns.Bound(c => c.NB).Visible(false);
+                columns.Bound(c => c.SCL_NB).Visible(false);
+                columns.Bound(c => c.USAGE_NB).Visible(false);
+                columns.Bound(c => c.TYPE_NB).Visible(false);
+                columns.Bound(c => c.NUM).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.DAT).Format("{0:dd/MM/yyyy}").HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.TYPE_NAME).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.USAGE_NAME).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.ISSUER).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.DESCRIB).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.DOCFILE).Visible(false).HtmlAttributes(new { style = "width:auto;" });
+                columns.Bound(c => c.NOTE).HtmlAttributes(new { style = "width:auto;" });
+
+            })
+            .Sortable()
+            .HtmlAttributes(new { style = "height: auto;" })
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Events(events => events.Error("error_handler").Sync("sync_handler").RequestEnd("OnRequestEnd"))
+            .PageSize(15)
+            .Model(model => model.Id(p => p.NB))
+            .Read(read => read.Action("DocumentsById", "SchoolDoc", new { id = ViewData["ID"] }))
+            .Destroy(destroy => destroy.Action("Destroy", "SchoolDoc")))
+            .Resizable(resize => resize
+            .Columns(true)
+            )
+            .Pageable(pageable =>
+            {
+                pageable.Refresh(true);
+                pageable.PageSizes(true);
+            })
+        )
+        </div>
+    </div>
+</div>
+
+<!-- Add Documents -->
+<div class="container-fluid">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("AddDocument")
+        .Title("إضافة وثيقة")
+        .Visible(false)
+        .Modal(true)
+        .Content(@<text>
+            <div style="width:100%;" id="fieldlist">
+                <div id="save-document-container">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="editor-label">
+                                    @Html.Label("رقم الوثيقة", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().NumericTextBox()
+                                        .Name("txtDocNum")
+                                        .Min(1)
+                                        .Format("0")
+                                        .HtmlAttributes(new { placeholder = "أدخل رقم الوثيقة", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="editor-label">
+                                    @Html.Label("تاريخ الوثيقة", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().DatePicker()
+                                        .Name("dpDocDat")
+                                        .HtmlAttributes(new { placeholder = "أدخل تاريخ الوثيق", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="editor-label">
+                                    @Html.Label("صادرة عن", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().TextBox()
+                                        .Name("txtDocIssuer")
+                                        .HtmlAttributes(new { placeholder = "أدخل الصادر", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="editor-label">
+                                    @Html.Label("نوع الوثيقة", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().DropDownList()
+                                    .OptionLabel("اختر نوع الوثيقة")
+                                    .Name("ddlDocType")
+                                    .DataTextField("Name")
+                                    .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*"})
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("GetDocType", "Codes", new { area = "Indexes" });
+                                        });
+                                    })
+                                    .HtmlAttributes(new { style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="editor-label">
+                                    @Html.Label("نمط الاستخدام", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().DropDownList()
+                                    .OptionLabel("اختر نمط الاستخدام")
+                                    .Name("ddlDocUsage")
+                                    .DataTextField("Name")
+                                    .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*"})
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("GetDocUsage", "Codes", new { area = "Indexes" });
+                                        });
+                                    })
+                                    .HtmlAttributes(new { style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="editor-label">
+                                    @Html.Label("الوصف", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().TextBox()
+                                        .Name("txtDocDescrib")
+                                        .HtmlAttributes(new { placeholder = "أدخل الوصف", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="editor-label">
+                                    @Html.Label("ملف الوثيقة", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().Upload()
+                                        .Name("txtDocFile")
+                                        .ShowFileList(false)
+                                        .Async(async => async.Save("SaveDocument", "SchoolDoc").AutoUpload(true))
+                                        .HtmlAttributes(new { placeholder = "اختر ملف الوثيقة", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="editor-label">
+                                    @Html.Label("ملاحظات", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="editor-field">
+                                    @(Html.Kendo().TextBox()
+                                        .Name("txtDocNote")
+                                        .HtmlAttributes(new { placeholder = "أدخل الملاحظة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                    )
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:20px"></div>
+                    <div class="k-edit-buttons k-state-default">
+                    @(Html.Kendo().Button()
+                        .Name("btnDocumentSave")
+                        .Content("حفظ")
+                        .HtmlAttributes(new { type = "button", @class = "btn btn-primary", style = "height:35px;width:100px;" })
+                    )
+                    @(Html.Kendo().Button()
+                        .Name("btnDocumentReset")
+                        .Content("تراجع")
+                        .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
+                        .Events(e => e.Click("ResetAllDocument"))
+                    )
+                    </div>
+                </div>
+            </div>
+        </text>)
+        .Draggable(true) //Enable dragging of the window
+        .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
+            .Width(800)     //Set width of the window
+            .Height(300)
+        )
+    </div>
+</div>
+
+<!-- Documents Details -->
+<div class="container-fluid">
+    <div class="k-rtl">
+        @(Html.Kendo().Window().Name("DocumentDetails")
+        .Title("تفاصيل وثيقة")
+        .Visible(false)
+        .Modal(true)
+        .Content(@<text>
+            <div style="width:100%;" id="fieldlist">
+                <form id="Addform">
+                    <div id="save-document-container">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="editor-label">
+                                        @Html.Label("رقم الوثيقة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtDetailDocNum").Enable(false)
+                                            .HtmlAttributes(new { placeholder = "أدخل رقم الوثيقة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="editor-label">
+                                        @Html.Label("تاريخ الوثيقة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DatePicker()
+                                            .Name("dpDetailDocDat").Enable(false)
+                                            .HtmlAttributes(new { placeholder = "أدخل تاريخ الوثيق", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="editor-label">
+                                        @Html.Label("صادرة عن", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtDetailDocIssuer").Enable(false)
+                                            .HtmlAttributes(new { placeholder = "أدخل الصادر", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="editor-label">
+                                        @Html.Label("نوع الوثيقة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر نوع الوثيقة")
+                                        .Name("ddlDetailDocType").Enable(false)
+                                        .DataTextField("Name")
+                                        .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*"})
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetDocType", "Codes", new { area = "Indexes" });
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%; text-align:center;" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="editor-label">
+                                        @Html.Label("نمط الاستخدام", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().DropDownList()
+                                        .OptionLabel("اختر نمط الاستخدام")
+                                        .Name("ddlDetailDocUsage").Enable(false)
+                                        .DataTextField("Name")
+                                        .DataValueField("Id").HtmlAttributes(new { required = "required", validationmessage = "*"})
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Action("GetDocUsage", "Codes", new { area = "Indexes" });
+                                            });
+                                        })
+                                        .HtmlAttributes(new { style = "width: 100%; text-align:center;" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="editor-label">
+                                        @Html.Label("الوصف", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtDetailDocDescrib").Enable(false)
+                                            .HtmlAttributes(new { placeholder = "أدخل الوصف", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="editor-label">
+                                        @Html.Label("ملف الوثيقة", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().Upload()
+                                            .Name("txtDetailDocFile").Enable(false)
+                                            .HtmlAttributes(new { placeholder = "اختر ملف الوثيقة", required = "required", validationmessage = "*", style = "width: 100%; text-align:center;" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="editor-label">
+                                        @Html.Label("ملاحظات", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="editor-field">
+                                        @(Html.Kendo().TextBox()
+                                            .Name("txtDetailDocNote").Enable(false)
+                                            .HtmlAttributes(new { placeholder = "أدخل الملاحظة", required = "required", validationmessage = "*", @class = "form-control", style = "width: 100%; text-align:center;" })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px"></div>
+                        <div class="k-edit-buttons k-state-default">
+                        @(Html.Kendo().Button()
+                            .Name("btnDocDetailsBack")
+                            .Content("رجوع")
+                            .HtmlAttributes(new { type = "button", @class = "btn btn-danger", style = "height:35px;width:100px;" })
+                        )
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </text>)
+        .Draggable(true) //Enable dragging of the window
+        .Actions(actions => actions.Pin().Minimize().Maximize().Close()).Resizable() //Enable resizing of the window
+            .Width(800)     //Set width of the window
+            .Height(300)
+        )
+    </div>
+</div>
+
+<script>
+    $("#btnAddDocument").on('click', function () {
+        $("#AddDocument").data("kendoWindow").center().open();
+    })
+
+    $("#btnDocumentSave").on('click', function () {
+
+        var document = {
+            SCL_NB: $("#DocSclNb").val(),
+            DAT: $("#dpDocDat").val(),
+            NUM: $("#txtDocNum").val(),
+            TYPE_NB: $("#ddlDocType").val(),
+            ISSUER: $("#txtDocIssuer").val(),
+            DESCRIB: $("#txtDocDescrib").val(),
+            USAGE_NB: $("#ddlDocUsage").val(),
+            //DOCFILE: $("#txtDocFile").val(),
+            NOTE: $("#txtDocNote").val()
+        };
+
+        var model = { "model": document };
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Create", "SchoolDoc")',
+            data: model,
+            dataType: "JSON",
+            success: function (response) {
+                if (response.success == true) {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                    $("#success_msg").fadeTo(2000, 500).slideUp(500, function () {
+                        $("#success_msg").slideUp(500);
+                    });
+                    var wnd = $("#AddDocument").data("kendoWindow");
+                    wnd.center().close();
+                    var grid = $('#DocumentsGrid').data('kendoGrid');
+                    grid.dataSource.read();
+                    ResetAllDocument();
+                } else {
+                    $('#success_msg').show();
+                    $('#error_msg').hide();
+                    $('#labelIdd').text(response.responseText);
+                    $("#success_msg").fadeTo(3000, 500).slideUp(500, function () {
+                        $("#success_msg").slideUp(500);
+                    });
+                }
+            },
+        });
+    })
+
+    $("#btnDocDetailsBack").on('click', function () {
+        $("#DocumentDetails").data("kendoWindow").close();
+    })
+</script>
+
